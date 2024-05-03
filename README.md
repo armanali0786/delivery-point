@@ -76,7 +76,7 @@ Install delivery-point with npm
 #### Get all Foods
 
 ```http
-  GET /api/foods
+  GET /api/get-all-foods
 ```
 
 | Parameter | Type     | Description                |
@@ -86,7 +86,7 @@ Install delivery-point with npm
 #### Get food by Id
 
 ```http
-  GET /api/items/${id}
+  GET /api/food/${id}
 ```
 
 | Parameter | Type     | Description                       |
