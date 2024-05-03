@@ -12,6 +12,7 @@ import FoodDetails from './app/pages/FoodDetails';
 import CartPage from './app/cart/cartPage';
 import Search from './app/pages/Search';
 import ProtectedRoute from './app/components/ProtectedRoute';
+import Checkout from './app/pages/Checkout';
 function App() {
 
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Home />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/menu" element={<MenuList />} />
         <Route path="/search" element={<Search />} />
         <Route path="/otp-verify" element={<OtpVerify />} />

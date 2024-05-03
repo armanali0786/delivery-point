@@ -70,6 +70,7 @@ const CartPage = () => {
 
   }
 
+  console.log(cart)
   return (
     <>
       <ToastContainer />

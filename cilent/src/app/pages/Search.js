@@ -123,7 +123,10 @@ export default function Search() {
             ...prev,
             [foodId]: !prev[foodId]
         }));
-    };
+    };    
+    const handleNavigate = (vendorId) => {
+        navigate(`/food-details/${vendorId}`);
+    }
 
     return (
         <>
@@ -163,7 +166,7 @@ export default function Search() {
                             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xl:gap-x-8">
                                 {filteredFoods.map((food) => (
                                     <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
-                                        <div className='flex justify-between items-center px-4'>
+                                        <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
                                             <div >
                                                 <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
                                                 <div className='flex items-center my-1'>

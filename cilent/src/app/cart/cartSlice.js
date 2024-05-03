@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cart: [],
   items: [],
+  vendor:[],
   totalQuantity: 0,
   totalPrice: 0,
 };
@@ -11,6 +12,8 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
+  vendorName:"",
+  vendorAddress: "",
   reducers: {
     addToCart: (state, action) => {
       let find = state.cart.findIndex((item) => item._id === action.payload._id);
@@ -87,6 +90,8 @@ const cartSlice = createSlice({
     },
     setItems: (state, action) => {
       state.items = action.payload;
+      state.vendor = action.vendorName;
+      state.vendorAddress = action.vendorAddress;
     },
   },
 });

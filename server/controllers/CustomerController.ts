@@ -340,7 +340,6 @@ export const DeleteCart = async (req: Request, res: Response, next: NextFunction
 }
 
 
-
 export const VerifyOffer = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const offerId = req.params.id;

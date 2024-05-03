@@ -81,6 +81,8 @@ export default function Navbar() {
                     <nav className="flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
                         <NavLink to="/" label="Home" activeLink={activeLink} setActiveLink={setActiveLink} />
                         <NavLink to="/menu" label="Menus" activeLink={activeLink} setActiveLink={setActiveLink} />
+                        {/* <NavLink to="/check" label="Check" activeLink={activeLink} setActiveLink={setActiveLink} /> */}
+
                         {/* <SearchText searchText={searchText} setSearchText={setSearchText}/> */}
                         <button type="submit" class="flex p-1.5 ms-2 text-sm font-medium text-gray-900 hover:text-[#5B63B7]"
                             onClick={handleNavigateSearch} activeLink={activeLink} setActiveLink={setActiveLink}
@@ -95,7 +97,7 @@ export default function Navbar() {
                 </div>
                 <div className='flex'>
                     <div className='relative'>
-                        <Link to="/cart">
+                        <Link to="/checkout">
                             <svg
                                 className="w-10 h-10 text-orange-400 hover:text-orange-600 cursor-pointer hidden sm:block"
                                 xmlns="http://www.w3.org/2000/svg"

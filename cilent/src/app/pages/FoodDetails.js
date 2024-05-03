@@ -57,40 +57,41 @@ export default function FoodDetails() {
 
     const dispatch = useDispatch();
 
-    const handleCartAction = (item) => {
+    const handleCartAction = (item, vendorName, vendorAddress) => {
         if (item.inCart) {
             dispatch(removeItem(item.id));
         } else {
-            dispatch(addToCart({ ...item, quantity: 1 }));
+            dispatch(addToCart({ ...item,vendorName,vendorAddress, quantity: 1 }));
         }
     };
+
     // const handleCartAction = async (item) => {
     //     if (item.inCart) {
     //         dispatch(removeItem(item.id));
     //     }
     //     try {
-    //         // const payload = {
-    //         //     _id: item._id,
-    //         //     unit: 1
-    //         // }
-    //         // const response = await axios.post('http://localhost:8080/customer/cart', payload, {
-    //         //     headers: {
-    //         //         'Content-Type': 'application/json',
-    //         //         'Authorization': `Bearer ${token}`,
-    //         //     }
-    //         // });
-    //         // // Check the response from the API
-    //         // if (response.status === 200) {
-    //         //     dispatch(addToCart({ ...item, quantity: 1 }));
-    //         //     toast.success(response.data.message);
-    //         // } else {
-    //         //     console.error('Failed to add item to cart. Server responded with error.');
-    //         // }
+    //         const payload = {
+    //             _id: item._id,
+    //             unit: 1
+    //         }
+    //         const response = await axios.post('http://localhost:8080/customer/cart', payload, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`,
+    //             }
+    //         });
+    //         // Check the response from the API
+    //         if (response.status === 200) {
+    //             dispatch(addToCart({ ...item, quantity: 1 }));
+    //             toast.success(response.data.message);
+    //         } else {
+    //             console.error('Failed to add item to cart. Server responded with error.');
+    //         }
     //     } catch (error) {
     //         console.log(error)
     //     }
 
-    //     // dispatch(addToCart({ ...item, quantity: 1 }));
+    //     dispatch(addToCart({ ...item, quantity: 1 }));
     // };
 
 
@@ -169,6 +170,7 @@ export default function FoodDetails() {
     const goToNext = () => sliderRef.current?.slickNext();
     const goToPrev = () => sliderRef.current?.slickPrev();
 
+
     return (
         <>
             <ToastContainer />
@@ -215,7 +217,7 @@ export default function FoodDetails() {
                                 <button className='bg-gray-300 p-2 rounded-3xl ml-5' type="button" onClick={goToNext}><FaArrowRight /></button>
                             </div>
                         </div>
-                        {/* <div className='my-10 '>
+                        <div className='my-10 '>
                             <OfferSlider ref={sliderRef}  {...settings}>
                                 <div className='w-96'>
                                     <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
@@ -251,7 +253,7 @@ export default function FoodDetails() {
                                     </div>
                                 </div>
                             </OfferSlider>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
 
@@ -268,7 +270,7 @@ export default function FoodDetails() {
                 <div className='flex flex-col items-center py-5'>
                     {foods.length > 0 ? (
                         foods.map((food) => (
-                            <div key={food._id} className='w-full max-w-[750px] max-w-full pb-4 border border-1 border-gray-300 bg-slate-100 px-5 py-2 text-center rounded-xl shadow-2xl shadow-black-100 mb-4 flex'>
+                            <div key={food._id} className='w-full max-w-[760px] max-w-full pb-4 border border-1 border-gray-300 bg-slate-100 px-5 py-2 text-center rounded-xl shadow-2xl shadow-black-100 mb-4 flex'>
                                 <div className='flex justify-between w-full cursor-pointer'>
                                     <div className='flex-start'>
                                         <p className='flex text-lg font-bold'>{food.name}</p>
@@ -298,7 +300,7 @@ export default function FoodDetails() {
                                         <img src={`http://localhost:8080/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
                                         <button
                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                            onClick={() => handleCartAction(food)}
+                                            onClick={() => handleCartAction(food,vendorData[0].name, vendorData[0].address)}
                                         >Add
                                         </button>
                                     </div>
@@ -347,7 +349,7 @@ export default function FoodDetails() {
                                                         <p className='flex text-lg font-bold'>{food.name}</p>
                                                         <button
                                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                                            onClick={() => handleCartAction(food)}
+                                                            onClick={() => handleCartAction(food,vendorData[0].name, vendorData[0].address)}
                                                         >Add
                                                         </button>
                                                     </div>

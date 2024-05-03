@@ -785,3 +785,24 @@ function NavLink({ to, label, activeLink, setActiveLink }) {
         </Link>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+         {/* <div className="mt-4">
+                                                        <textarea className="form-textarea mt-1 block w-full" rows="3"
+                                                            placeholder="Any suggestions? We will pass it on..."></textarea>
+                                                    </div> */}
+                                    {/* <div className="mt-4">
+                                                        <label className="inline-flex items-center">
+                                                            <input type="checkbox" className="form-checkbox text-green-500" checked />
+                                                            <span className="ml-2">Opt in for No-contact Delivery</span>
+                                                        </label>
+                                                    </div> */}

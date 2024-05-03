@@ -21,7 +21,6 @@ export default function MenuList() {
 
   const fetchDataCategory = async (categories, rating) => {
     try {
-      console.log(rating)
       let params = {
         foodType: categories.join(',')
       };
