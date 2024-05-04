@@ -65,7 +65,7 @@ Future Enhancements:
 
 ![FoodDetails1](https://github.com/armanali0786/delivery-point/assets/76746226/1a97e541-3253-4b85-a10b-7eb60c9ec6fd)
 
-![AddToCart](https://github.com/armanali0786/delivery-point/assets/76746226/1db0da4d-e811-44a7-9a1d-24981e14f336)
+![Screenshot from 2024-05-04 15-28-32](https://github.com/armanali0786/delivery-point/assets/76746226/8f47c0b8-d052-46b7-b7f7-ac7dfb617eb3)
 
 ![SearchScreen](https://github.com/armanali0786/delivery-point/assets/76746226/e6121568-fb52-4003-8837-fa1c57fb87ee)
 
