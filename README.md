@@ -1,4 +1,4 @@
-![MenuList1](https://github.com/armanali0786/delivery-point/assets/76746226/3de16e8d-97bc-44c6-b653-835d98e57e3e)
+
 # Delivery Point
 
 Design and developed websites features such as food listing with quick delivery options within 30 minutes, showcasing top-rated restaurants, and enabling robust search capabilities for food items and restaurants.
