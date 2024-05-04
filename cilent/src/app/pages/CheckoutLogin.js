@@ -73,7 +73,7 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
             }
         } catch (error) {
             if (error.response) {
-                if (error.response.status === 400) {
+                if (error.response.status === 400 || error.response.status === 401) {
                     const validationErrors = error.response.data.message;
                     toast.error(validationErrors);
                     setErrors(validationErrors);

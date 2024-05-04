@@ -50,7 +50,7 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                 const token = response.data.signature;
                 localStorage.setItem('token', token);
                 toast.success(response.data.message);
-                navigate('/otp-verify');
+                // navigate('/otp-verify');
                 setIsOpen(false);
             } else {
                 const validationErrors = response.data.validation;

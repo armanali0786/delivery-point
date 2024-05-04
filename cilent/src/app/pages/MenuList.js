@@ -78,7 +78,7 @@ export default function MenuList() {
               Fast Delivery
             </button>
             <button onClick={handleRatingButtonClick}
-              className={`mx-2 border-2 w-36 rounded-3xl border-slate-500 ${ratingFilter ? 'bg-[#5B63B7] text-white hover:bg-[#5B63B7] hover:text-white' : ''
+              className={`mx-2 border-2 w-36 rounded-3xl border-slate-500 ${ratingFilter ? 'bg-[#5B63B7] text-white hover:bg-[#5B63B7] hover:text-white' : 'hover:bg-[#5B63B7] hover:text-white'
                 }`}
             >
               Rating 4.0+

@@ -13,7 +13,8 @@ import {
 
 import { useAuth } from "../context/authContext";
 import CheckoutLogin from "./CheckoutLogin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AddressPopup from "../components/AddressPopup";
 
 export default function Checkout() {
 
@@ -21,14 +22,43 @@ export default function Checkout() {
     const [showLoginForm, setShowLoginForm] = useState(false);
     const [showSignUpForm, setShowSignUpForm] = useState(false);
     const [buttonShow, setButtonShow] = useState(true);
+    const [isAddressOpen, setIsAddressOpen] = useState(false);
+    const [address, setAddress] = useState();
+    const [addressType, setAddressType] = useState('');
+    const [flatNo, setFlatNo] = useState('');
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const toggleModal = () => {
+        setIsAddressOpen(!isAddressOpen);
+    };
+
+    const deliveryAddress = localStorage.getItem('deliveryAddress');
+
+    useEffect(() => {
+        if (deliveryAddress) {
+            try {
+                const parsedAddress = JSON.parse(deliveryAddress);
+                setAddress(parsedAddress.address);
+                setFlatNo(parsedAddress.flatNo);
+                setAddressType(parsedAddress.addressType);
+            } catch (error) {
+                console.error("Error parsing delivery address:", error);
+            }
+        } else {
+            console.log("No delivery address found in localStorage");
+        }
+    }, [deliveryAddress])
+
+
+
     const handleLoginClick = () => {
         setShowLoginForm(true);
         setShowSignUpForm(false);
         setButtonShow(false);
     };
-
 
     const toggleFormType = (formType) => {
         if (formType === 'login') {
@@ -48,7 +78,6 @@ export default function Checkout() {
         setButtonShow(false);
     };
 
-    const token = localStorage.getItem('token');
 
     const { cart, totalQuantity, totalPrice } = useSelector(
         (state) => state.allCart
@@ -82,9 +111,14 @@ export default function Checkout() {
         return {
             vendorName: vendor.vendorName,
             vendorAddress: vendor.vendorName,
-            vendorRestroImage: vendor.vendorCoverImages[0]
+            vendorRestroImage: vendor.vendorCoverImages[0],
+            vendorId: vendor.vendorId
         }
     })
+
+    const handleNavigate = (vendorId) => {
+        navigate(`/food-details/${vendorId}`);
+    }
     const isEmpty = cart.length === 0;
 
     return (
@@ -156,28 +190,29 @@ export default function Checkout() {
                                 )}
                                 <div className="mb-4">
                                     <div className="p-4 bg-white rounded-lg shadow-md">
-                                        <h2 className="font-bold text-lg mb-3">Select delivery address</h2>
-                                        <p>You have a saved address in this location</p>
+                                        <h2 className="font-bold text-lg mb-3 ">Select delivery address</h2>
+                                        <p className="text-gray-500">You have a saved address in this location</p>
                                         {isLoggedIn && (
                                             <div className="flex flex-wrap -mx-2 mt-4">
                                                 <div className="w-full sm:w-1/2 p-2">
                                                     <div className="p-4 bg-green-100 rounded-lg border border-green-200">
-                                                        <h3 className="text-green-800 font-bold">Friends And Family</h3>
-                                                        <p className="text-sm">08, Dudhsagar Road, Near Lalpari Lake, Shakti Industrial Zone, Rajkot, Gujarat,
+                                                        <h3 className="text-gray-900 font-bold">Friends And Family</h3>
+                                                        <p className="text-sm text-gray-500">08, Dudhsagar Road, Near Lalpari Lake, Shakti Industrial Zone, Rajkot, Gujarat,
                                                             India</p>
-                                                        <p className="text-xs text-green-600">40 MINS</p>
+                                                        <p className="text-xs text-black">40 MINS</p>
                                                         <button
-                                                            className="mt-3 bg-[#60b246] hover:bg-[#4a9932] text-white font-bold py-2 px-4 rounded">DELIVER
+                                                            className="mt-3 bg-[#60b246] hover:bg-[#4a9932] text-white font-medium py-2 px-4 rounded">DELIVER
                                                             HERE</button>
                                                     </div>
                                                 </div>
                                                 <div className="w-full sm:w-1/2 p-2">
                                                     <div className="p-4 bg-white rounded-lg border border-zinc-200">
-                                                        <h3 className="text-green-800 font-bold">Add New Address</h3>
-                                                        <p className="text-sm">Satyanarayan Park, Gandhigram, Rajkot, Gujarat 360007, India</p>
-                                                        <button className="mt-3 bg-[#60b246] hover:bg-[#4a9932] text-white font-bold py-2 px-4 rounded">ADD
-                                                            NEW</button>
+                                                        <h3 className="text-gray-900 font-bold">Add New Address</h3>
+                                                        <p className="text-sm text-gray-500">{address},{flatNo}, {addressType}</p>
+                                                        <button onClick={toggleModal} className="mt-3 border-2 border-[#4a9932] !text-[#4a9932] text-white font-medium py-2 px-4 rounded" >
+                                                            ADD NEW</button>
                                                     </div>
+                                                    <AddressPopup isAddressOpen={isAddressOpen} toggleModal={toggleModal} />
                                                 </div>
                                             </div>
                                         )}
@@ -198,7 +233,7 @@ export default function Checkout() {
                             <div className="w-full md:w-2/5 px-2">
                                 <div className="mb-4">
                                     <div className="p-4 bg-white rounded-lg shadow-md">
-                                        <div className="flex">
+                                        <div className="flex cursor-pointer" onClick={() => handleNavigate(vendorDetails[0].vendorId)}>
                                             <div className="mr-5">
                                                 <img src={`http://localhost:8080/images/${vendorDetails[0]?.vendorRestroImage}`} alt="Restro Image" className="w-16 h-16" />
                                             </div>

@@ -93,6 +93,7 @@ const cartSlice = createSlice({
       state.vendorName = action.vendorName;
       state.vendorName = action.vendorAddress;
       state.vendorCoverImages = action.coverImages;
+      state.vendorId = action.vendorId;
     },
   },
 });

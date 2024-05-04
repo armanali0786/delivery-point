@@ -155,10 +155,10 @@ export default function Navbar() {
                                     </div>
                                 </div>
 
-                                <div className="absolute hidden bg-slate-200 rounded shadow-md py-2 mt-1 w-40 right-0 top-full z-10">
+                                {/* <div className="absolute  bg-slate-200 rounded shadow-md py-2 mt-1 w-40 right-0 top-full z-10">
                                     <Link to="/profile" className="dropdown-item block px-4 py-2 text-gray-800 hover:bg-indigo-300 cursor-pointer">Profile</Link>
                                     <a onClick={handleLogout} className="dropdown-item block px-4 py-2 text-gray-800 hover:bg-indigo-300 cursor-pointer" >Logout</a>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     )}

@@ -64,7 +64,8 @@ export default function FoodDetails() {
             const vendorInfo = {
                 vendorName: vendor[0].name,
                 vendorAddress: vendor[0].address,
-                vendorCoverImages: vendor[0].coverImages
+                vendorCoverImages: vendor[0].coverImages,
+                vendorId: vendor[0]._id
             };
             dispatch(addToCart({ ...item,  vendorInfo, quantity: 1 }));
         }
@@ -274,7 +275,7 @@ export default function FoodDetails() {
                 <div className='flex flex-col items-center py-5'>
                     {foods.length > 0 ? (
                         foods.map((food) => (
-                            <div key={food._id} className='w-full max-w-[750px] max-w-full pb-4 border border-1 border-gray-300 bg-slate-100 px-5 py-2 text-center rounded-xl shadow-2xl shadow-black-100 mb-4 flex'>
+                            <div key={food._id} className='w-full max-w-[750px] pb-4 border border-1 border-gray-300 bg-slate-100 px-5 py-2 text-center rounded-xl shadow-2xl shadow-black-100 mb-4 flex'>
                                 <div className='flex justify-between w-full cursor-pointer'>
                                     <div className='flex-start'>
                                         <p className='flex text-lg font-bold'>{food.name}</p>

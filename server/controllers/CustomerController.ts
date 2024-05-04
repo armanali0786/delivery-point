@@ -98,6 +98,12 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
 
         const { email, password } = customerInputs;
         const customer = await Customer.findOne({ email: email });
+        if(!customer) {
+            return res.status(404).json({
+                status: 404,
+                message: 'Customer not found with the provided Email ID',
+            })
+        }
         if (customer) {
             const validation = await ValidatePassword(password, customer.password, customer.salt);
             if (validation) {
@@ -117,6 +123,11 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
                     console.error('Error generating signature:', error);
                     return res.status(500).json({ message: 'Error with generating signature' });
                 }
+            }else{
+                return res.status(401).json({
+                    status: 401,
+                    message: 'Invalid Gmail or Password '
+                })
             }
         }
     } catch (error) {
