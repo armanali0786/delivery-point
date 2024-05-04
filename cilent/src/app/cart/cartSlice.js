@@ -90,8 +90,9 @@ const cartSlice = createSlice({
     },
     setItems: (state, action) => {
       state.items = action.payload;
-      state.vendor = action.vendorName;
-      state.vendorAddress = action.vendorAddress;
+      state.vendorName = action.vendorName;
+      state.vendorName = action.vendorAddress;
+      state.vendorCoverImages = action.coverImages;
     },
   },
 });

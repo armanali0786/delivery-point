@@ -21,7 +21,10 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
             })
         }
 
-        const { firstName, lastName, address, email, phone, password } = customerInputs;
+        const { fullName, 
+            // lastName, 
+            address, email, phone, password } = customerInputs;
+
         const salt = await GenerateSalt();
         const userPassword = await GeneratePassword(password, salt);
 
@@ -38,21 +41,20 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
         }
 
         const result = await Customer.create({
-            firstName: firstName,
-            lastName: lastName,
+            fullName: fullName,
+            // lastName: lastName,
             email: email,
             password: userPassword,
             salt: salt,
             otp: otp,
             otp_expiry: expiry,
-            address: address,
+            // address: address,
             phone: phone,
             verified: false,
             lat: 0,
             lng: 0,
             orders: []
         })
-
         if (result) {
             // send OTP to customer
             // await onRequestOTP(otp, phone);
@@ -226,14 +228,16 @@ export const EditCustomerProfile = async (req: Request, res: Response, next: Nex
             return res.status(400).json(validationError);
         }
 
-        const { firstName, lastName, address } = customerInputs;
+        const { fullName, 
+            // lastName, 
+            address } = customerInputs;
 
         if (customer) {
             const profile = await Customer.findById(customer._id);
 
             if (profile) {
-                profile.firstName = firstName;
-                profile.lastName = lastName;
+                profile.fullName = fullName;
+                // profile.lastName = lastName;
                 profile.address = address;
                 const result = await profile.save()
 
@@ -527,5 +531,10 @@ export const GetOrderById = async (req: Request, res: Response, next: NextFuncti
     } catch (error) {
         return res.status(400).json({ message: 'Order not found' });
     }
+
+}
+
+
+export const CustomerLogout = async (req: Request, res: Response, next: NextFunction) => {
 
 }

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartTotal } from "../cart/cartSlice";
 import OffensiveSidbar from './OffensiveSidbar';
 import { useAuth } from '../context/authContext';
+import axios from 'axios';
 // import SearchText from './searchText';
 
 export default function Navbar() {
@@ -33,32 +34,11 @@ export default function Navbar() {
     }, [location]);
 
     const handleLogout = async () => {
-        // try {
-        //   const token = localStorage.getItem('token');
-        //   if (!token) {
-        //     // Token doesn't exist, no need to log out
-        //     return;
-        //   }
-
-        //   const response = await fetch(ServerName + '/web_logout', {
-        //     method: 'GET',
-        //     headers: {
-        //       'Authorization': `Bearer ${token}`,
-        //       'Content-Type': 'application/json',
-        //     },
-        //   });
-
-        //   if (response.status === 200 || response.status === 401) {
-        //     // If the logout was successful on the server, proceed to log out on the client-side
-        //     localStorage.removeItem('token');
-        //     setIsLoggedIn(false);
-        //     navigate('/');
-        //   } else {
-        //     console.log('Failed to log out on the server');
-        //   }
-        // } catch (error) {
-        //   console.error('An error occurred while logging out:', error);
-        // }
+        try {
+           const Logout =  localStorage.clear('token');
+        } catch (error) {
+          console.error('An error occurred while logging out:', error);
+        }
     };
 
     const toggleOffcanvas = () => {

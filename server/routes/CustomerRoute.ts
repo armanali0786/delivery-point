@@ -16,7 +16,8 @@ import {
     GetCart,
     DeleteCart,
     VerifyOffer,
-    CreatePayment
+    CreatePayment,
+    CustomerLogout
     } from '../controllers';
     
 import { Authenticate } from '../middlewares';
@@ -25,15 +26,16 @@ import { Authenticate } from '../middlewares';
 /** --------------------- Sign up / Create Customer ------------------------------ **/
 router.post('/signup', CustomerSignUp)
 
-
 /** --------------------- Login Customer ------------------------------ **/
 router.post('/login', CustomerLogin)
+
+/** ---------------------Customer Logout ------------------------------ **/
+router.post('/customer_logout', CustomerLogout)
 
 //Authentication
 router.use(Authenticate);
 /** --------------------- verify Customer Account ------------------------------ **/
 router.patch('/verify',CustomerVerify )
-
 
 /** --------------------- OTP / Requesting OTP ------------------------------ **/
 router.get('/otp', RequestOtp)
@@ -73,6 +75,9 @@ router.get('/orders', GetOrders)
 
 /** ---------------------View Order By Id ------------------------------ **/
 router.get('/order/:id', GetOrderById)
+
+
+
 
 
 export {router as CustomerRoute} ; 

@@ -24,26 +24,25 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
 
     const initialValues = {
         email: '',
-        name: '',
-        phoneNumber: '',
+        fullName: '',
+        phone: '',
         password: ''
     };
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        name: Yup.string().when('isLoginForm', {
+        fullName: Yup.string().when('isLoginForm', {
             is: false,
             then: Yup.string().required('Full Name is required')
         }),
-        phoneNumber: Yup.string().when('isLoginForm', {
+        phone: Yup.string().when('isLoginForm', {
             is: false,
             then: Yup.string().required('Phone Number is required')
         })
     });
 
     const onSubmit = async (values, { setSubmitting, setErrors }) => {
-        console.log("submiited values", values);
         try {
             const url = isLoginForm ? 'http://localhost:8080/customer/login' : 'http://localhost:8080/customer/signup';
             const response = await axios.post(url, values);
@@ -51,7 +50,7 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                 const token = response.data.signature;
                 localStorage.setItem('token', token);
                 toast.success(response.data.message);
-                navigate('/');
+                navigate('/otp-verify');
                 setIsOpen(false);
             } else {
                 const validationErrors = response.data.validation;
@@ -168,6 +167,7 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                                                             }
                                                             name="password" />
                                                         <ErrorMessage name="password" component="span" className="super text-red-700" />
+                                                        <span className="text-gray-700">Password</span>
                                                         <i
                                                             className="text-black absolute top-6 right-3"
                                                             onClick={togglePasswordVisibility}
@@ -175,15 +175,14 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                                                         >
                                                             {showPassword ? <FaEye /> : <FaEyeSlash />}
                                                         </i>
-                                                        <span className="text-gray-700">Password</span>
                                                     </label>
                                                 </>
                                             ) : (
                                                 <>
 
                                                     <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30" type="name" name="name" />
-                                                        <ErrorMessage name="name" component="span" className="super text-red-700" />
+                                                        <Field className="input mt-1 block w-full  border-gray-30" type="name" name="fullName" />
+                                                        <ErrorMessage name="fullName" component="span" className="super text-red-700" />
                                                         <span className="text-gray-700">Full Name</span>
                                                     </label>
 
@@ -194,8 +193,8 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                                                     </label>
 
                                                     <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30" type="text" name="phoneNumber" />
-                                                        <ErrorMessage name="phoneNumber" component="span" className="super text-red-700" />
+                                                        <Field className="input mt-1 block w-full  border-gray-30" type="text" name="phone" />
+                                                        <ErrorMessage name="phone" component="span" className="super text-red-700" />
                                                         <span className="text-gray-700">Phone</span>
                                                     </label>
 
@@ -206,6 +205,7 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                                                             }
                                                             name="password" />
                                                         <ErrorMessage name="password" component="span" className="super text-red-700" />
+                                                        <span className="text-gray-700">Password</span>
                                                         <i
                                                             className="text-black absolute top-6 right-3"
                                                             onClick={togglePasswordVisibility}
@@ -213,7 +213,6 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                                                         >
                                                             {showPassword ? <FaEye /> : <FaEyeSlash />}
                                                         </i>
-                                                        <span className="text-gray-700">Password</span>
                                                     </label>
                                                 </>
                                             )}

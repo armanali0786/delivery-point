@@ -2,9 +2,9 @@ import { IsEmail, Length } from "class-validator";
 
 export class CreateCustomerInput {
 
-    firstName: string;
+    fullName: string;
 
-    lastName: string;
+    // lastName: string;
 
     address: string;
     
@@ -31,10 +31,10 @@ export class UserLoginInput {
 export class EditCustomerProfileInput {
    
     @Length(3,16)
-    firstName: string;
+    fullName: string;
 
-    @Length(3,16)
-    lastName: string;
+    // @Length(3,16)
+    // lastName: string;
     
     @Length(6,16)
     address: string;
@@ -74,10 +74,10 @@ export class CreateDeliveryUserInput {
     password: string;
 
     @Length(3,12)
-    firstName: string;
+    fullName: string;
 
-    @Length(3,12)
-    lastName: string;
+    // @Length(3,12)
+    // lastName: string;
 
     @Length(6,24)
     address: string;

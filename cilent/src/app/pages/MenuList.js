@@ -7,6 +7,8 @@ import FilterIcon from '../assets/filter.svg';
 import FoodSlider from '../components/FoodSlider';
 import { fetchFoods } from '../apis/ApiCall';
 import NoDataFound from '../components/NoDataFound';
+import EmptyImage from '../assets/emptyfood.png';
+
 export default function MenuList() {
   const [foods, setFoods] = useState([]);
   const [filterData, setFilterData] = useState([]);
@@ -93,7 +95,7 @@ export default function MenuList() {
           </div>
         ) : (
           <div className="flex items-center justify-center h-64 w-full">
-            <NoDataFound />
+            <NoDataFound EmptyImage={EmptyImage} data={"No Food Found"}/>
           </div>
         )}
 

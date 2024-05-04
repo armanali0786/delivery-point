@@ -7,12 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import * as Yup from 'yup';
-export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
+import { useAuth } from '../context/authContext';
+
+export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
+
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
+
     const [isLoginForm, setIsLoginForm] = useState(true); // State to track current form type (true = login, false = signup)
 
-    const toggleFormType = () => {
-        setIsLoginForm(!isLoginForm); // Toggle between login and signup form
-    };
 
     const [showPassword, setShowPassword] = useState(false);
     const containerRef = useRef(null);
@@ -21,35 +23,48 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
 
     const initialValues = {
         email: '',
-        name: '',
-        phoneNumber: '',
+        fullName: '',
+        phone: '',
         password: ''
     };
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        name: Yup.string().when('isLoginForm', {
+        fullName: Yup.string().when('isLoginForm', {
             is: false,
             then: Yup.string().required('Full Name is required')
         }),
-        phoneNumber: Yup.string().when('isLoginForm', {
+        phone: Yup.string().when('isLoginForm', {
             is: false,
             then: Yup.string().required('Phone Number is required')
         })
     });
 
     const onSubmit = async (values, { setSubmitting, setErrors }) => {
-        console.log("submiited values", values);
+        let params = {};
         try {
-            const url = isLoginForm ? 'http://localhost:8080/customer/login' : 'http://localhost:8080/customer/signup';
-            const response = await axios.post(url, values);
+            if (showLoginForm) {
+                params = {
+                    email: values.email,
+                    password: values.password
+                };
+            } else {
+                params = {
+                    email: values.email,
+                    fullName: values.fullName,
+                    phone: values.phone,
+                    password: values.password
+                };
+            }
+    
+            const url = showLoginForm ? 'http://localhost:8080/customer/login' : 'http://localhost:8080/customer/signup';
+            const response = await axios.post(url, params);
             if (response.status === 200) {
                 const token = response.data.signature;
                 localStorage.setItem('token', token);
                 toast.success(response.data.message);
-                navigate('/');
-                setIsOpen(false);
+                setIsLoggedIn(true);
             } else {
                 const validationErrors = response.data.validation;
                 if (validationErrors) {
@@ -59,7 +74,7 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
         } catch (error) {
             if (error.response) {
                 if (error.response.status === 400) {
-                    const validationErrors = error.response.data.msg;
+                    const validationErrors = error.response.data.message;
                     toast.error(validationErrors);
                     setErrors(validationErrors);
                 } else {
@@ -81,15 +96,14 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
         setShowPassword(!showPassword);
     };
 
-
-
     return (
         <>
+        <ToastContainer />
             <div className='flex justify-center items-center'>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
                     {({ isSubmitting }) => (
                         <Form className="form w-full max-w-[350px]">
-                            {isLoginForm ? (
+                            {showLoginForm ? (
                                 <>
                                     <label className="block mb-2">
                                         <Field className="input mt-1 block w-full  border-gray-30" type="email" name="email" />
@@ -117,8 +131,8 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
                                 <>
 
                                     <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30" type="name" name="name" />
-                                        <ErrorMessage name="name" component="span" className="super text-red-700" />
+                                        <Field className="input mt-1 block w-full  border-gray-30" type="name" name="fullName" />
+                                        <ErrorMessage name="fullName" component="span" className="super text-red-700" />
                                         <span className="text-gray-700">Full Name</span>
                                     </label>
 
@@ -129,8 +143,8 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
                                     </label>
 
                                     <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30" type="text" name="phoneNumber" />
-                                        <ErrorMessage name="phoneNumber" component="span" className="super text-red-700" />
+                                        <Field className="input mt-1 block w-full  border-gray-30" type="text" name="phone" />
+                                        <ErrorMessage name="phone" component="span" className="super text-red-700" />
                                         <span className="text-gray-700">Phone</span>
                                     </label>
 
@@ -141,6 +155,7 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
                                             }
                                             name="password" />
                                         <ErrorMessage name="password" component="span" className="super text-red-700" />
+                                        <span className="text-gray-700">Password</span>
                                         <i
                                             className="text-black absolute top-6 right-3"
                                             onClick={togglePasswordVisibility}
@@ -148,15 +163,14 @@ export default function CheckoutLogin({ isOpen, toggleOffcanvas, setIsOpen }) {
                                         >
                                             {showPassword ? <FaEye /> : <FaEyeSlash />}
                                         </i>
-                                        <span className="text-gray-700">Password</span>
                                     </label>
                                 </>
                             )}
 
-                            <button className="bg-[#6366f1] text-white font-semibold px-4 py-2 hover:bg-[#34369b] transition duration-300" type="submit" disabled={isSubmitting}>
-                                {isLoginForm ? 'Login' : 'Sign Up'}
+                            <button className="bg-[#60b246] text-white font-semibold px-4 py-2 hover:bg-[#4a9932] transition duration-300" type="submit" disabled={isSubmitting}>
+                                {showLoginForm ? 'Login' : 'Sign Up'}
                             </button>
-                            <p className="text-gray-700 mt-4 text-center">By clicking on Login, I accept the  <Link to="/policy" className="text-[#6366f1] hover:text-[#34369b] hover:underline">Terms & Conditions & Privacy Policy</Link> </p>
+                            <p className="text-gray-700 text-sm text-center">By clicking on Login, I accept the  <Link to="/policy" className="text-[#6366f1] hover:text-[#34369b] hover:underline">Terms & Conditions & Privacy Policy</Link> </p>
                         </Form>
                     )}
                 </Formik>

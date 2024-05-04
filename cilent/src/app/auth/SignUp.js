@@ -14,8 +14,8 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
-    firstName: '',
-    lastName: '',
+    fullName: '',
+    // lastName: '',
     email: '',
     password: '',
     address: '',
@@ -23,8 +23,8 @@ export default function SignUp() {
   };
 
   const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('Firstname is required'),
-    lastName: Yup.string().required('Lastname is required'),
+    fullName: Yup.string().required('Firstname is required'),
+    // lastName: Yup.string().required('Lastname is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
@@ -81,16 +81,16 @@ export default function SignUp() {
               {/* <p className="text-gray-700 mb-2">Signup now and get delivery. </p> */}
               <div className="flex">
                 <label className='block mb-2'>
-                  <Field className="input mt-1 block w-full rounded border-gray-30" type="text" name="firstName" />
-                  <ErrorMessage name="firstName" component="span" className="super text-red-700" />
+                  <Field className="input mt-1 block w-full rounded border-gray-30" type="text" name="fullName" />
+                  <ErrorMessage name="fullName" component="span" className="super text-red-700" />
                   <span className="text-gray-700" >Firstname</span>
                 </label>
 
-                <label className="block mb-2">
+                {/* <label className="block mb-2">
                   <Field className="input mt-1 block w-full rounded border-gray-30" type="text" name="lastName" />
                   <ErrorMessage name="lastName" component="span" className="super text-red-700" />
                   <span className="text-gray-700">Lastname</span>
-                </label>
+                </label> */}
               </div>
 
               <label className="block mb-2">
