@@ -13,7 +13,7 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
 
     const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-    const [isLoginForm, setIsLoginForm] = useState(true); // State to track current form type (true = login, false = signup)
+    const [isLoginForm, setIsLoginForm] = useState(true); 
 
 
     const [showPassword, setShowPassword] = useState(false);

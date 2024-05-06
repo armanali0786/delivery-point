@@ -13,7 +13,7 @@ const fetchFoods = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; // Rethrow the error to handle it where fetchFoods is called
+        throw error;
     }
 };
 
@@ -43,7 +43,7 @@ const fetchVendors = async (pincode) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; // Rethrow the error to handle it where fetchFoods is called
+        throw error; 
     }
 };
 
@@ -57,7 +57,7 @@ const fetchVendorsById = async (vendorId) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; // Rethrow the error to handle it where fetchFoods is called
+        throw error; 
     }
 };
 
@@ -72,7 +72,7 @@ const fetchRestaurants = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; // Rethrow the error to handle it where fetchFoods is called
+        throw error; 
     }
 };
 
@@ -87,7 +87,7 @@ const fetchFoodInMin = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; // Rethrow the error to handle it where fetchFoods is called
+        throw error; 
     }
 };
 
@@ -103,7 +103,7 @@ const fetchOffersData = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; // Rethrow the error to handle it where fetchFoods is called
+        throw error; 
     }
 };
 

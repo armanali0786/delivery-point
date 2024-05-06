@@ -19,7 +19,7 @@ export default function AddressPopup({ isAddressOpen, toggleAddressModal }) {
         const addressData = {
             address: address.trim(),
             flatNo: flatNo.trim(),
-            addressType: addressType, // Include selected address type
+            addressType: addressType, 
         };
         localStorage.setItem('deliveryAddress', JSON.stringify(addressData));
 

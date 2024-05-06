@@ -64,9 +64,6 @@ export default function Checkout() {
     }, [deliveryAddress])
 
 
-
-
-
     const handleLoginClick = () => {
         setShowLoginForm(true);
         setShowSignUpForm(false);
@@ -120,7 +117,6 @@ export default function Checkout() {
     //     fetchData();
     // }, [dispatch, token]);
 
-
     const vendorDetails = cart.map(item => {
         const vendor = item.vendorInfo;
         return {
@@ -134,8 +130,6 @@ export default function Checkout() {
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);
     }
-
-
 
     const isEmpty = cart.length === 0;
 
@@ -158,29 +152,28 @@ export default function Checkout() {
     }, [offer]);
 
 
-    const handlePayment = async() => {
-            const payload ={
-                paymentMode:"COD",
-                totalPrice:totalPrice,
-                offerId: receivedOffersData.offerId
-            }
-            const response = await axios.post("http://localhost:8080/customer/create-payment", payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-            if(response.status== 200){
-                toast.success(response.data.message);
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-                navigate('/profile');
-            }
+    const handlePayment = async () => {
+        const payload = {
+            paymentMode: "COD",
+            totalPrice: totalPrice,
+            offerId: receivedOffersData.offerId
+        }
+        const response = await axios.post("http://localhost:8080/customer/create-payment", payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        if (response.status == 200) {
+            toast.success(response.data.message);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            navigate('/profile');
+        }
     }
-
 
     return (
         <>
-            <ToastContainer/>
+            <ToastContainer />
             {isEmpty ? (
                 <div className="max-h-[600px] flex justify-center bg-slate-100">
                     <div className="text-center">
