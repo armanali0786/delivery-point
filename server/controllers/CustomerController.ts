@@ -6,6 +6,7 @@ import { GenerateOtp, GeneratePassword, GenerateSalt, GenerateSignature, Validat
 import { Customer } from '../models/Customer';
 import { Order } from '../models/Order';
 import { Food, Offer, Transaction } from '../models';
+import { CallPage } from 'twilio/lib/rest/api/v2010/account/call';
 
 export const CustomerSignUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,7 +22,7 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
             })
         }
 
-        const { fullName, 
+        const { fullName,
             // lastName, 
             address, email, phone, password } = customerInputs;
 
@@ -98,7 +99,7 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
 
         const { email, password } = customerInputs;
         const customer = await Customer.findOne({ email: email });
-        if(!customer) {
+        if (!customer) {
             return res.status(404).json({
                 status: 404,
                 message: 'Customer not found with the provided Email ID',
@@ -123,7 +124,7 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
                     console.error('Error generating signature:', error);
                     return res.status(500).json({ message: 'Error with generating signature' });
                 }
-            }else{
+            } else {
                 return res.status(401).json({
                     status: 401,
                     message: 'Invalid Gmail or Password '
@@ -239,7 +240,7 @@ export const EditCustomerProfile = async (req: Request, res: Response, next: Nex
             return res.status(400).json(validationError);
         }
 
-        const { fullName, 
+        const { fullName,
             // lastName, 
             address } = customerInputs;
 
@@ -362,10 +363,17 @@ export const VerifyOffer = async (req: Request, res: Response, next: NextFunctio
         if (customer) {
 
             const appliedOffer = await Offer.findById(offerId);
-
             if (appliedOffer) {
                 if (appliedOffer.isActive) {
-                    return res.status(200).json({ message: 'Offer is Valid', offer: appliedOffer });
+                    const offer = {
+                        offerId: appliedOffer._id,
+                        title: appliedOffer.title,
+                        description: appliedOffer.description,
+                        promocode: appliedOffer.promocode,
+                        isActive: appliedOffer.isActive,
+                        offerAmount: appliedOffer.offerAmount
+                    };
+                    return res.status(200).json({ message: 'Offer Added', offer: offer });
                 }
             }
         }
@@ -375,19 +383,45 @@ export const VerifyOffer = async (req: Request, res: Response, next: NextFunctio
 
 }
 
+export const AvailableOffers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const customer = req.user;
+        if (customer) {
+            const offers = await Offer.find();
+            if (offers && offers.length > 0) {
+                const Offers = offers.map((offer) => ({
+                    offerId: offer._id,
+                    title: offer.title,
+                    description: offer.description,
+                    promocode: offer.promocode,
+                    isActive: offer.isActive,
+                    // Add other fields as needed
+                }));
+                return res.status(200).json({ Offers });
+            } else {
+                // Handle case where no offers are found
+                return res.status(404).json({ message: 'No offers available' });
+            }
+        } else {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+    } catch (error) {
+        return res.json({ message: 'Offers Not available' });
+    }
+
+}
+
 
 export const CreatePayment = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
 
-        const { amount, paymentMode, offerId } = req.body;
-
-        let payableAmount = Number(amount);
+        const { totalPrice, paymentMode, offerId } = req.body;
+        let payableAmount = Number(totalPrice);
 
         if (offerId) {
 
             const appliedOffer = await Offer.findById(offerId);
-
             if (!appliedOffer) {
                 return res.status(400).json({ message: 'Offer is Not Valid' });
             }
@@ -408,7 +442,10 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
             paymentMode: paymentMode,
             paymentResponse: 'Payment is cash on Delivery'
         })
-        return res.status(200).json(transaction);
+        return res.status(200).json({
+            message:"Payment successfully Done",
+            transaction
+        });
     } catch (error) {
         //return transaction
         return res.status(200).json({
@@ -436,7 +473,7 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
 
         const customer = req.user;
 
-        const { txnId, amount, items } = <OrderInputs>req.body;
+        const { txnId, amount, items, CustomerAddress } = <OrderInputs>req.body;
 
         if (customer) {
 
@@ -489,6 +526,7 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
                     remarks: "",
                     deliveryId: "",
                     readyTime: 30,
+                    CustomerAddress: CustomerAddress
                 })
                 profile.cart = [] as any;
                 profile.orders.push(currentOrder);

@@ -83,9 +83,9 @@ export default function MenuList() {
             >
               Rating 4.0+
             </button>
-            <button className="mx-2 border-2 w-48 rounded-3xl border-slate-500 hover:bg-[#5B63B7] hover:text-white hover:border-white">
+            {/* <button className="mx-2 border-2 w-48 rounded-3xl border-slate-500 hover:bg-[#5B63B7] hover:text-white hover:border-white">
               New on DeliveryPoint
-            </button>
+            </button> */}
           </div>
         </div>
 

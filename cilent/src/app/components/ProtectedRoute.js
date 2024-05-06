@@ -28,14 +28,14 @@ const ProtectedRoute = ({ element }) => {
                 if (!token) {
                     // No token found, redirect to login
                     // console.log("No token found")
-                    navigate('/login');
+                    navigate('/');
                     setIsLoggedIn(false);
                 } else {
                     const isValid = true; // You can replace this with actual token verification
                     if (!isValid) {
                         // Invalid token, redirect to login
                         // console.log("not valid token found")
-                        navigate('/login');
+                        navigate('/');
                         setIsLoggedIn(false);
                     }else{
                         // console.log("valid token found")
@@ -44,7 +44,7 @@ const ProtectedRoute = ({ element }) => {
                 }
             } catch (error) {
                 console.error('Error verifying token:', error);
-                navigate('/login');
+                navigate('/');
                 setIsLoggedIn(false);
             }
         };

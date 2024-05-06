@@ -17,6 +17,7 @@ import {
     DeleteCart,
     VerifyOffer,
     CreatePayment,
+    AvailableOffers,
     CustomerLogout
     } from '../controllers';
     
@@ -62,9 +63,10 @@ router.delete('/cart',DeleteCart);
 /** ---------------------Offer------------------------------ **/
 router.get('/offer/verify/:id',VerifyOffer); 
 
+router.get('/available-offers',AvailableOffers)
 
 /** ---------------------Payment------------------------------ **/
-router.get('/create-payment',CreatePayment);
+router.post('/create-payment',CreatePayment);
 
 
 /** ---------------------Create Order ------------------------------ **/

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function AddressPopup({ isAddressOpen, toggleModal }) {
+export default function AddressPopup({ isAddressOpen, toggleAddressModal }) {
 
     const [address, setAddress] = useState('');
     const [flatNo, setFlatNo] = useState('');
@@ -30,7 +30,7 @@ export default function AddressPopup({ isAddressOpen, toggleModal }) {
         setError('');
 
         // Close the modal
-        toggleModal();
+        toggleAddressModal();
     };
 
     const handleAddressTypeChange = (type) => {
@@ -51,7 +51,7 @@ export default function AddressPopup({ isAddressOpen, toggleModal }) {
                                     Save delivery address
                                 </h3>
                                 <button
-                                    onClick={toggleModal}
+                                    onClick={toggleAddressModal}
                                     className="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 flex justify-center items-center"
                                 >
                                     <svg

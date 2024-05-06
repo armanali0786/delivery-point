@@ -13,8 +13,8 @@ import CartPage from './app/cart/cartPage';
 import Search from './app/pages/Search';
 import ProtectedRoute from './app/components/ProtectedRoute';
 import Checkout from './app/pages/Checkout';
+import Profile from './app/pages/Profile';
 function App() {
-
   return (
     <>
       <div className="sticky w-full top-0 " style={{ zIndex: "999" }}>
@@ -31,6 +31,7 @@ function App() {
         <Route path="/food-details/:pincode" element={<FoodDetails />} />
         <Route path="/food-details/:vendorId" element={<FoodDetails />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/profile" element={<ProtectedRoute element={<Profile />} /> } />
 
         {/* <Route path="/cart" element={<ProtectedRoute element={<CartPage />} />} /> */}
         {/* <Route path="/cart" element={<ProtectedRoute Component={() => (<CartPage />)} />} /> */}

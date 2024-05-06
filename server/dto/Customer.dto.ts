@@ -59,6 +59,7 @@ export class OrderInputs {
     txnId: string;
     amount: string;
     items: [CartItem];
+    CustomerAddress: string;
 }
 
 

@@ -1,6 +1,7 @@
 // api.js
 
 import axios from "axios";
+const token = localStorage.getItem("token");
 
 const fetchFoods = async () => {
     try {
@@ -91,11 +92,28 @@ const fetchFoodInMin = async () => {
 };
 
 
+const fetchOffersData = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8080/customer/available-offers`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching foods:', error);
+        throw error; // Rethrow the error to handle it where fetchFoods is called
+    }
+};
+
+
 export {
     fetchFoods,
     fetchVendors,
     fetchRestaurants,
     fetchVendorsById,
     fetchFoodInMin,
-    fetchTopFoods
+    fetchTopFoods,
+    fetchOffersData
 };

@@ -13,6 +13,7 @@ export interface OrderDoc extends Document {
     remarks: string;
     deliveryId: string;
     readyTime: number; //max 40 minutes
+    CustomerAddress:{ type: String}
 }
 
 
@@ -32,6 +33,7 @@ const OrderSchema = new Schema({
     remarks: {type: String},
     deliveryId: {type: String},
     readyTime: {type: Number},
+    CustomerAddress:{ type: String}
 },{
     toJSON: {
         transform(doc, ret){

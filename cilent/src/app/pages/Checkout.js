@@ -4,6 +4,9 @@ import axios from "axios";
 import EmptyImage from '../assets/emptycart.png';
 import { FaPlus, FaMinus } from "react-icons/fa";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
     getCartTotal,
     removeItem,
@@ -13,8 +16,9 @@ import {
 
 import { useAuth } from "../context/authContext";
 import CheckoutLogin from "./CheckoutLogin";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import AddressPopup from "../components/AddressPopup";
+import ApplyOfferModel from "../components/ApplyOffer";
 
 export default function Checkout() {
 
@@ -23,16 +27,23 @@ export default function Checkout() {
     const [showSignUpForm, setShowSignUpForm] = useState(false);
     const [buttonShow, setButtonShow] = useState(true);
     const [isAddressOpen, setIsAddressOpen] = useState(false);
+    const [isOfferModelOpen, setIsOfferModelOpen] = useState(false);
     const [address, setAddress] = useState();
     const [addressType, setAddressType] = useState('');
     const [flatNo, setFlatNo] = useState('');
+    const [receivedOffersData, setReceivedOffersData] = useState([]);
+    const [offerId, setOfferId] = useState('');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
-
-    const toggleModal = () => {
+    const toggleAddressModal = () => {
         setIsAddressOpen(!isAddressOpen);
+    };
+
+    const toggleOfferModal = () => {
+        setIsOfferModelOpen(!isOfferModelOpen);
     };
 
     const deliveryAddress = localStorage.getItem('deliveryAddress');
@@ -51,6 +62,8 @@ export default function Checkout() {
             console.log("No delivery address found in localStorage");
         }
     }, [deliveryAddress])
+
+
 
 
 
@@ -106,6 +119,8 @@ export default function Checkout() {
     //     };
     //     fetchData();
     // }, [dispatch, token]);
+
+
     const vendorDetails = cart.map(item => {
         const vendor = item.vendorInfo;
         return {
@@ -119,10 +134,53 @@ export default function Checkout() {
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);
     }
+
+
+
     const isEmpty = cart.length === 0;
+
+    const handleApplyData = (offers) => {
+        const offer = localStorage.setItem('offer', JSON.stringify(offers));
+    };
+
+    const offer = localStorage.getItem('offer');
+    useEffect(() => {
+        if (offer) {
+            try {
+                const offerData = JSON.parse(offer);
+                setReceivedOffersData(offerData)
+            } catch (error) {
+                console.error("Error parsing:", error);
+            }
+        } else {
+            console.log("No offer found in localStorage");
+        }
+    }, [offer]);
+
+
+    const handlePayment = async() => {
+            const payload ={
+                paymentMode:"COD",
+                totalPrice:totalPrice,
+                offerId: receivedOffersData.offerId
+            }
+            const response = await axios.post("http://localhost:8080/customer/create-payment", payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            if(response.status== 200){
+                toast.success(response.data.message);
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+                navigate('/profile');
+            }
+    }
+
 
     return (
         <>
+            <ToastContainer/>
             {isEmpty ? (
                 <div className="max-h-[600px] flex justify-center bg-slate-100">
                     <div className="text-center">
@@ -209,10 +267,10 @@ export default function Checkout() {
                                                     <div className="p-4 bg-white rounded-lg border border-zinc-200">
                                                         <h3 className="text-gray-900 font-bold">Add New Address</h3>
                                                         <p className="text-sm text-gray-500">{address},{flatNo}, {addressType}</p>
-                                                        <button onClick={toggleModal} className="mt-3 border-2 border-[#4a9932] !text-[#4a9932] text-white font-medium py-2 px-4 rounded" >
+                                                        <button onClick={toggleAddressModal} className="mt-3 border-2 border-[#4a9932] !text-[#4a9932] text-white font-medium py-2 px-4 rounded" >
                                                             ADD NEW</button>
                                                     </div>
-                                                    <AddressPopup isAddressOpen={isAddressOpen} toggleModal={toggleModal} />
+                                                    <AddressPopup isAddressOpen={isAddressOpen} toggleAddressModal={toggleAddressModal} />
                                                 </div>
                                             </div>
                                         )}
@@ -222,8 +280,8 @@ export default function Checkout() {
                                 <div className="mb-4">
                                     <div className="p-4 bg-white rounded-lg shadow-md">
                                         <p className="text-black font-bold text-xl">Payment ✅</p>
-                                        {isLoggedIn && (
-                                            <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]'>Procced to Payment</button>
+                                        {isLoggedIn && deliveryAddress && (
+                                            <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]' onClick={handlePayment}>Procced to Payment</button>
                                         )}
                                     </div>
                                 </div>
@@ -266,11 +324,30 @@ export default function Checkout() {
                                                 </div>
                                             </>
                                         ))}
-                                        <div className="mt-4">
-                                            <div className="flex border border-zinc-300  max-w-full overflow-hidden">
-                                                <input type="text" placeholder="Enter coupon code" className="p-2 flex-grow outline-none" />
-                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4">APPLY</button>
+                                        {/* <div className="mt-4">
+                                            <div className="flex border border-zinc-300 max-w-full overflow-hidden">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Enter coupon code"
+                                                    className="p-2 flex-grow outline-none"
+                                                    value={promocode}
+                                                    onChange={(e) => setPromocode(e.target.value)}
+                                                />
+                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4" onClick={handleApplyOffer}>
+                                                    APPLY
+                                                </button>
                                             </div>
+                                        </div> */}
+                                        <div className="mt-4">
+                                            <button className="bg-zinc-200 hover:bg-zinc-300 text-zinc-800 font-bold py-2 px-4 rounded inline-flex items-center" onClick={toggleOfferModal}>
+                                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7h18M3 12h18m-9 5h9"></path></svg>
+                                                <span  >Apply Coupon</span>
+                                            </button>
+                                            <ApplyOfferModel
+                                                isOfferModelOpen={isOfferModelOpen}
+                                                toggleOfferModal={toggleOfferModal}
+                                                handleApplyData={handleApplyData}
+                                            />
                                         </div>
                                         <div className="mt-4">
                                             <h3 className="text-lg font-bold">Bill Details</h3>
@@ -280,12 +357,12 @@ export default function Checkout() {
                                             </div>
                                             <hr />
                                             <div className="flex justify-between mt-2">
-                                                <span>Delivery Fee | 5.0 kms</span>
+                                                <span>Delivery Fee </span>
                                                 <span>₹30</span>
                                             </div>
                                             <div className="flex justify-between mt-2">
                                                 <span>Discount Coupoun Code</span>
-                                                <span>₹50</span>
+                                                <span>₹{receivedOffersData.offerAmount}</span>
                                             </div>
                                             <div className="flex justify-between mt-2">
                                                 <span className="font-bold">TO PAY</span>
