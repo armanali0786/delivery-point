@@ -156,8 +156,6 @@ export default function Checkout() {
         }
     }, [offer]);
 
-
-
     const handlePayment = async () => {
         try {
             const stripe = await loadStripe(STRIPE_PK);

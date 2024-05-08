@@ -3,6 +3,7 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import Offers from '../assets/offer.avif'
 import '../assets/styles/foodDetails.css'
 import { fetchVendors, fetchVendorsById } from '../apis/ApiCall';
+import { FaHeart } from "react-icons/fa";
 
 import axios from 'axios'
 
@@ -14,12 +15,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeItem, setItems } from "../cart/cartSlice";
 import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
+import { useAuth } from "../context/authContext";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addToWishList, removeWishList, removeWishlist } from '../cart/wishlistSlice';
 
 export default function FoodDetails() {
-
+    const { isLoggedIn, setIsLoggedIn } = useAuth();
     // const { vendorId } = useParams();
     const { pincode } = useParams();
 
@@ -31,12 +34,11 @@ export default function FoodDetails() {
 
     const [selectedFoodId, setSelectedFoodId] = useState(null);
 
+    const [favouriteStatus, setFavouriteStatus] = useState({});
 
     const toggleModal = (foodId) => {
         setSelectedFoodId(foodId === selectedFoodId ? null : foodId);
     };
-
-
 
     const toggleDescription = (foodId) => {
         setExpandedDescription((prev) => ({
@@ -57,7 +59,7 @@ export default function FoodDetails() {
 
     const dispatch = useDispatch();
 
-    const handleCartAction = (item,vendor) => {
+    const handleCartAction = (item, vendor) => {
         if (item.inCart) {
             dispatch(removeItem(item.id));
         } else {
@@ -67,7 +69,7 @@ export default function FoodDetails() {
                 vendorCoverImages: vendor[0].coverImages,
                 vendorId: vendor[0]._id
             };
-            dispatch(addToCart({ ...item,  vendorInfo, quantity: 1 }));
+            dispatch(addToCart({ ...item, vendorInfo, quantity: 1 }));
         }
     };
 
@@ -176,6 +178,22 @@ export default function FoodDetails() {
     const goToNext = () => sliderRef.current?.slickNext();
     const goToPrev = () => sliderRef.current?.slickPrev();
 
+
+    const addToWishHandler = (food) => {
+        if (isLoggedIn) {
+            if (favouriteStatus[food._id]) {
+                dispatch(removeWishlist(food)); // Dispatch Redux action to remove from wishlist
+                setFavouriteStatus({ ...favouriteStatus, [food._id]: false }); // Update favourite status to false
+            } else {
+                dispatch(addToWishList(food)); // Dispatch Redux action to add to wishlist
+                setFavouriteStatus({ ...favouriteStatus, [food._id]: true }); // Update favourite status to true
+            }
+        } else {
+            toast.error('Please Login to add to wishlist');
+        }
+    };
+
+
     return (
         <>
             <ToastContainer />
@@ -263,11 +281,13 @@ export default function FoodDetails() {
                 </div>
 
                 <div className='flex justify-center align-center font-bold text-lg'>
-                    <button alt="Menus 👇🏻" className='menu_button'>
-                        <i>M</i>
+                    <button alt="MENU👇🏻" className='menu_button'>
+                        <i>D</i>
                         <i>E</i>
-                        <i>N</i>
-                        <i>U</i>
+                        <i>T</i>
+                        <i>A</i>
+                        <i>I</i>
+                        <i>L</i>
                         <i>S</i>
                         <i>👇🏻</i>
                     </button>
@@ -286,6 +306,7 @@ export default function FoodDetails() {
                                                 <span className='text-blue-800 text-md font-semibold px-1 py-0.5 rounded'>{food.rating} (10k + rating),</span>
                                             </div>
                                         </div>
+
                                         {/* <p className='text-[16px]'>{food.description}</p> */}
                                         {food.description.split(' ').length > 20 ? (
                                             <div className='md:w-[524px] sm:w-[300px]'>
@@ -300,12 +321,14 @@ export default function FoodDetails() {
                                         ) : (
                                             <p className='text-[14px] text-left'>{food.description}</p>
                                         )}
+
                                     </div>
-                                    <div className='flex-end my-2'>
+                                    <div className='flex-end my-2 relative'>
+                                        <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'text-[#ED3535]' : 'bg-black text-white'} bg-black p-1 rounded-lg text-start`} onClick={() => addToWishHandler(food)}><span><FaHeart /></span></button>
                                         <img src={`http://localhost:8080/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
                                         <button
                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                            onClick={() => handleCartAction(food,vendor)}
+                                            onClick={() => handleCartAction(food, vendor)}
                                         >Add
                                         </button>
                                     </div>
@@ -354,7 +377,7 @@ export default function FoodDetails() {
                                                         <p className='flex text-lg font-bold'>{food.name}</p>
                                                         <button
                                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                                            onClick={() => handleCartAction(food,vendor)}
+                                                            onClick={() => handleCartAction(food, vendor)}
                                                         >Add
                                                         </button>
                                                     </div>

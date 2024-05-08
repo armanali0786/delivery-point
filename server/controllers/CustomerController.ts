@@ -90,7 +90,6 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
 
 }
 
-
 export const CustomerLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customerInputs = plainToClass(UserLoginInput, req.body);
@@ -142,7 +141,6 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-
 export const CustomerVerify = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { otp } = req.body;
@@ -180,7 +178,6 @@ export const CustomerVerify = async (req: Request, res: Response, next: NextFunc
 
 }
 
-
 export const RequestOtp = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -215,7 +212,6 @@ export const RequestOtp = async (req: Request, res: Response, next: NextFunction
 
 }
 
-
 export const GetCustomerProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -232,7 +228,6 @@ export const GetCustomerProfile = async (req: Request, res: Response, next: Next
     }
 
 }
-
 
 export const EditCustomerProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -270,8 +265,6 @@ export const EditCustomerProfile = async (req: Request, res: Response, next: Nex
         });
     }
 }
-
-
 
 export const AddToCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -362,7 +355,6 @@ export const DeleteCart = async (req: Request, res: Response, next: NextFunction
     }
 }
 
-
 export const VerifyOffer = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const offerId = req.params.id;
@@ -418,7 +410,6 @@ export const AvailableOffers = async (req: Request, res: Response, next: NextFun
 
 }
 
-
 export const CreatePayment = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -464,7 +455,6 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
 
 }
 
-
 // export const CreateStripePayment = async (req: Request, res: Response, next: NextFunction) => {
 //     try {
 //         const customer = req.user; 
@@ -505,16 +495,14 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
 
 export const CreateStripePayment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const customer = req.user; 
-        const { products } = req.body; 
-
+        const customer = req.user;
+        const { products } = req.body;
         if (customer && products && Array.isArray(products)) {
             const lineItems = products.map((product) => {
                 const productData = {
                     name: product.name,
                     images: [product.images],
                 };
-
                 return {
                     price_data: {
                         currency: "inr",
@@ -552,23 +540,23 @@ const validateTransaction = async (tnxId: string) => {
     return { status: false, currentTransaction }
 }
 
-
 export const CreateOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         const customer = req.user;
-
         const { txnId, amount, items, CustomerAddress } = <OrderInputs>req.body;
 
         if (customer) {
 
             const { status, currentTransaction } = await validateTransaction(txnId);
 
+
             if (!status || !currentTransaction) {
                 return res.status(400).json({ message: 'Transaction not valid or not found' });
             }
 
             const profile = await Customer.findById(customer._id);
+
 
             if (!profile) {
                 // Handle the case where the customer profile is not found
@@ -586,14 +574,14 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
             let vendorId;
 
             const foods = await Food.find().where('_id').in(items.map(item => item._id)).exec();
-
             foods.map(food => {
                 items.map(({ _id, unit }) => {
                     if (food._id == _id) {
                         vendorId = food.vendorId;
                         netAmount += (food.price * unit);
                         cartItems.push({
-                            food, unit
+                            food,
+                            unit
                         })
                     }
                 })
@@ -613,9 +601,9 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
                     readyTime: 30,
                     CustomerAddress: CustomerAddress
                 })
+
                 profile.cart = [] as any;
                 profile.orders.push(currentOrder);
-
                 // currentTransaction.vendorId = vendorId;
                 currentTransaction.orderId = orderId;
                 currentTransaction.status = 'CONFIRMED'
@@ -623,12 +611,16 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
                 await currentTransaction.save();
 
                 // await assignOrderForDelivery(currentOrder._id, vendorId);
-
-                const profileSaveResponse = await profile.save();
-                return res.status(200).json({
-                    message: "Order Created successfully",
-                    profileSaveResponse
-                })
+                try {
+                    const profileSaveResponse = await profile.save();
+                    return res.status(200).json({
+                        message: "Order Created successfully",
+                        profileSaveResponse
+                    });
+                } catch (error) {
+                    console.error('Error saving profile:', error);
+                    return res.status(500).json({ message: 'Failed to save profile' });
+                }
             }
         }
     } catch (error) {
@@ -641,7 +633,13 @@ export const GetOrders = async (req: Request, res: Response, next: NextFunction)
     try {
         const customer = req.user;
         if (customer) {
-            const profile = await Customer.findById(customer._id).populate("orders");
+            // const profile = await Customer.findById(customer._id).populate("orders");
+            const profile = await Customer.findById(customer._id).populate({
+                path: 'orders',
+                populate: {
+                    path: 'items.food', 
+                }
+            });
             if (profile) {
                 return res.status(200).json(profile.orders);
             }
@@ -668,7 +666,5 @@ export const GetOrderById = async (req: Request, res: Response, next: NextFuncti
 
 }
 
-
 export const CustomerLogout = async (req: Request, res: Response, next: NextFunction) => {
-
 }
