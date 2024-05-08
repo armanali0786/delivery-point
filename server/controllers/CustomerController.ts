@@ -6,8 +6,9 @@ import { GenerateOtp, GeneratePassword, GenerateSalt, GenerateSignature, Validat
 import { Customer } from '../models/Customer';
 import { Order } from '../models/Order';
 import { Food, Offer, Transaction } from '../models';
-import { CallPage } from 'twilio/lib/rest/api/v2010/account/call';
-const stripe = require('stripe')("sk_test_51PDk1pSGUBw5Yv8Zh3V8noodW9lBOLj14cwQPQfg31WYXKP9v64POGBbzdNHcqiGdrnTO4fi3KNeFU6rNd0snJIr00yiDKFESZ")
+import { STRIPE_SK } from "../config";
+
+const stripe = require('stripe')(STRIPE_SK)
 
 export const CustomerSignUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -506,7 +507,7 @@ export const CreateStripePayment = async (req: Request, res: Response, next: Nex
     try {
         const customer = req.user; 
         const { products } = req.body; 
-        
+
         if (customer && products && Array.isArray(products)) {
             const lineItems = products.map((product) => {
                 const productData = {

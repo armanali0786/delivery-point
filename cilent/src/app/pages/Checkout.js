@@ -8,7 +8,7 @@ import { useStripe } from '@stripe/stripe-js';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { STRIPE_PK } from "../../config";
 import {
     getCartTotal,
     removeItem,
@@ -160,7 +160,7 @@ export default function Checkout() {
 
     const handlePayment = async () => {
         try {
-            const stripe = await loadStripe("pk_test_51PDk1pSGUBw5Yv8ZAtheCvNJhhgZgZswPiorS6fzcOiGqjZR4JqHoIzVKlNQeUdgTGleXTgkrecCV9JzSYlJX1ww0023ZGNRLG");
+            const stripe = await loadStripe(STRIPE_PK);
     
             const body = {
                 products: cart
