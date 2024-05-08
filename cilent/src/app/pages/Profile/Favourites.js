@@ -31,10 +31,9 @@ export default function Favourites() {
     return words.slice(0, n).join(" ");
   };
 
-  const NavigateFoodDetails = (vendorId) => {
+const NavigateFoodDetails = (vendorId) => {
     navigate(`/food-details/${vendorId}`);
 }
-
   return (
     <div className="dark:bg-zinc-800">
       <div className="container mx-auto px-4">

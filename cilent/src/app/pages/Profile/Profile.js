@@ -2,14 +2,12 @@ import React from 'react'
 import { Link, Outlet,useLocation } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 export default function Profile() {
-
     const token = localStorage.getItem('token');
     const decoded = jwtDecode(token);
     const location = useLocation();
     const isActiveLink = (pathname) => {
         return location.pathname === pathname;
     };
-    
     return (
         <>
             <div className="bg-zinc-100 font-sans leading-normal tracking-normal">

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 export default function Address() {
-
     const [address, setAddress] = useState({});
-
     useEffect(() => {
         const deliveryAddress = localStorage.getItem('deliveryAddress');
         if (deliveryAddress) {
@@ -17,7 +15,6 @@ export default function Address() {
             console.log('No Address found in localStorage');
         }
     }, []);
-
     return (
         <div className="min-h-screen flex flex-col md:flex-row lg:w-1/2 md:w-1/2">
             <div className="flex-1 p-5">

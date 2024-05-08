@@ -168,23 +168,19 @@ export default function Checkout() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             };
-    
             const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(body),
             });
-    
             if (!response.ok) {
                 throw new Error(`Failed to create checkout session`);
             }
-    
             const session = await response.json();
     
             if (!session || !session.sessionId) {
                 throw new Error("Invalid session data received");
             }
-    
             const result = await stripe.redirectToCheckout({
                 sessionId: session.sessionId, 
             });

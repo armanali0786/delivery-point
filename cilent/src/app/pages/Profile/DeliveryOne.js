@@ -3,6 +3,7 @@ import Appstore from '../../assets/appstore.avif';
 import Playstore from '../../assets/playstore.png';
 import FoodImage from '../../assets/foodImage.avif';
 export default function DeliveryOne() {
+    
     return (
         <body className="bg-gray-200 font-sans leading-normal tracking-normal">
             <div className="flex">

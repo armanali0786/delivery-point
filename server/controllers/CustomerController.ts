@@ -601,7 +601,6 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
                     readyTime: 30,
                     CustomerAddress: CustomerAddress
                 })
-
                 profile.cart = [] as any;
                 profile.orders.push(currentOrder);
                 // currentTransaction.vendorId = vendorId;
@@ -609,7 +608,6 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
                 currentTransaction.status = 'CONFIRMED'
 
                 await currentTransaction.save();
-
                 // await assignOrderForDelivery(currentOrder._id, vendorId);
                 try {
                     const profileSaveResponse = await profile.save();
