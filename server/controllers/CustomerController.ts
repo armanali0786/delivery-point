@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
-import { CartItem, CreateCustomerInput, EditCustomerProfileInput, OrderInputs, UserLoginInput } from '../dto/Customer.dto';
+import { CartItem, CreateCustomerInput, EditCustomerProfileInput, OrderInputs, Product, UserLoginInput } from '../dto/Customer.dto';
 import { GenerateOtp, GeneratePassword, GenerateSalt, GenerateSignature, ValidatePassword, onRequestOTP } from '../utility';
 import { Customer } from '../models/Customer';
 import { Order } from '../models/Order';
 import { Food, Offer, Transaction } from '../models';
 import { CallPage } from 'twilio/lib/rest/api/v2010/account/call';
+const stripe = require('stripe')("sk_test_51PDk1pSGUBw5Yv8Zh3V8noodW9lBOLj14cwQPQfg31WYXKP9v64POGBbzdNHcqiGdrnTO4fi3KNeFU6rNd0snJIr00yiDKFESZ")
 
 export const CustomerSignUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -64,6 +65,8 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
                 _id: result._id,
                 email: result.email,
                 verified: result.verified,
+                fullName: result.fullName,
+                phone: result.phone,
             })
             // Send the result
             return res.status(200).json({
@@ -112,7 +115,9 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
                     const signature = await GenerateSignature({
                         _id: customer._id,
                         email: customer.email,
-                        verified: customer.verified
+                        verified: customer.verified,
+                        fullName: customer.fullName,
+                        phone: customer.phone,
                     });
                     return res.status(200).json({
                         message: "Customer Login successfully",
@@ -151,7 +156,9 @@ export const CustomerVerify = async (req: Request, res: Response, next: NextFunc
                     const signature = await GenerateSignature({
                         _id: updatedCustomerResponse._id,
                         email: updatedCustomerResponse.email,
-                        verified: updatedCustomerResponse.verified
+                        verified: updatedCustomerResponse.verified,
+                        fullName: updatedCustomerResponse.fullName,
+                        phone: updatedCustomerResponse.phone,
                     });
 
                     return res.status(200).json({
@@ -171,7 +178,6 @@ export const CustomerVerify = async (req: Request, res: Response, next: NextFunc
     }
 
 }
-
 
 
 export const RequestOtp = async (req: Request, res: Response, next: NextFunction) => {
@@ -443,7 +449,7 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
             paymentResponse: 'Payment is cash on Delivery'
         })
         return res.status(200).json({
-            message:"Payment successfully Done",
+            message: "Payment successfully Done",
             transaction
         });
     } catch (error) {
@@ -456,6 +462,84 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
 
 
 }
+
+
+// export const CreateStripePayment = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const customer = req.user; 
+//         const { products } = req.body; 
+//         console.log(products);
+//         if (customer && products && Array.isArray(products)) {
+//             const lineItems = products.map((product: Product) => ({
+//                 price_data: {
+//                     currency: "inr",
+//                     product_data: {
+//                         name: product.name,
+//                         images: [product.images]
+//                     },
+//                     unit_amount: Math.round(product.price * 100),
+//                 },
+//                 quantity: product.quantity
+//             }));
+//             console.log("Line Items",lineItems)
+//             const session = await stripe.checkout.sessions.create({
+//                 payment_method_types: ["card"],
+//                 mode: "payment",
+//                 line_items: lineItems,
+//                 success_url: "http://localhost:3000/success",
+//                 cancel_url: "http://localhost:3000/cancel"
+//             });
+//             // console.log("Sessions", session)
+
+//             res.json({ txnId: session.id });
+//         } else {
+//             throw new Error("Invalid request data");
+//         }
+//     } catch (error) {
+//         console.error("Error creating checkout session:", error);
+//         res.status(500).json({ message: 'Error while creating transaction' });
+//     }
+// };
+
+
+export const CreateStripePayment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const customer = req.user; 
+        const { products } = req.body; 
+        
+        if (customer && products && Array.isArray(products)) {
+            const lineItems = products.map((product) => {
+                const productData = {
+                    name: product.name,
+                    images: [product.images],
+                };
+
+                return {
+                    price_data: {
+                        currency: "inr",
+                        product_data: productData,
+                        unit_amount: Math.round(product.price * 100),
+                    },
+                    quantity: product.quantity
+                };
+            });
+            const session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
+                mode: "payment",
+                line_items: lineItems,
+                success_url: "http://localhost:3000/profile/orders",
+                cancel_url: "http://localhost:3000/cancel"
+            });
+            res.json({ sessionId: session.id });
+        } else {
+            throw new Error("Invalid request data");
+        }
+    } catch (error) {
+        console.error("Error creating checkout session:", error);
+        res.status(500).json({ message: 'Error while creating transaction' });
+    }
+};
+
 
 const validateTransaction = async (tnxId: string) => {
     const currentTransaction = await Transaction.findById(tnxId);

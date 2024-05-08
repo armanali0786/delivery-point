@@ -7,7 +7,7 @@ import { IoMdStar } from "react-icons/io";
 import { fetchFoods } from '../apis/ApiCall';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaArrowRight } from "react-icons/fa";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart, removeItem } from "../cart/cartSlice";
 
 
@@ -102,11 +102,17 @@ export default function Search() {
         }
     };
 
-    const handleSearchButton = (e) => {
-        e.preventDefault();
-        if (searchText.trim() !== '') {
-            navigate(`/search?query=${encodeURIComponent(searchText.trim())}`);
-          }
+    const handleSearch = (foodName) => {
+        console.log(foodName)
+        if (foodName.trim() !== '') {
+            navigate(`/search?query=${encodeURIComponent(foodName.trim())}`);
+        }
+    };
+    
+    const handleSearchButton = (foodName) => {
+        if (foodName.trim() !== '') {
+            navigate(`/search?query=${encodeURIComponent(foodName.trim())}`);
+        }
     };
 
     const filteredFoods = searchData.filter((food) => {
@@ -123,7 +129,7 @@ export default function Search() {
             ...prev,
             [foodId]: !prev[foodId]
         }));
-    };    
+    };
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);
     }
@@ -154,63 +160,69 @@ export default function Search() {
                         <FoodSlider {...settings}>
                             {foodsImage.map((food, index) => (
                                 <div key={index}>
-                                    <div className='flex items-center'>
+                                    <div className='flex items-center' onClick={() => handleSearch(food.name)}>
                                         <img src={food.image} alt={food.name} className='mx-auto rounded-full h-[100px] h-20 object-contain' />
                                     </div>
                                 </div>
                             ))}
                         </FoodSlider>
                     </div>
-                    <div className="bg-gray-200">
+                    <div className="bg-gray-200 rounded-lg">
                         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
                             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xl:gap-x-8">
-                                {filteredFoods.map((food) => (
-                                    <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
-                                        <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
-                                            <div >
-                                                <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
-                                                <div className='flex items-center my-1'>
-                                                    <span> <IoMdStar /> </span>{food.rating} .
-                                                    <p className='mx-1 text-gray-800'>20-25 MINS</p>
+                                {filteredFoods.length === 0 ? (
+                                    <div className="w-full text-end text-gray-600 mt-8">
+                                        <p>No Food found.</p>
+                                    </div>
+                                ) : (
+                                    filteredFoods.map((food) => (
+                                        <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
+                                            <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
+                                                <div >
+                                                    <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
+                                                    <div className='flex items-center my-1'>
+                                                        <span> <IoMdStar /> </span>{food.rating} .
+                                                        <p className='mx-1 text-gray-800'>20-25 MINS</p>
+                                                    </div>
                                                 </div>
+                                                <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
                                             </div>
-                                            <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
-                                        </div>
-                                        <hr className='mt-3' />
-                                        <div className='px-3 py-3'>
-                                            <div className='flex justify-between'>
-                                                <div>
-                                                    <p className='text-lg font-bold'>{food.name}</p>
-                                                    <p className='flex text-lg'>₹{food.price}</p>
-                                                </div>
+                                            <hr className='mt-3' />
+                                            <div className='px-3 py-3'>
+                                                <div className='flex justify-between'>
+                                                    <div>
+                                                        <p className='text-lg font-bold'>{food.name}</p>
+                                                        <p className='flex text-lg'>₹{food.price}</p>
+                                                    </div>
 
-                                                <div className='relative'>
-                                                    <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
-                                                    <button
-                                                        className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                                        onClick={() => handleCartAction(food)}
-                                                    > Add
-                                                    </button>
+                                                    <div className='relative'>
+                                                        <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
+                                                        <button
+                                                            className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
+                                                            onClick={() => handleCartAction(food)}
+                                                        > Add
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className='py-2'>
-                                              {food.description.split(' ').length > 10 ? (
-                                                <div className='w-full m-w-[200px]'>
-                                                    {expandedDescription[food._id] ? (
-                                                        <p className='text-[14px] text-left'>{food.description}</p>
+                                                <div className='py-2'>
+                                                    {food.description.split(' ').length > 10 ? (
+                                                        <div className='w-full m-w-[200px]'>
+                                                            {expandedDescription[food._id] ? (
+                                                                <p className='text-[14px] text-left'>{food.description}</p>
+                                                            ) : (
+                                                                <p className='text-[14px] text-left'>{food.description.split(' ').slice(0, 10).join(' ') + '... '}
+                                                                    <span className='text-indigo-800 cursor-pointer' onClick={() => toggleDescription(food._id)}>Read more</span>
+                                                                </p>
+                                                            )}
+                                                        </div>
                                                     ) : (
-                                                        <p className='text-[14px] text-left'>{food.description.split(' ').slice(0, 10).join(' ') + '... '}
-                                                            <span className='text-indigo-800 cursor-pointer' onClick={() => toggleDescription(food._id)}>Read more</span>
-                                                        </p>
+                                                        <p className='text-[14px] text-left'>{food.description}</p>
                                                     )}
                                                 </div>
-                                            ) : (
-                                                <p className='text-[14px] text-left'>{food.description}</p>
-                                            )}
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>

@@ -806,3 +806,26 @@ function NavLink({ to, label, activeLink, setActiveLink }) {
                                                             <span className="ml-2">Opt in for No-contact Delivery</span>
                                                         </label>
                                                     </div> */}
+
+
+
+
+
+
+                                                          <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/menu" element={<MenuList />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/otp-verify" element={<OtpVerify />} />
+        <Route path="/food-details/:pincode" element={<FoodDetails />} />
+        <Route path="/food-details/:vendorId" element={<FoodDetails />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/profile" element={<ProtectedRoute element={<Profile />} /> } />
+        {/* <Route path="/profile/orders"  element={<ProtectedRoute element={<Orders />} /> } /> */}
+        {/* <Route path="/cart" element={<ProtectedRoute element={<CartPage />} />} /> */}
+        {/* <Route path="/cart" element={<ProtectedRoute Component={() => (<CartPage />)} />} /> */}
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>

@@ -45,6 +45,8 @@ export interface CustomerPayload {
     _id: string;
     email: string;
     verified: boolean;
+    fullName: string;
+    phone: string;
 }
 
 
@@ -85,4 +87,11 @@ export class CreateDeliveryUserInput {
 
     @Length(4,12)
     pincode: string;
+}
+
+export class Product {
+    name: string;
+    images: string;
+    price: number;
+    quantity: number;
 }

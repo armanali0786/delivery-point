@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import EmptyImage from '../assets/emptycart.png';
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { loadStripe } from '@stripe/stripe-js';
+import { useStripe } from '@stripe/stripe-js';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,6 +21,7 @@ import CheckoutLogin from "./CheckoutLogin";
 import { Link, json, useNavigate } from "react-router-dom";
 import AddressPopup from "../components/AddressPopup";
 import ApplyOfferModel from "../components/ApplyOffer";
+import { CreateOrder } from "../apis/ApiCall";
 
 export default function Checkout() {
 
@@ -33,6 +36,8 @@ export default function Checkout() {
     const [flatNo, setFlatNo] = useState('');
     const [receivedOffersData, setReceivedOffersData] = useState([]);
     const [offerId, setOfferId] = useState('');
+
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -152,24 +157,59 @@ export default function Checkout() {
     }, [offer]);
 
 
+
     const handlePayment = async () => {
-        const payload = {
-            paymentMode: "COD",
-            totalPrice: totalPrice,
-            offerId: receivedOffersData.offerId
-        }
-        const response = await axios.post("http://localhost:8080/customer/create-payment", payload, {
-            headers: {
+        try {
+            const stripe = await loadStripe("pk_test_51PDk1pSGUBw5Yv8ZAtheCvNJhhgZgZswPiorS6fzcOiGqjZR4JqHoIzVKlNQeUdgTGleXTgkrecCV9JzSYlJX1ww0023ZGNRLG");
+    
+            const body = {
+                products: cart
+            };
+    
+            const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
-            },
-        })
-        if (response.status == 200) {
-            toast.success(response.data.message);
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            navigate('/profile');
+            };
+    
+            const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(body),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to create checkout session`);
+            }
+    
+            const session = await response.json();
+    
+            if (!session || !session.sessionId) {
+                throw new Error("Invalid session data received");
+            }
+    
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.sessionId, 
+            });
+
+            if(result) {
+                const payloadData = {
+                    items: cart,
+                    tnxId: session.sessionId,
+                    totalPrice: totalPrice,
+                    CustomerAddress: address,
+                }
+                CreateOrder(payloadData)
+            }
+    
+            if (result.error) {
+                console.error(result.error.message);
+            }
+        } catch (error) {
+            console.error('Error processing payment:', error.message);
         }
-    }
+    };
+    
+    console.log(cart)
 
     return (
         <>

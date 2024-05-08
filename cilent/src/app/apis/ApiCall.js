@@ -27,7 +27,7 @@ const fetchTopFoods = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; 
+        throw error;
     }
 };
 
@@ -43,7 +43,7 @@ const fetchVendors = async (pincode) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; 
+        throw error;
     }
 };
 
@@ -57,7 +57,7 @@ const fetchVendorsById = async (vendorId) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; 
+        throw error;
     }
 };
 
@@ -72,7 +72,7 @@ const fetchRestaurants = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; 
+        throw error;
     }
 };
 
@@ -87,7 +87,7 @@ const fetchFoodInMin = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; 
+        throw error;
     }
 };
 
@@ -103,7 +103,40 @@ const fetchOffersData = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching foods:', error);
-        throw error; 
+        throw error;
+    }
+};
+
+
+const fetchOrderData = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8080/customer/orders`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching foods:', error);
+        throw error;
+    }
+};
+
+
+const CreateOrder = async (payloadData) => {
+    try {
+        const response = await axios.post(`http://localhost:8080/customer/create-order`, 
+        payloadData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching foods:', error);
+        throw error;
     }
 };
 
@@ -115,5 +148,7 @@ export {
     fetchVendorsById,
     fetchFoodInMin,
     fetchTopFoods,
-    fetchOffersData
+    fetchOffersData,
+    fetchOrderData,
+    CreateOrder
 };

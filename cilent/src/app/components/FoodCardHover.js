@@ -36,22 +36,22 @@ export default function FoodCardHover() {
         <>
             <div className="container mx-auto px-8 py-10">
                 <p className='py-5 text-2xl font-bold text-[#222222]'>Foods in 30 Minutes</p>
-                <div className="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
                     {foodInMin && foodInMin.map((food, index) => {
                         const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
                         const descriptionText = removeHtmlTags(food.description);
                         return (
                             <div class="food-card flex-row bg-[#ffffff] cursor-pointer" onClick={() => handleNavigate(food.vendorId)}>
-                                <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[200px] h-30 object-cover' />
+                                <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[150px] h-30 object-cover' />
                                 <div className="flex justify-between items-end my-1">
                                     <p className=" text-lg font-bold text-[#222222]">{food.name}</p>
                                     <p className=" text-sm font-bold text-[#222222]">{food.foodType}</p>
                                 </div>
                                 <div className=" flex justify-between items-end">
-                                    <p className=" text-lg font-medium text-gray-900">₹{food.price}</p>
-                                    <p className=" text-sm text-[#222222]">{food.category}</p>
+                                    <p className=" text-sm font-bold text-gray-900">₹{food.price}</p>
+                                    <p className=" text-sm font-bold text-[#222222]">{food.category}</p>
                                 </div>
-                                <p>
+                                <p className='text-sm'>
                                 {getFirstNWords(descriptionText, numWordsToShow)}....
                                 </p>
                                 <div class="go-corner">

@@ -1,6 +1,7 @@
 import './App.css';
+import "@stripe/stripe-js";
 import Navbar from './app/components/Navbar'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import Login from './app/auth/Login';
 import SignUp from './app/auth/SignUp';
 import Home from './app/pages/Home';
@@ -14,6 +15,11 @@ import Search from './app/pages/Search';
 import ProtectedRoute from './app/components/ProtectedRoute';
 import Checkout from './app/pages/Checkout';
 import Profile from './app/pages/Profile';
+import Orders from './app/pages/Orders';
+import Favourites from './app/pages/Favourites';
+import Payments from './app/pages/Payments';
+import SuccessPayment from './app/pages/SuccessPayment';
+import CancelPayment from './app/pages/CancelPayment';
 function App() {
   return (
     <>
@@ -31,10 +37,14 @@ function App() {
         <Route path="/food-details/:pincode" element={<FoodDetails />} />
         <Route path="/food-details/:vendorId" element={<FoodDetails />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/profile" element={<ProtectedRoute element={<Profile />} /> } />
+        <Route path="/success" element={<SuccessPayment />} />
+        <Route path="/cancel" element={<CancelPayment />} />
 
-        {/* <Route path="/cart" element={<ProtectedRoute element={<CartPage />} />} /> */}
-        {/* <Route path="/cart" element={<ProtectedRoute Component={() => (<CartPage />)} />} /> */}
+        <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
+          <Route path="orders" element={<Orders />} />
+          <Route path="favourites" element={<Favourites />} />
+          <Route path="payments" element={<Payments />} />
+        </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <div className='bottom-0' >

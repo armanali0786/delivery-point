@@ -1,7 +1,6 @@
 import express from 'express';
 
 const router = express.Router();
-
 import { 
     CustomerSignUp,
     CustomerLogin,
@@ -18,7 +17,8 @@ import {
     VerifyOffer,
     CreatePayment,
     AvailableOffers,
-    CustomerLogout
+    CustomerLogout,
+    CreateStripePayment
     } from '../controllers';
     
 import { Authenticate } from '../middlewares';
@@ -68,6 +68,7 @@ router.get('/available-offers',AvailableOffers)
 /** ---------------------Payment------------------------------ **/
 router.post('/create-payment',CreatePayment);
 
+router.post('/create-checkout-session',CreateStripePayment);
 
 /** ---------------------Create Order ------------------------------ **/
 router.post('/create-order', CreateOrder)
