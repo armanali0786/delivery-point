@@ -18,7 +18,12 @@ router.get('/Vendors', GetVendors);
 
 router.get('/Vendor/:id', GetVendorById);
 
+/** --------------------- Get Transactions------------------------------ **/
+
 router.get('/transactions', GetTransactions)
+
+/** --------------------- All Transaction By Id ------------------------------ **/
+
 router.get('/transaction/:id', GetTransactionById)
 
 

@@ -11,6 +11,8 @@ import { Authenticate } from '../middlewares';
 
 import multer  from 'multer';
 
+/** --------------------- Multer ------------------------------ **/
+
 const imageStorage =  multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'images');
@@ -58,20 +60,26 @@ router.post('/food',images, AddFood);
 
 router.get('/foods', GetFoods);
 
-
 /** ---------------------Orders------------------------------ **/
 
 router.get('/orders',GetCurrentOrders);
 
+/** ---------------------ProcessOrder------------------------------ **/
+
 router.put('/order/:id/process',ProcessOrder);
 
+/** ---------------------Order Details------------------------------ **/
 router.get('/order/:id',GetOrderDetails);
 
 
-
+/** ---------------------Get Offers ------------------------------ **/
 router.get('/offers',GetOffers);
 
+/** ---------------------Add Offers ------------------------------ **/
+
 router.post('/offer',AddOffer);
+
+/** ---------------------Edit Offers ------------------------------ **/
 
 router.put('/offer/:id',EditOffer);
 

@@ -1,6 +1,6 @@
 import { cn } from "../../utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { MdLocationOn } from "react-icons/md";
 
@@ -8,11 +8,7 @@ import { MdLocationOn } from "react-icons/md";
 
 export const CardHover = ({restaurants,className}) => {
 
-  const navigate = useNavigate();
-
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
-
   return (
     <div
       className={cn(

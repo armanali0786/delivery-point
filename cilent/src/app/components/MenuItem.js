@@ -1,8 +1,5 @@
 import React from 'react'
-import Manchurain from '../assets/manchurian1.jpeg';
-import { MdLocationOn } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-import NoDataFound from './NoDataFound';
 
 function MenuItem({ foods }) {
 

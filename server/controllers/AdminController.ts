@@ -90,6 +90,8 @@ export const GetVendorById = async (req: Request, res: Response, next: NextFunct
     }
 }
 
+/** ---------------------  GetTransactions ----------------------------- **/
+
 export const GetTransactions = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const transactions = await Transaction.find();
@@ -104,6 +106,8 @@ export const GetTransactions = async (req: Request, res: Response, next: NextFun
     }
 
 }
+
+/** ---------------------  GetTransactions  by Id   ----------------------------- **/
 
 export const GetTransactionById = async (req: Request, res: Response, next: NextFunction) => {
     try {

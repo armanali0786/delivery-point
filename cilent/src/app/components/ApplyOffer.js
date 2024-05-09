@@ -5,11 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export default function ApplyOffer({ isOfferModelOpen, toggleOfferModal,handleApplyData }) {
 
-
   const [offerAmount, setOfferAmount] = useState('');
   const [offersData, setOffersData] = useState([]);
-
-
 
   const handleApplyOffer = async (offerId) => {
     try {

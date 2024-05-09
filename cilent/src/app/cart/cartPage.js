@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -70,7 +70,6 @@ const CartPage = () => {
 
   }
 
-  console.log(cart)
   return (
     <>
       <ToastContainer />

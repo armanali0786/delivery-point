@@ -16,8 +16,6 @@ export default function Orders() {
         fetchOrders();
     }, []);
 
-
-
     const formatDate = (isoDate) => {
         const date = new Date(isoDate);
         const formattedDate = `${padZero(date.getDate())}-${padZero(date.getMonth() + 1)}-${date.getFullYear()}`;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Outlet,useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 export default function Profile() {
     const token = localStorage.getItem('token');
@@ -10,29 +10,29 @@ export default function Profile() {
     };
     return (
         <>
-            <div className="bg-zinc-100 font-sans leading-normal tracking-normal">
+            <div className="bg-slate-100 font-sans leading-normal tracking-normal">
                 <div className="flex h-screen">
 
-                    <div className="bg-[#35728a] text-white w-64 space-y-6 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+                    <div className="bg-[#35728a] text-white w-64 space-y-6 py-4  absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
                         <div className="text-center">
                             <h1 className="text-lg font-medium">{decoded.fullName}</h1>
                             <p>{decoded.phone}</p>
                             <p>{decoded.email}</p>
                         </div>
-                       <nav>
-                            <Link to="/profile/orders" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/orders') ? 'text-black bg-white' : 'text-white hover:text-black hover:text-black'}`}>
+                        <nav>
+                            <Link to="/profile/orders" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/orders') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
                                 <i className="fas fa-box"></i> 📦 Orders
                             </Link>
-                            <Link to="/profile/favourites" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/favourites') ? 'text-black bg-white' : 'text-white hover:text-black hover:text-black'}`}>
+                            <Link to="/profile/favourites" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/favourites') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
                                 <i className="fas fa-star"></i> ❤️ Favourites
                             </Link>
-                            <Link to="/profile/payments" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/payments') ? 'text-black bg-white' : 'text-white hover:text-black hover:text-black'}`}>
+                            <Link to="/profile/payments" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/payments') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
                                 <i className="fas fa-wallet"></i> 💳 Payments
                             </Link>
-                            <Link to="/profile/manage_addresses" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/manage_addresses') ? 'text-black bg-white' : 'text-white hover:text-black hover:text-black'}`}>
+                            <Link to="/profile/manage_addresses" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/manage_addresses') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
                                 <i className="fas fa-map-marker-alt"></i> 📍 Addresses
                             </Link>
-                            <Link to="/profile/super" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/super') ? 'text-black bg-white' : 'text-white hover:text-black hover:text-black'}`}>
+                            <Link to="/profile/super" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/super') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
                                 <i className="fas fa-map-marker-alt"></i> 🍔 Delivery Ones
                             </Link>
                         </nav>

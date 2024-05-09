@@ -51,8 +51,6 @@ router.get('/profile', GetCustomerProfile)
 /** --------------------- Edit Profile ------------------------------ **/
 router.patch('/profile', EditCustomerProfile)
 
-
-
 /** ---------------------Add Cart ------------------------------ **/
 router.post('/cart',AddToCart);
 
@@ -63,12 +61,14 @@ router.get('/cart',GetCart);
 router.delete('/cart',DeleteCart);
 
 
-/** ---------------------Offer------------------------------ **/
+/** ---------------------Verify Offer------------------------------ **/
 router.get('/offer/verify/:id',VerifyOffer); 
+
+/** ---------------------Available Offers------------------------------ **/
 
 router.get('/available-offers',AvailableOffers)
 
-/** ---------------------Payment------------------------------ **/
+/** ---------------------Create Payment------------------------------ **/
 router.post('/create-payment',CreatePayment);
 
 router.post('/create-checkout-session',CreateStripePayment);

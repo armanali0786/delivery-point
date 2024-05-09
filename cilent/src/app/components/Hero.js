@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-// import rectangle_1 from '../assets/Rectangle_1.png';
-// import rectangle_2 from '../assets/Rectangle_2.png'; 
-
 
 const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }) => {
   const [title, setTitle] = useState("We are always here to serve you.");

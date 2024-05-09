@@ -28,7 +28,6 @@ const foods = [
 export default function FoodSlider({ slideToshow }) {
     const sliderRef = useRef(null);
 
-
     const settings = {
         dots: false,
         arrows: false,

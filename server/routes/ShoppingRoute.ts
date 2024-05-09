@@ -31,9 +31,7 @@ router.get('/get-all-foods', getAllFood);
 
 router.get('/get-foods-bycategory', getFoodByCategory);
 
-
 router.get('/get-top-foods', getTopFood);
-
 
 /** --------------------- Food Availiablity ------------------------------ **/
 router.get('/:pincode', GetFoodAvailability);
@@ -46,7 +44,6 @@ router.get('/foods/:vendorId', GetFoodByVendorId);
 /** --------------------- Top Restaurants ------------------------------ **/
 router.get('/top-restaurant/:pincode', GetTopRestaurants);
 
-
 /** --------------------- Food Available in 30 Minutes ------------------------------ **/
 
 router.get('/foods-in-30-min/:pincode', GetFoodsIn30Min);
@@ -56,8 +53,6 @@ router.get('/search/:pincode', SearchFoods);
 
 /* ------------------- Search Offers --------------------- */
 router.get('/offers/:pincode', GetAvailableOffers);
-
-
 
 /** ---------------------Find Restaurent By Id ------------------------------ **/
 router.get('/restaurant/:id', RestaurantById);

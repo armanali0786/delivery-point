@@ -39,8 +39,8 @@ function App() {
         <Navbar />
       </div>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        {/* <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} /> */}
         <Route path="/" element={<Home />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/menu" element={<MenuList />} />

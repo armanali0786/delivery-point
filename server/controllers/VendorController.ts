@@ -199,6 +199,8 @@ export const GetFoods = async (req: Request, res: Response, next: NextFunction) 
     }
 }
 
+/** ---------------------Get Current Orders ------------------------------ **/
+
 export const GetCurrentOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = req.user;
@@ -213,6 +215,8 @@ export const GetCurrentOrders = async (req: Request, res: Response, next: NextFu
     }
 }
 
+/** ---------------------Get Order Details ------------------------------ **/
+
 export const GetOrderDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const orderId = req.params.id;
@@ -226,6 +230,8 @@ export const GetOrderDetails = async (req: Request, res: Response, next: NextFun
         return res.json({ message: 'Order Not found' });
     }
 }
+
+/** -------------------- Process Order ------------------------------ **/
 
 export const ProcessOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -256,6 +262,8 @@ export const ProcessOrder = async (req: Request, res: Response, next: NextFuncti
         return res.json({ message: 'Unable to process order' });
     }
 }
+
+/** -------------------- Get Offers ------------------------------ **/
 
 export const GetOffers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -292,6 +300,8 @@ export const GetOffers = async (req: Request, res: Response, next: NextFunction)
     }
 
 }
+
+/** -------------------- Add Offer ------------------------------ **/
 
 export const AddOffer = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -332,6 +342,8 @@ export const AddOffer = async (req: Request, res: Response, next: NextFunction) 
     }
 
 }
+
+/** -------------------- Edit Offer ------------------------------ **/
 
 export const EditOffer = async (req: Request, res: Response, next: NextFunction) => {
     try {

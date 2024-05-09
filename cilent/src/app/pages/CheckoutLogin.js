@@ -13,9 +13,6 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
 
     const { isLoggedIn, setIsLoggedIn } = useAuth();
 
-    const [isLoginForm, setIsLoginForm] = useState(true); 
-
-
     const [showPassword, setShowPassword] = useState(false);
     const containerRef = useRef(null);
 

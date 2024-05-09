@@ -1,16 +1,14 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MenuItem from '../components/MenuItem';
 import Filter from '../components/Filter';
 import LocationList from '../components/LocationList';
 import FilterIcon from '../assets/filter.svg';
 import FoodSlider from '../components/FoodSlider';
-import { fetchFoods } from '../apis/ApiCall';
 import NoDataFound from '../components/NoDataFound';
 import EmptyImage from '../assets/emptyfood.png';
 
 export default function MenuList() {
-  const [foods, setFoods] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [ratingFilter, setRatingFilter] = useState(false);

@@ -10,6 +10,8 @@ import { STRIPE_SK } from "../config";
 
 const stripe = require('stripe')(STRIPE_SK)
 
+/** --------------------- Create Customer ------------------------------ **/
+
 export const CustomerSignUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customerInputs = plainToClass(CreateCustomerInput, req.body);
@@ -90,6 +92,8 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
 
 }
 
+/** ---------------------  Customer Login ------------------------------ **/
+
 export const CustomerLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customerInputs = plainToClass(UserLoginInput, req.body);
@@ -141,6 +145,8 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
     }
 }
 
+/** ---------------------  Customer Verfiy ------------------------------ **/
+
 export const CustomerVerify = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { otp } = req.body;
@@ -178,6 +184,8 @@ export const CustomerVerify = async (req: Request, res: Response, next: NextFunc
 
 }
 
+/** --------------------- RequestOtp ------------------------------ **/
+
 export const RequestOtp = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -212,6 +220,8 @@ export const RequestOtp = async (req: Request, res: Response, next: NextFunction
 
 }
 
+/** --------------------- Customer Profile------------------------------ **/
+
 export const GetCustomerProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -228,6 +238,8 @@ export const GetCustomerProfile = async (req: Request, res: Response, next: Next
     }
 
 }
+
+/** --------------------- Edit Customer------------------------------ **/
 
 export const EditCustomerProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -265,6 +277,8 @@ export const EditCustomerProfile = async (req: Request, res: Response, next: Nex
         });
     }
 }
+
+/** --------------------- Add To Cart ------------------------------ **/
 
 export const AddToCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -324,6 +338,8 @@ export const AddToCart = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
+/** ---------------------Get Cart Datas ------------------------------ **/
+
 export const GetCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -337,6 +353,8 @@ export const GetCart = async (req: Request, res: Response, next: NextFunction) =
         return res.status(400).json({ message: 'Cart is Empty!' })
     }
 }
+
+/** ---------------------Delete Cart------------------------------ **/
 
 export const DeleteCart = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -354,6 +372,8 @@ export const DeleteCart = async (req: Request, res: Response, next: NextFunction
         return res.status(400).json({ message: 'cart is Already Empty!' })
     }
 }
+
+/** ---------------------Verify Offer------------------------------ **/
 
 export const VerifyOffer = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -382,6 +402,8 @@ export const VerifyOffer = async (req: Request, res: Response, next: NextFunctio
 
 }
 
+/** ---------------------Available Offers------------------------------ **/
+
 export const AvailableOffers = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -409,6 +431,8 @@ export const AvailableOffers = async (req: Request, res: Response, next: NextFun
     }
 
 }
+
+/** ---------------------Create Payment ------------------------------ **/
 
 export const CreatePayment = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -455,43 +479,7 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
 
 }
 
-// export const CreateStripePayment = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const customer = req.user; 
-//         const { products } = req.body; 
-//         console.log(products);
-//         if (customer && products && Array.isArray(products)) {
-//             const lineItems = products.map((product: Product) => ({
-//                 price_data: {
-//                     currency: "inr",
-//                     product_data: {
-//                         name: product.name,
-//                         images: [product.images]
-//                     },
-//                     unit_amount: Math.round(product.price * 100),
-//                 },
-//                 quantity: product.quantity
-//             }));
-//             console.log("Line Items",lineItems)
-//             const session = await stripe.checkout.sessions.create({
-//                 payment_method_types: ["card"],
-//                 mode: "payment",
-//                 line_items: lineItems,
-//                 success_url: "http://localhost:3000/success",
-//                 cancel_url: "http://localhost:3000/cancel"
-//             });
-//             // console.log("Sessions", session)
-
-//             res.json({ txnId: session.id });
-//         } else {
-//             throw new Error("Invalid request data");
-//         }
-//     } catch (error) {
-//         console.error("Error creating checkout session:", error);
-//         res.status(500).json({ message: 'Error while creating transaction' });
-//     }
-// };
-
+/** ---------------------Create Stripe Payment ------------------------------ **/
 
 export const CreateStripePayment = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -529,6 +517,7 @@ export const CreateStripePayment = async (req: Request, res: Response, next: Nex
     }
 };
 
+/** ---------------------validate Transaction ------------------------------ **/
 
 const validateTransaction = async (tnxId: string) => {
     const currentTransaction = await Transaction.findById(tnxId);
@@ -539,6 +528,8 @@ const validateTransaction = async (tnxId: string) => {
     }
     return { status: false, currentTransaction }
 }
+
+/** ---------------------Create Order ------------------------------ **/
 
 export const CreateOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -627,6 +618,8 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
 
 }
 
+/** ---------------------Get Orders Datas ------------------------------ **/
+
 export const GetOrders = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const customer = req.user;
@@ -647,6 +640,8 @@ export const GetOrders = async (req: Request, res: Response, next: NextFunction)
     }
 }
 
+/** ---------------------Get Orders By Id ------------------------------ **/
+
 export const GetOrderById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const orderId = req.params.id;
@@ -664,6 +659,8 @@ export const GetOrderById = async (req: Request, res: Response, next: NextFuncti
 
 }
 
+/** ---------------------Get Favourite Foods ------------------------------ **/
+
 export const getFavouriteFoods = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const foods = await Food.find({ favourite: true });
@@ -680,6 +677,8 @@ export const getFavouriteFoods = async (req: Request, res: Response, next: NextF
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+/** ---------------------Add Favourite Food ------------------------------ **/
 
 export const addFavouriteFood =  async (req: Request, res: Response, next: NextFunction) => {
     const { foodId } = req.body;
@@ -703,7 +702,8 @@ export const addFavouriteFood =  async (req: Request, res: Response, next: NextF
     }
 };
 
-// Remove a food item from favorites
+/** ---------------------Remove Favourite Food ------------------------------ **/
+
 export const removeFavouriteFood = async (req: Request, res: Response, next: NextFunction) => {
     const { foodId } = req.body;
     try {
@@ -727,6 +727,7 @@ export const removeFavouriteFood = async (req: Request, res: Response, next: Nex
     }
 };
 
+/** --------------------- Customer Logout------------------------------ **/
 
 export const CustomerLogout = async (req: Request, res: Response, next: NextFunction) => {
 }

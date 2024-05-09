@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 
 const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
 
-    const [isLoginForm, setIsLoginForm] = useState(true); // State to track current form type (true = login, false = signup)
+    const [isLoginForm, setIsLoginForm] = useState(true); 
 
     const toggleFormType = () => {
         setIsLoginForm(!isLoginForm); // Toggle between login and signup form
@@ -65,12 +65,10 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                     toast.error(validationErrors);
                     setErrors(validationErrors);
                 } else {
-                    // Handle other types of errors
                     setErrors({ server: 'An unexpected error occurred' });
                     console.error('Unexpected error:', error.message);
                 }
             } else {
-                // The request was made but no response was received
                 console.error('Error submitting form:', error.message);
                 setErrors({ server: 'An unexpected error occurred' });
             }

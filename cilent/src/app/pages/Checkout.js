@@ -33,9 +33,6 @@ export default function Checkout() {
     const [isOfferModelOpen, setIsOfferModelOpen] = useState(false);
     const [address, setAddress] = useState({});
     const [receivedOffersData, setReceivedOffersData] = useState([]);
-    const [offerId, setOfferId] = useState('');
-
-
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -48,7 +45,6 @@ export default function Checkout() {
     const toggleOfferModal = () => {
         setIsOfferModelOpen(!isOfferModelOpen);
     };
-
 
     useEffect(() => {
         const deliveryAddress = localStorage.getItem('deliveryAddress');
@@ -134,11 +130,11 @@ export default function Checkout() {
     const handlePayment = async () => {
         try {
             const stripe = await loadStripe(STRIPE_PK);
-    
+
             const body = {
                 products: cart
             };
-    
+
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -152,15 +148,15 @@ export default function Checkout() {
                 throw new Error(`Failed to create checkout session`);
             }
             const session = await response.json();
-    
+
             if (!session || !session.sessionId) {
                 throw new Error("Invalid session data received");
             }
             const result = await stripe.redirectToCheckout({
-                sessionId: session.sessionId, 
+                sessionId: session.sessionId,
             });
 
-            if(result) {
+            if (result) {
                 const payloadData = {
                     items: cart,
                     tnxId: session.sessionId,
@@ -169,7 +165,7 @@ export default function Checkout() {
                 }
                 CreateOrder(payloadData)
             }
-    
+
             if (result.error) {
                 console.error(result.error.message);
             }
@@ -177,7 +173,7 @@ export default function Checkout() {
             console.error('Error processing payment:', error.message);
         }
     };
-    
+
 
     return (
         <>
@@ -325,7 +321,7 @@ export default function Checkout() {
                                                 </div>
                                             </>
                                         ))}
-                                        
+
                                         <div className="mt-4">
                                             <button className="bg-zinc-200 hover:bg-zinc-300 text-zinc-800 font-bold py-2 px-4 rounded inline-flex items-center" onClick={toggleOfferModal}>
                                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7h18M3 12h18m-9 5h9"></path></svg>

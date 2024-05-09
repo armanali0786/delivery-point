@@ -7,11 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartTotal } from "../cart/cartSlice";
 import OffensiveSidbar from './OffensiveSidbar';
 import { useAuth } from '../context/authContext';
-import axios from 'axios';
-// import SearchText from './searchText';
 
 export default function Navbar() {
-    
+
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     const location = useLocation();
     const { cart, totalQuantity } = useSelector((state) => state.allCart);
@@ -35,9 +33,9 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-           const Logout =  localStorage.clear('token');
+            const Logout = localStorage.clear('token');
         } catch (error) {
-          console.error('An error occurred while logging out:', error);
+            console.error('An error occurred while logging out:', error);
         }
     };
 
@@ -154,11 +152,6 @@ export default function Navbar() {
 
                                     </div>
                                 </div>
-
-                                {/* <div className="absolute  bg-slate-200 rounded shadow-md py-2 mt-1 w-40 right-0 top-full z-10">
-                                    <Link to="/profile" className="dropdown-item block px-4 py-2 text-gray-800 hover:bg-indigo-300 cursor-pointer">Profile</Link>
-                                    <a onClick={handleLogout} className="dropdown-item block px-4 py-2 text-gray-800 hover:bg-indigo-300 cursor-pointer" >Logout</a>
-                                </div> */}
                             </div>
                         </div>
                     )}

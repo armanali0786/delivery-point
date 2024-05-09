@@ -5,7 +5,7 @@ import FoodImage from '../../assets/foodImage.avif';
 export default function DeliveryOne() {
     
     return (
-        <body className="bg-gray-200 font-sans leading-normal tracking-normal">
+        <body className="bg-slate-200 font-sans leading-normal tracking-normal">
             <div className="flex">
                 <div className="flex-1 p-8">
                     <h1 className="text-2xl font-bold mb-4">DeliveryPoint One</h1>

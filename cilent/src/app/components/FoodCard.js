@@ -1,6 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react'
-import Sandwich from '../assets/sandwich.jpeg';
-import Manchurain from '../assets/manchurian1.jpeg';
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { fetchTopFoods } from '../apis/ApiCall';
 import CardSlider from 'react-slick';
@@ -17,13 +15,13 @@ export default function FoodCard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const foodsData = await fetchTopFoods(); // Call fetchFoods to get data
+        const foodsData = await fetchTopFoods(); 
         setFoods(foodsData);
-        // setLoading(false); // Set loading to false after data is fetched
+        // setLoading(false); 
       } catch (error) {
         // Handle error if fetchFoods fails
         console.error('Error fetching foods:', error);
-        // setLoading(false); // Set loading to false on error
+        // setLoading(false); 
       }
     };
     fetchData();

@@ -19,6 +19,7 @@ export const GetFoodAvailability = async (req: Request, res: Response, next: Nex
 }
 
 /** ---------------------  All Food Available By VendorId ------------------------------ **/
+
 export const GetFoodByVendorId = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const vendorId = req.params.vendorId;
@@ -144,6 +145,7 @@ export const GetAvailableOffers = async (req: Request, res: Response, next: Next
     }
 }
 
+/** --------------------- Get AllFoods ------------------------------ **/
 
 export const getAllFood = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -162,6 +164,8 @@ export const getAllFood = async (req: Request, res: Response, next: NextFunction
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+/** --------------------- Get Food By Category ------------------------------ **/
 
 export const getFoodByCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -207,6 +211,7 @@ export const getFoodByCategory = async (req: Request, res: Response, next: NextF
     }
 }
 
+/** --------------------- Get get Top Foods ------------------------------ **/
 
 export const getTopFood = async (req: Request, res: Response, next: NextFunction) => {
     try {
