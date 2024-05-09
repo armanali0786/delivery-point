@@ -19,10 +19,12 @@ import { useAuth } from "../context/authContext";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addToWishList, removeWishList, removeWishlist } from '../cart/wishlistSlice';
+import PopupAddToCart from '../components/PopupAddToCart';
 
 export default function FoodDetails() {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
+
+
     // const { vendorId } = useParams();
     const { pincode } = useParams();
 
@@ -33,8 +35,10 @@ export default function FoodDetails() {
     const [expandedDescription, setExpandedDescription] = useState({});
 
     const [selectedFoodId, setSelectedFoodId] = useState(null);
-
-    const [favouriteStatus, setFavouriteStatus] = useState({});
+    const [showPopup, setShowPopup] = useState(false);
+    const [favouriteStatus, setFavouriteStatus] = useState(() => {
+        return JSON.parse(localStorage.getItem('favouriteStatus')) || {};
+    });
 
     const toggleModal = (foodId) => {
         setSelectedFoodId(foodId === selectedFoodId ? null : foodId);
@@ -63,6 +67,10 @@ export default function FoodDetails() {
         if (item.inCart) {
             dispatch(removeItem(item.id));
         } else {
+            setShowPopup(true);
+            setTimeout(() => {
+                setShowPopup(false);
+            }, 3000);
             const vendorInfo = {
                 vendorName: vendor[0].name,
                 vendorAddress: vendor[0].address,
@@ -72,36 +80,6 @@ export default function FoodDetails() {
             dispatch(addToCart({ ...item, vendorInfo, quantity: 1 }));
         }
     };
-
-    // const handleCartAction = async (item) => {
-    //     if (item.inCart) {
-    //         dispatch(removeItem(item.id));
-    //     }
-    //     try {
-    //         const payload = {
-    //             _id: item._id,
-    //             unit: 1
-    //         }
-    //         const response = await axios.post('http://localhost:8080/customer/cart', payload, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`,
-    //             }
-    //         });
-    //         // Check the response from the API
-    //         if (response.status === 200) {
-    //             dispatch(addToCart({ ...item, quantity: 1 }));
-    //             toast.success(response.data.message);
-    //         } else {
-    //             console.error('Failed to add item to cart. Server responded with error.');
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-
-    //     dispatch(addToCart({ ...item, quantity: 1 }));
-    // };
-
 
     useEffect(() => {
         const fetchVendorsData = async () => {
@@ -133,11 +111,12 @@ export default function FoodDetails() {
                 price: food.price,
                 readyTime: food.readyTime,
                 description: food.description,
-                _id: food._id
+                _id: food._id,
+                favourite: food.favourite
             };
         });
     });
-    // Assuming vendorData is already defined as per your mapping logic
+
     const vendorData = vendor.map(vendor => {
         return {
             name: vendor.name,
@@ -179,20 +158,28 @@ export default function FoodDetails() {
     const goToPrev = () => sliderRef.current?.slickPrev();
 
 
-    const addToWishHandler = (food) => {
-        if (isLoggedIn) {
-            if (favouriteStatus[food._id]) {
-                dispatch(removeWishlist(food)); // Dispatch Redux action to remove from wishlist
-                setFavouriteStatus({ ...favouriteStatus, [food._id]: false }); // Update favourite status to false
-            } else {
-                dispatch(addToWishList(food)); // Dispatch Redux action to add to wishlist
-                setFavouriteStatus({ ...favouriteStatus, [food._id]: true }); // Update favourite status to true
+    const handleFavourite = async (foodId) => {
+        try {
+            const isCurrentlyFavourite = favouriteStatus[foodId] || false;
+            const newFavouriteStatus = !isCurrentlyFavourite;
+
+            const endpoint = newFavouriteStatus ? 'remove-favourite' : 'add-favourite';
+            const response = await axios.post(`http://localhost:8080/customer/${endpoint}`,
+                { foodId: foodId },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (response.status === 200) {
+                setFavouriteStatus({ ...favouriteStatus, [foodId]: newFavouriteStatus });
+                localStorage.setItem('favouriteStatus', JSON.stringify({ ...favouriteStatus, [foodId]: newFavouriteStatus }));
             }
-        } else {
-            toast.error('Please Login to add to wishlist');
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
         }
     };
-
 
     return (
         <>
@@ -306,8 +293,6 @@ export default function FoodDetails() {
                                                 <span className='text-blue-800 text-md font-semibold px-1 py-0.5 rounded'>{food.rating} (10k + rating),</span>
                                             </div>
                                         </div>
-
-                                        {/* <p className='text-[16px]'>{food.description}</p> */}
                                         {food.description.split(' ').length > 20 ? (
                                             <div className='md:w-[524px] sm:w-[300px]'>
                                                 {expandedDescription[food._id] ? (
@@ -324,7 +309,10 @@ export default function FoodDetails() {
 
                                     </div>
                                     <div className='flex-end my-2 relative'>
-                                        <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'text-[#ED3535]' : 'bg-black text-white'} bg-black p-1 rounded-lg text-start`} onClick={() => addToWishHandler(food)}><span><FaHeart /></span></button>
+                                        <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'bg-black text-white' : 'text-[#ED3535]'} bg-black p-1 rounded-lg text-start`}
+                                            onClick={() => handleFavourite(food._id)}>
+                                            <span><FaHeart /></span>
+                                        </button>
                                         <img src={`http://localhost:8080/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
                                         <button
                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
@@ -415,6 +403,10 @@ export default function FoodDetails() {
                         <p><Loading /></p>
                     )}
                 </div>
+                {showPopup &&
+                    <PopupAddToCart
+
+                    />}
             </div>
         </>
     );

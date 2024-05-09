@@ -31,9 +31,7 @@ export default function Checkout() {
     const [buttonShow, setButtonShow] = useState(true);
     const [isAddressOpen, setIsAddressOpen] = useState(false);
     const [isOfferModelOpen, setIsOfferModelOpen] = useState(false);
-    const [address, setAddress] = useState();
-    const [addressType, setAddressType] = useState('');
-    const [flatNo, setFlatNo] = useState('');
+    const [address, setAddress] = useState({});
     const [receivedOffersData, setReceivedOffersData] = useState([]);
     const [offerId, setOfferId] = useState('');
 
@@ -51,23 +49,20 @@ export default function Checkout() {
         setIsOfferModelOpen(!isOfferModelOpen);
     };
 
-    const deliveryAddress = localStorage.getItem('deliveryAddress');
 
     useEffect(() => {
+        const deliveryAddress = localStorage.getItem('deliveryAddress');
         if (deliveryAddress) {
             try {
-                const parsedAddress = JSON.parse(deliveryAddress);
-                setAddress(parsedAddress.address);
-                setFlatNo(parsedAddress.flatNo);
-                setAddressType(parsedAddress.addressType);
+                const parseAddress = JSON.parse(deliveryAddress);
+                setAddress(parseAddress);
             } catch (error) {
-                console.error("Error parsing delivery address:", error);
+                console.error('Error parsing Address items:', error);
             }
         } else {
-            console.log("No delivery address found in localStorage");
+            console.log('No Address found in localStorage');
         }
-    }, [deliveryAddress])
-
+    }, []);
 
     const handleLoginClick = () => {
         setShowLoginForm(true);
@@ -203,7 +198,6 @@ export default function Checkout() {
         }
     };
     
-    console.log(cart)
 
     return (
         <>
@@ -293,7 +287,7 @@ export default function Checkout() {
                                                 <div className="w-full sm:w-1/2 p-2">
                                                     <div className="p-4 bg-white rounded-lg border border-zinc-200">
                                                         <h3 className="text-gray-900 font-bold">Add New Address</h3>
-                                                        <p className="text-sm text-gray-500">{address},{flatNo}, {addressType}</p>
+                                                        <p className="text-sm text-gray-500">{address.address},{address.flatNo},{address.addressType}</p>
                                                         <button onClick={toggleAddressModal} className="mt-3 border-2 border-[#4a9932] !text-[#4a9932] text-white font-medium py-2 px-4 rounded" >
                                                             ADD NEW</button>
                                                     </div>
@@ -307,7 +301,7 @@ export default function Checkout() {
                                 <div className="mb-4">
                                     <div className="p-4 bg-white rounded-lg shadow-md">
                                         <p className="text-black font-bold text-xl">Payment ✅</p>
-                                        {isLoggedIn && deliveryAddress && (
+                                        {isLoggedIn && address && (
                                             <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]' onClick={handlePayment}>Procced to Payment</button>
                                         )}
                                     </div>
@@ -318,7 +312,7 @@ export default function Checkout() {
                             <div className="w-full md:w-2/5 px-2">
                                 <div className="mb-4">
                                     <div className="p-4 bg-white rounded-lg shadow-md">
-                                        <div className="flex cursor-pointer" onClick={() => handleNavigate(vendorDetails[0].vendorId)}>
+                                        <div className="flex cursor-pointer" onClick={() => handleNavigate(vendorDetails[0]?.vendorId)}>
                                             <div className="mr-5">
                                                 <img src={`http://localhost:8080/images/${vendorDetails[0]?.vendorRestroImage}`} alt="Restro Image" className="w-16 h-16" />
                                             </div>

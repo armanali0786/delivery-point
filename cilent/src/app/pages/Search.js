@@ -103,12 +103,11 @@ export default function Search() {
     };
 
     const handleSearch = (foodName) => {
-        console.log(foodName)
         if (foodName.trim() !== '') {
             navigate(`/search?query=${encodeURIComponent(foodName.trim())}`);
         }
     };
-    
+
     const handleSearchButton = (foodName) => {
         if (foodName.trim() !== '') {
             navigate(`/search?query=${encodeURIComponent(foodName.trim())}`);
@@ -130,9 +129,19 @@ export default function Search() {
             [foodId]: !prev[foodId]
         }));
     };
+
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);
     }
+    
+    const removeHtmlTags = (html) => {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    };
+    const getFirstNWords = (text, n) => {
+        const words = text.split(" ");
+        return words.slice(0, n).join(" ");
+    };
 
     return (
         <>
@@ -175,54 +184,49 @@ export default function Search() {
                                         <p>No Food found.</p>
                                     </div>
                                 ) : (
-                                    filteredFoods.map((food) => (
-                                        <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
-                                            <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
-                                                <div >
-                                                    <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
-                                                    <div className='flex items-center my-1'>
-                                                        <span> <IoMdStar /> </span>{food.rating} .
-                                                        <p className='mx-1 text-gray-800'>20-25 MINS</p>
-                                                    </div>
-                                                </div>
-                                                <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
-                                            </div>
-                                            <hr className='mt-3' />
-                                            <div className='px-3 py-3'>
-                                                <div className='flex justify-between'>
-                                                    <div>
-                                                        <p className='text-lg font-bold'>{food.name}</p>
-                                                        <p className='flex text-lg'>₹{food.price}</p>
-                                                    </div>
+                                    // filteredFoods.map((food) => (
 
-                                                    <div className='relative'>
-                                                        <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
-                                                        <button
-                                                            className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                                            onClick={() => handleCartAction(food)}
-                                                        > Add
-                                                        </button>
+                                    filteredFoods.map((food, index) => {
+                                        const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
+                                        const descriptionText = removeHtmlTags(food.description);
+                                        return (
+                                            <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
+                                                <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
+                                                    <div >
+                                                        <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
+                                                        <div className='flex items-center my-1'>
+                                                            <span> <IoMdStar /> </span>{food.rating} .
+                                                            <p className='mx-1 text-gray-800'>20-25 MINS</p>
+                                                        </div>
+                                                    </div>
+                                                    <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
+                                                </div>
+                                                <hr className='mt-3' />
+                                                <div className='px-3 py-3'>
+                                                    <div className='flex justify-between'>
+                                                        <div>
+                                                            <p className='text-lg font-bold'>{food.name}</p>
+                                                            <p className='flex text-lg'>₹{food.price}</p>
+                                                        </div>
+
+                                                        <div className='relative'>
+                                                            <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
+                                                            <button
+                                                                className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
+                                                                onClick={() => handleCartAction(food)}
+                                                            > Add
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div className='py-2'>
+                                                            <p className='text-[14px] text-left'>{getFirstNWords(descriptionText, numWordsToShow)}....</p>
                                                     </div>
                                                 </div>
-                                                <div className='py-2'>
-                                                    {food.description.split(' ').length > 10 ? (
-                                                        <div className='w-full m-w-[200px]'>
-                                                            {expandedDescription[food._id] ? (
-                                                                <p className='text-[14px] text-left'>{food.description}</p>
-                                                            ) : (
-                                                                <p className='text-[14px] text-left'>{food.description.split(' ').slice(0, 10).join(' ') + '... '}
-                                                                    <span className='text-indigo-800 cursor-pointer' onClick={() => toggleDescription(food._id)}>Read more</span>
-                                                                </p>
-                                                            )}
-                                                        </div>
-                                                    ) : (
-                                                        <p className='text-[14px] text-left'>{food.description}</p>
-                                                    )}
-                                                </div>
                                             </div>
-                                        </div>
-                                    ))
-                                )}
+                                            //     ))
+                                            // )}
+                                        );
+                                    }))}
                             </div>
                         </div>
                     </div>

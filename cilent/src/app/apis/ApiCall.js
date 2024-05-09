@@ -126,8 +126,8 @@ const fetchOrderData = async () => {
 
 const CreateOrder = async (payloadData) => {
     try {
-        const response = await axios.post(`http://localhost:8080/customer/create-order`, 
-        payloadData, {
+        const response = await axios.post(`http://localhost:8080/customer/create-order`,
+            payloadData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -141,6 +141,25 @@ const CreateOrder = async (payloadData) => {
 };
 
 
+const getFavouriteFoods = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8080/customer/get-favourites`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+        return response;
+    } catch (error) {
+        console.error('Error fetching foods:', error);
+        throw error;
+    }
+};
+
+
+
+
 export {
     fetchFoods,
     fetchVendors,
@@ -150,5 +169,6 @@ export {
     fetchTopFoods,
     fetchOffersData,
     fetchOrderData,
-    CreateOrder
+    CreateOrder,
+    getFavouriteFoods,
 };

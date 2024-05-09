@@ -18,7 +18,10 @@ import {
     CreatePayment,
     AvailableOffers,
     CustomerLogout,
-    CreateStripePayment
+    CreateStripePayment,
+    getFavouriteFoods,
+    addFavouriteFood,
+    removeFavouriteFood
     } from '../controllers';
     
 import { Authenticate } from '../middlewares';
@@ -35,12 +38,12 @@ router.post('/customer_logout', CustomerLogout)
 
 //Authentication
 router.use(Authenticate);
+
 /** --------------------- verify Customer Account ------------------------------ **/
 router.patch('/verify',CustomerVerify )
 
 /** --------------------- OTP / Requesting OTP ------------------------------ **/
 router.get('/otp', RequestOtp)
-
 
 /** --------------------- Profile ------------------------------ **/
 router.get('/profile', GetCustomerProfile)
@@ -79,8 +82,15 @@ router.get('/orders', GetOrders)
 /** ---------------------View Order By Id ------------------------------ **/
 router.get('/order/:id', GetOrderById)
 
+/** --------------------- Get Favourite Foods------------------------------- **/
+router.get('/get-favourites', getFavouriteFoods);
 
+/** --------------------- Add Favourite------------------------------- **/
 
+router.post('/add-favourite', addFavouriteFood);
 
+/** --------------------- Remove Favourite------------------------------ **/
+
+router.post('/remove-favourite', removeFavouriteFood);
 
 export {router as CustomerRoute} ; 

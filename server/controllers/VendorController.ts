@@ -149,7 +149,7 @@ export const AddFood = async (req: Request, res: Response, next: NextFunction) =
     try {
         const user = req.user;
         if (user) {
-            const { name, description, category, foodType, readyTime, price, featured } = <CreateFoodInput>req.body;
+            const { name, description, category, foodType, readyTime, price, featured, brandName, favourite } = <CreateFoodInput>req.body;
             const Vendor = await FindVendor(user._id)
             if (Vendor != null) {
 
@@ -167,7 +167,9 @@ export const AddFood = async (req: Request, res: Response, next: NextFunction) =
                     readyTime: readyTime,
                     foodType: foodType,
                     images: images,
-                    featured: featured
+                    featured: featured,
+                    favourite: favourite,
+                    brandName: brandName
                 })
                 Vendor.foods.push(createFood);
                 const result = await Vendor.save();

@@ -664,5 +664,71 @@ export const GetOrderById = async (req: Request, res: Response, next: NextFuncti
 
 }
 
+export const getFavouriteFoods = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const foods = await Food.find({ favourite: true });
+        if (foods) {
+            return res.status(200).json(foods);
+        } else {
+            return res.status(400).json({
+                status: 400,
+                message: 'No food found'
+            })
+        }
+    } catch (error) {
+        console.error('Error fetching food data:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+export const addFavouriteFood =  async (req: Request, res: Response, next: NextFunction) => {
+    const { foodId } = req.body;
+    try {
+        const food = await Food.findById(foodId);
+        if (!food) {
+            return res.status(404).json({
+                status: 404,
+                message: 'Food not found'
+            });
+        }
+        food.favourite = true;
+        await food.save();
+        return res.status(200).json({
+            message:"Food Added to Favorite",
+            food
+        });
+    } catch (error) {
+        console.error('Error adding food to favorites:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+// Remove a food item from favorites
+export const removeFavouriteFood = async (req: Request, res: Response, next: NextFunction) => {
+    const { foodId } = req.body;
+    try {
+        const food = await Food.findById(foodId);
+        if (!food) {
+            return res.status(404).json({
+                status: 404,
+                message: 'Food not found'
+            });
+        }
+
+        food.favourite = false;
+        await food.save();
+        return res.status(200).json({
+            message:"Food remove from Favorite",
+            food
+        });
+    } catch (error) {
+        console.error('Error removing food from favorites:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
 export const CustomerLogout = async (req: Request, res: Response, next: NextFunction) => {
 }
+
+

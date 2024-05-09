@@ -1,25 +1,19 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { getFavouriteFoods } from '../../apis/ApiCall';
 
 export default function Favourites() {
 
   const navigate = useNavigate();
-
-  const [wishlistItems, setWishlistItems] = useState([]);
-
+  const [favoriteFoods, setFavoriteFoods] = useState([]);
   useEffect(() => {
-    const storedWishlistItems = localStorage.getItem('wishlistItems');
-    if (storedWishlistItems) {
-      try {
-        const parsedWishlistItems = JSON.parse(storedWishlistItems);
-        setWishlistItems(parsedWishlistItems);
-      } catch (error) {
-        console.error('Error parsing wishlist items:', error);
-      }
-    } else {
-      console.log('No wishlist items found in localStorage');
+    const fetchFavourites = async () => {
+      const response = await getFavouriteFoods();
+      setFavoriteFoods(response.data);
     }
+    fetchFavourites();
   }, []);
 
   const removeHtmlTags = (html) => {
@@ -31,16 +25,18 @@ export default function Favourites() {
     return words.slice(0, n).join(" ");
   };
 
-const NavigateFoodDetails = (vendorId) => {
+  const NavigateFoodDetails = (vendorId) => {
     navigate(`/food-details/${vendorId}`);
-}
+  }
+
+
   return (
     <div className="dark:bg-zinc-800">
       <div className="container mx-auto px-4">
         <h1 className="text-2xl font-bold text-zinc-800 dark:text-white">Favorites</h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-5">Find your saved items and get ready to order them.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {wishlistItems && wishlistItems.map((food, index) => {
+          {favoriteFoods && favoriteFoods.map((food, index) => {
             const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
             const descriptionText = removeHtmlTags(food.description);
             return (

@@ -829,3 +829,34 @@ function NavLink({ to, label, activeLink, setActiveLink }) {
         {/* <Route path="/cart" element={<ProtectedRoute Component={() => (<CartPage />)} />} /> */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+
+
+
+          // const handleCartAction = async (item) => {
+    //     if (item.inCart) {
+    //         dispatch(removeItem(item.id));
+    //     }
+    //     try {
+    //         const payload = {
+    //             _id: item._id,
+    //             unit: 1
+    //         }
+    //         const response = await axios.post('http://localhost:8080/customer/cart', payload, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`,
+    //             }
+    //         });
+    //         // Check the response from the API
+    //         if (response.status === 200) {
+    //             dispatch(addToCart({ ...item, quantity: 1 }));
+    //             toast.success(response.data.message);
+    //         } else {
+    //             console.error('Failed to add item to cart. Server responded with error.');
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+
+    //     dispatch(addToCart({ ...item, quantity: 1 }));
+    // };

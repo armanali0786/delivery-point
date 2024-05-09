@@ -1,10 +1,9 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cart: [],
+  cart: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
   items: [],
-  vendor:[],
+  vendor: [],
   totalQuantity: 0,
   totalPrice: 0,
 };
@@ -12,86 +11,74 @@ const initialState = {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  vendorName:"",
-  vendorAddress: "",
   reducers: {
     addToCart: (state, action) => {
-      let find = state.cart.findIndex((item) => item._id === action.payload._id);
-      if (find >= 0) {
-        state.cart[find].quantity += 1;
+      const findIndex = state.cart.findIndex((item) => item._id === action.payload._id);
+      if (findIndex >= 0) {
+        state.cart[findIndex].quantity += 1;
       } else {
         state.cart.push(action.payload);
       }
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
 
     getCartTotal: (state) => {
-      let { totalQuantity, totalPrice } = state.cart.reduce(
-        (cartTotal, cartItem) => {
+      let totalQuantity = 0;
+      let totalPrice = 0;
+
+      state.cart.forEach((cartItem) => {
+        if (cartItem && cartItem.price && cartItem.quantity) {
           const { price, quantity } = cartItem;
           const itemTotal = price * quantity;
-          cartTotal.totalPrice += itemTotal;
-          cartTotal.totalQuantity += quantity;
-          return cartTotal;
-        },
-        {
-          totalPrice: 0,
-          totalQuantity: 0,
+          totalPrice += itemTotal;
+          totalQuantity += quantity;
         }
-      );
-      state.totalPrice = parseInt(totalPrice.toFixed(2));
+      });
+
+      state.totalPrice = parseFloat(totalPrice.toFixed(2));
       state.totalQuantity = totalQuantity;
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
 
     removeItem: (state, action) => {
-      state.cart = state.cart.filter((item) => item._id !== action.payload);
+      const updatedCart = state.cart.filter((item) => item._id !== action.payload);
+      state.cart = updatedCart;
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
+
     increaseItemQuantity: (state, action) => {
       state.cart = state.cart.map((item) => {
         if (item._id === action.payload) {
-          return { ...item, quantity: item.quantity + 1 };
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
         }
         return item;
       });
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
-    // decreaseItemQuantity: (state, action) => {
-    //   state.cart = state.cart.map((item) => {
-    //     if (item._id === action.payload) {
-    //       if(item.quantity <= 0){
-           
-    //         state.cart = state.cart.filter((item) => item._id !== action.payload);
-    //       }
-    //       return { ...item, quantity: item.quantity - 1 };
-    //     }
-    //     return item;
-    //   });
-    // },
+
     decreaseItemQuantity: (state, action) => {
-      // Use map to create a new array of cart items
       const updatedCart = state.cart.map((item) => {
-        // Find the item in the cart that matches the action payload (item _id)
         if (item._id === action.payload) {
-          // Decrease the quantity by 1
           const updatedItem = { ...item, quantity: item.quantity - 1 };
-    
-          // Check if the updated quantity is zero or less
           if (updatedItem.quantity <= 0) {
-            // If quantity is zero or negative, filter it out from the cart
-            return null; // Return null to remove this item from the cart
+            return null;
           }
-    
-          // Return the updated item with decreased quantity
           return updatedItem;
         }
-        // If the item doesn't match the action payload, return it unchanged
         return item;
-      });
-      // Filter out any null values (items with quantity <= 0) from the updated cart
-      state.cart = updatedCart.filter((item) => item !== null);
+      }).filter((item) => item !== null);
+
+      state.cart = updatedCart;
+      localStorage.setItem("cartItems", JSON.stringify(state.cart));
     },
+
     setItems: (state, action) => {
       state.items = action.payload;
       state.vendorName = action.vendorName;
-      state.vendorName = action.vendorAddress;
+      state.vendorAddress = action.vendorAddress;
       state.vendorCoverImages = action.coverImages;
       state.vendorId = action.vendorId;
     },

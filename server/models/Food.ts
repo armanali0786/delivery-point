@@ -12,6 +12,8 @@ export interface FoodDoc extends Document {
     rating: number;
     images: [string];
     featured: boolean;
+    favourite: boolean;
+    brandName: string;
 }
 
 /** --------------------- Food Schema----------------------------- **/
@@ -27,7 +29,9 @@ const FoodSchema = new Schema({
     price: {type: Number},
     rating: {type: Number},
     images: {type: [String]},
-    featured:{type: Boolean}
+    featured:{type: Boolean},
+    favourite: {type: Boolean},
+    brandName: {type: String}
 
 },{
     toJSON: {

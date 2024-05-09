@@ -8,4 +8,6 @@ export interface CreateFoodInput {
     readyTime: string;
     price: number;
     featured: boolean;
+    favourite: boolean;
+    brandName: string;
 }
