@@ -34,8 +34,8 @@ export default function FoodCardHover() {
 
     return (
         <>
-            <div className="container mx-auto px-8 py-10">
-                <p className='py-5 text-2xl font-bold text-[#222222]'>Foods in 30 Minutes</p>
+            <div className="container mx-auto py-10">
+                <p className='py-5 px-4 text-2xl font-bold text-[#222222]'>Foods in 30 Minutes</p>
                 <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
                     {foodInMin && foodInMin.map((food, index) => {
                         const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;

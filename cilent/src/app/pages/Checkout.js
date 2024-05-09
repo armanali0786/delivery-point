@@ -97,26 +97,6 @@ export default function Checkout() {
         dispatch(getCartTotal());
     }, [cart]);
 
-    // const [cartItems, setCartItems] = useState([]);
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get("http://localhost:8080/customer/cart", {
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'Authorization': `Bearer ${token}`,
-    //                 }
-    //             });
-    //             const cartItemsData = response.data; // Array of cart items
-    //             setCartItems(cartItemsData)
-    //             console.log(cartItemsData)
-    //         } catch (error) {
-    //             console.error('Error fetching cart items:', error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, [dispatch, token]);
-
     const vendorDetails = cart.map(item => {
         const vendor = item.vendorInfo;
         return {
@@ -203,7 +183,7 @@ export default function Checkout() {
         <>
             <ToastContainer />
             {isEmpty ? (
-                <div className="max-h-[600px] flex justify-center bg-slate-100">
+                <div className="min-h-screen flex justify-center bg-slate-100">
                     <div className="text-center">
                         <div className="ml-10 mb-2">
                             <img src={EmptyImage} alt="Empty Cart" />
@@ -345,20 +325,7 @@ export default function Checkout() {
                                                 </div>
                                             </>
                                         ))}
-                                        {/* <div className="mt-4">
-                                            <div className="flex border border-zinc-300 max-w-full overflow-hidden">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Enter coupon code"
-                                                    className="p-2 flex-grow outline-none"
-                                                    value={promocode}
-                                                    onChange={(e) => setPromocode(e.target.value)}
-                                                />
-                                                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4" onClick={handleApplyOffer}>
-                                                    APPLY
-                                                </button>
-                                            </div>
-                                        </div> */}
+                                        
                                         <div className="mt-4">
                                             <button className="bg-zinc-200 hover:bg-zinc-300 text-zinc-800 font-bold py-2 px-4 rounded inline-flex items-center" onClick={toggleOfferModal}>
                                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7h18M3 12h18m-9 5h9"></path></svg>

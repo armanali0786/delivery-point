@@ -185,7 +185,6 @@ export default function Search() {
                                     </div>
                                 ) : (
                                     // filteredFoods.map((food) => (
-
                                     filteredFoods.map((food, index) => {
                                         const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
                                         const descriptionText = removeHtmlTags(food.description);

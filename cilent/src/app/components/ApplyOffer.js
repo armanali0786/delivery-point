@@ -26,7 +26,7 @@ export default function ApplyOffer({ isOfferModelOpen, toggleOfferModal,handleAp
       if (response.status === 200) {
         setOfferAmount(response.data.offer);
         handleApplyData(response.data.offer);
-        toast.success(response.data.message);
+        toggleOfferModal();
       }
     } catch (error) {
       if (error.response) {
@@ -38,7 +38,6 @@ export default function ApplyOffer({ isOfferModelOpen, toggleOfferModal,handleAp
         console.error('Error setting up request:', error.message);
       }
     }
-    toggleOfferModal();
   };
 
   useEffect(() => {

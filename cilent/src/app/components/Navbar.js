@@ -64,13 +64,13 @@ export default function Navbar() {
                         {/* <NavLink to="/check" label="Check" activeLink={activeLink} setActiveLink={setActiveLink} /> */}
 
                         {/* <SearchText searchText={searchText} setSearchText={setSearchText}/> */}
-                        <button type="submit" class="flex p-1.5 ms-2 text-sm font-medium text-gray-900 hover:text-[#5B63B7]"
+                        <button type="submit" class="group flex p-1.5 ms-2 text-sm font-medium text-gray-900 hover:text-[#5B63B7]"
                             onClick={handleNavigateSearch} activeLink={activeLink} setActiveLink={setActiveLink}
                         >
                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
-                            <span className='flex justify-center items-center mx-2 text-gray-900 font-medium '>Search</span>
+                            <span className='flex justify-center items-center mx-2 text-gray-900 font-medium group-hover:text-[#5B63B7]'>Search</span>
                         </button>
 
                     </nav>

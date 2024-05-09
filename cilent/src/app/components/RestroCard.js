@@ -18,8 +18,8 @@ export  default function RestroCard() {
   }, []);
 
   return (
-    <div className="container mx-auto px-8 py-10">
-      <p className='py-5 text-2xl font-bold text-[#222222]'>Top Restaurant at your Location</p>
+    <div className="container mx-auto py-10">
+      <p className='py-5 px-4 text-2xl font-bold text-[#222222]'>Top Restaurant at your Location</p>
       <CardHover restaurants={restaurants} />
     </div>
   );

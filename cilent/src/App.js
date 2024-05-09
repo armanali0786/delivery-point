@@ -1,7 +1,7 @@
 import './App.css';
 import "@stripe/stripe-js";
 import Navbar from './app/components/Navbar'
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import Login from './app/auth/Login';
 import SignUp from './app/auth/SignUp';
 import Home from './app/pages/Home';
@@ -23,6 +23,16 @@ import SuccessPayment from './app/pages/SuccessPayment';
 import CancelPayment from './app/pages/CancelPayment';
 import DeliveryOne from './app/pages/Profile/DeliveryOne';
 function App() {
+  const location = useLocation();
+
+  const shouldDisplayFooter = () => {
+    const { pathname } = location;
+    return !(pathname.includes('/profile')
+      || pathname.includes('/food-details') ||
+      pathname.includes('/checkout')
+    );
+  };
+
   return (
     <>
       <div className="sticky w-full top-0 " style={{ zIndex: "999" }}>
@@ -39,9 +49,8 @@ function App() {
         <Route path="/food-details/:pincode" element={<FoodDetails />} />
         <Route path="/food-details/:vendorId" element={<FoodDetails />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/success" element={<SuccessPayment />} />
-        <Route path="/cancel" element={<CancelPayment />} />
-
+        <Route path="/payment/success" element={<SuccessPayment />} />
+        <Route path="/payment/cancel" element={<CancelPayment />} />
         <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
           <Route path="orders" element={<Orders />} />
           <Route path="favourites" element={<Favourites />} />
@@ -51,9 +60,11 @@ function App() {
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <div className='bottom-0' >
-        <Footer />
-      </div>
+      {shouldDisplayFooter() && (
+        <div className='bottom-0'>
+          <Footer />
+        </div>
+      )}
     </>
   );
 }
