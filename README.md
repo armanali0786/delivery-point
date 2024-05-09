@@ -67,6 +67,10 @@ Future Enhancements:
 
 ![Screenshot from 2024-05-04 15-28-32](https://github.com/armanali0786/delivery-point/assets/76746226/8f47c0b8-d052-46b7-b7f7-ac7dfb617eb3)
 
+![SearchScreen](https://github.com/armanali0786/delivery-point/assets/76746226/e6121568-fb52-4003-8837-fa1c57fb87ee)
+
+![SearchData](https://github.com/armanali0786/delivery-point/assets/76746226/6ba20121-8009-4266-ba87-4994e2d4ef4e)
+
 ![checkoutlogin](https://github.com/armanali0786/delivery-point/assets/76746226/cd3d62bf-ea85-451c-9c10-06b541c8e67f)
 
 ![checkoutsignup](https://github.com/armanali0786/delivery-point/assets/76746226/d17eda58-6646-4da6-b13a-f2a861c4a007)
@@ -91,9 +95,7 @@ Future Enhancements:
 
 ![profile5](https://github.com/armanali0786/delivery-point/assets/76746226/f2705dcf-055b-4e41-9873-a5a134a943f0)
 
-![SearchScreen](https://github.com/armanali0786/delivery-point/assets/76746226/e6121568-fb52-4003-8837-fa1c57fb87ee)
 
-![SearchData](https://github.com/armanali0786/delivery-point/assets/76746226/6ba20121-8009-4266-ba87-4994e2d4ef4e)
 
 ![SignUpScreen](https://github.com/armanali0786/delivery-point/assets/76746226/cd8b488a-5e5e-4e25-a715-1d0eec14e181)
 
