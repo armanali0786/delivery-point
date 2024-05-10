@@ -12,3 +12,8 @@
  body {
   font-family: 'Roboto', sans-serif !important;
 }
+
+/* styles.css (or your preferred CSS file) */
+.body-no-scroll {
+  overflow: hidden;
+}

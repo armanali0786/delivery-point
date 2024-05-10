@@ -60,8 +60,8 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
             }
         } catch (error) {
             if (error.response) {
-                if (error.response.status === 400) {
-                    const validationErrors = error.response.data.msg;
+                if (error.response.status === 400 || error.response.status === 404 || error.response.status === 409 || error.response.status === 401) {
+                    const validationErrors = error.response.data.message;
                     toast.error(validationErrors);
                     setErrors(validationErrors);
                 } else {
@@ -95,12 +95,22 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
         };
     }, [isOpen, toggleOffcanvas]);
 
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('body-no-scroll');
+        } else {
+            document.body.classList.remove('body-no-scroll');
+        }
+    }, [isOpen]);
+
+
     return (
         <div>
             {/* Offcanvas component */}
             {isOpen && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div ref={containerRef} className="bg-white w-full max-w-[450px] h-full shadow-lg p-4 transform translate-x-full">
+                    <div ref={containerRef} className="bg-white w-full max-w-[500px] h-full shadow-lg p-4 transform translate-x-full">
                         {/* Header */}
                         <div className="flex justify-between items-center mb-4">
                             <button className="text-gray-500" onClick={toggleOffcanvas}>

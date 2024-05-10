@@ -33,10 +33,6 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
         const salt = await GenerateSalt();
         const userPassword = await GeneratePassword(password, salt);
 
-        const { otp, expiry } = GenerateOtp();
-
-        console.log(" OTP :", otp);
-
         const existCustomer = await Customer.findOne({ email: email })
         if (existCustomer) {
             return res.status(409).json({
@@ -44,6 +40,10 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
                 message: 'Customer exist with the provided Email ID',
             })
         }
+
+        const { otp, expiry } = GenerateOtp();
+
+        console.log(" OTP :", otp);
 
         const result = await Customer.create({
             fullName: fullName,
@@ -440,7 +440,6 @@ export const CreatePayment = async (req: Request, res: Response, next: NextFunct
 
         const { totalPrice, paymentMode, offerId } = req.body;
         let payableAmount = Number(totalPrice);
-
         if (offerId) {
 
             const appliedOffer = await Offer.findById(offerId);
@@ -535,25 +534,19 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
     try {
 
         const customer = req.user;
-        const { txnId, amount, items, CustomerAddress } = <OrderInputs>req.body;
-
+        const { tnxId, amount, items, CustomerAddress } = <OrderInputs>req.body;
         if (customer) {
-
-            const { status, currentTransaction } = await validateTransaction(txnId);
-
+            const { status, currentTransaction } = await validateTransaction(tnxId);
 
             if (!status || !currentTransaction) {
                 return res.status(400).json({ message: 'Transaction not valid or not found' });
             }
 
             const profile = await Customer.findById(customer._id);
-
-
             if (!profile) {
                 // Handle the case where the customer profile is not found
                 return res.status(404).json({ message: 'Customer not found' });
             }
-
             const orderId = `${Math.floor(Math.random() * 89999) + 1000}`;
 
             const cart = <[CartItem]>req.body;
@@ -628,7 +621,7 @@ export const GetOrders = async (req: Request, res: Response, next: NextFunction)
             const profile = await Customer.findById(customer._id).populate({
                 path: 'orders',
                 populate: {
-                    path: 'items.food', 
+                    path: 'items.food',
                 }
             });
             if (profile) {
@@ -680,7 +673,7 @@ export const getFavouriteFoods = async (req: Request, res: Response, next: NextF
 
 /** ---------------------Add Favourite Food ------------------------------ **/
 
-export const addFavouriteFood =  async (req: Request, res: Response, next: NextFunction) => {
+export const addFavouriteFood = async (req: Request, res: Response, next: NextFunction) => {
     const { foodId } = req.body;
     try {
         const food = await Food.findById(foodId);
@@ -693,7 +686,7 @@ export const addFavouriteFood =  async (req: Request, res: Response, next: NextF
         food.favourite = true;
         await food.save();
         return res.status(200).json({
-            message:"Food Added to Favorite",
+            message: "Food Added to Favorite",
             food
         });
     } catch (error) {
@@ -718,7 +711,7 @@ export const removeFavouriteFood = async (req: Request, res: Response, next: Nex
         food.favourite = false;
         await food.save();
         return res.status(200).json({
-            message:"Food remove from Favorite",
+            message: "Food remove from Favorite",
             food
         });
     } catch (error) {

@@ -1,19 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
+import { IoMdMenu } from "react-icons/io";
+import { useMediaQuery } from '@react-hook/media-query';
 export default function Profile() {
     const token = localStorage.getItem('token');
     const decoded = jwtDecode(token);
     const location = useLocation();
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
     const isActiveLink = (pathname) => {
         return location.pathname === pathname;
     };
+    const isMediumScreen = useMediaQuery('(max-width: 768px)');
     return (
         <>
             <div className="bg-slate-100 font-sans leading-normal tracking-normal">
                 <div className="flex h-screen">
 
-                    <div className="bg-[#35728a] text-white w-64 space-y-6 py-4  absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+                    <div
+                        className={`bg-[#35728a] text-white w-64 space-y-6 py-2 absolute inset-y-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                            } md:relative md:translate-x-0 transition duration-200 ease-in-out`}
+                    >
                         <div className="text-center">
                             <h1 className="text-lg font-medium">{decoded.fullName}</h1>
                             <p>{decoded.phone}</p>
@@ -40,7 +53,17 @@ export default function Profile() {
 
 
                     <div className="flex-1 flex flex-col overflow-hidden">
-                        <header className="flex justify-end items-center p-6 bg-[#35728a]">
+                        <header className="flex justify-end items-center p-4 bg-[#35728a]">
+                            {
+                                isMediumScreen && (
+                                    <button
+                                        className="text-white absolute left-0"
+                                        onClick={toggleSidebar}
+                                    >
+                                        <IoMdMenu />
+                                    </button>
+                                )
+                            }
                             <button className="text-white border-2 border-white font-bold py-2 px-4 hover:text-black hover:bg-white">
                                 Edit Profile
                             </button>

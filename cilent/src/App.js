@@ -17,11 +17,11 @@ import Checkout from './app/pages/Checkout';
 import Profile from './app/pages/Profile/Profile';
 import Orders from './app/pages/Profile/Orders';
 import Favourites from './app/pages/Profile/Favourites';
-import Payments from './app/pages/Profile/Payments';
 import Address from './app/pages/Profile/Address';
 import SuccessPayment from './app/pages/SuccessPayment';
 import CancelPayment from './app/pages/CancelPayment';
 import DeliveryOne from './app/pages/Profile/DeliveryOne';
+import PaymentSections from './app/pages/Profile/PaymentSections';
 function App() {
   const location = useLocation();
 
@@ -49,12 +49,12 @@ function App() {
         <Route path="/food-details/:pincode" element={<FoodDetails />} />
         <Route path="/food-details/:vendorId" element={<FoodDetails />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/payment/success" element={<SuccessPayment />} />
-        <Route path="/payment/cancel" element={<CancelPayment />} />
+        <Route path="/payment-success" element={<SuccessPayment />} />
+        <Route path="/payment-cancel" element={<CancelPayment />} />
         <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
           <Route path="orders" element={<Orders />} />
           <Route path="favourites" element={<Favourites />} />
-          <Route path="payments" element={<Payments />} />
+          <Route path="payments" element={<PaymentSections />} />
           <Route path="manage_addresses" element={<Address />} />
           <Route path="super" element={<DeliveryOne />} />
         </Route>

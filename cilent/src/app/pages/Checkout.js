@@ -12,6 +12,7 @@ import { STRIPE_PK } from "../../config";
 import {
     getCartTotal,
     removeItem,
+    resetCart,
     decreaseItemQuantity,
     increaseItemQuantity,
 } from "../cart/cartSlice";
@@ -127,53 +128,105 @@ export default function Checkout() {
         }
     }, [offer]);
 
+    // const handlePayment = async () => {
+    //     try {
+    //         const stripe = await loadStripe(STRIPE_PK);
+
+    //         const body = {
+    //             products: cart
+    //         };
+
+    //         const headers = {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`,
+    //         };
+    //         const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
+    //             method: 'POST',
+    //             headers: headers,
+    //             body: JSON.stringify(body),
+    //         });
+    //         if (!response.ok) {
+    //             throw new Error(`Failed to create checkout session`);
+    //         }
+    //         const session = await response.json();
+
+    //         if (!session || !session.sessionId) {
+    //             throw new Error("Invalid session data received");
+    //         }
+    //         const result = await stripe.redirectToCheckout({
+    //             sessionId: session.sessionId,
+    //         });
+
+    //         if (result) {
+    //             const payloadData = {
+    //                 items: cart,
+    //                 tnxId: session.sessionId,
+    //                 totalPrice: totalPrice,
+    //                 CustomerAddress: address,
+    //             }
+    //             CreateOrder(payloadData)
+    //         }
+
+    //         if (result.error) {
+    //             console.error(result.error.message);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error processing payment:', error.message);
+    //     }
+    // };
+
+
     const handlePayment = async () => {
         try {
-            const stripe = await loadStripe(STRIPE_PK);
-
-            const body = {
-                products: cart
+            const payload = {
+                totalPrice: totalPrice,
+                paymentMode: "COD",
+                offerId: receivedOffersData.offerId
             };
 
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             };
-            const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
-                method: 'POST',
+            const response = await axios.post(`http://localhost:8080/customer/create-payment`,
+            payload, {
                 headers: headers,
-                body: JSON.stringify(body),
             });
-            if (!response.ok) {
-                throw new Error(`Failed to create checkout session`);
-            }
-            const session = await response.json();
-
-            if (!session || !session.sessionId) {
-                throw new Error("Invalid session data received");
-            }
-            const result = await stripe.redirectToCheckout({
-                sessionId: session.sessionId,
-            });
-
-            if (result) {
+            if(response.status === 200) {
+                const transformedItems = cart.map(item => ({
+                    _id: item._id,
+                    unit: item.quantity 
+                }));
                 const payloadData = {
-                    items: cart,
-                    tnxId: session.sessionId,
+                    items:  transformedItems,
+                    tnxId: response.data.transaction._id,
                     totalPrice: totalPrice,
-                    CustomerAddress: address,
+                    CustomerAddress: address.address,
                 }
                 CreateOrder(payloadData)
-            }
-
-            if (result.error) {
-                console.error(result.error.message);
+                .then(async (response) => { 
+                    toast.success(response.message);
+                    await new Promise((resolve) => setTimeout(resolve, 3000));
+                    dispatch(resetCart());
+                    navigate('/profile/orders');
+                })
+                .catch(error => {
+                    console.error("Error creating order:", error);
+                });
+            
             }
         } catch (error) {
             console.error('Error processing payment:', error.message);
         }
     };
 
+    useEffect(() => {
+        if (isOfferModelOpen || isAddressOpen ) {
+            document.body.classList.add('body-no-scroll');
+        } else {
+            document.body.classList.remove('body-no-scroll');
+        }
+    }, [isOfferModelOpen,isAddressOpen]);
 
     return (
         <>
@@ -277,7 +330,7 @@ export default function Checkout() {
                                 <div className="mb-4">
                                     <div className="p-4 bg-white rounded-lg shadow-md">
                                         <p className="text-black font-bold text-xl">Payment ✅</p>
-                                        {isLoggedIn && address && (
+                                        {isLoggedIn && address  && (
                                             <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]' onClick={handlePayment}>Procced to Payment</button>
                                         )}
                                     </div>

@@ -8,6 +8,7 @@ export default function Orders() {
         const fetchOrders = async () => {
             try {
                 const response = await fetchOrderData();
+                console.log("Response: " + response.data)
                 setOrderData(response)
             } catch (error) {
                 console.error('Error fetching offers:', error);

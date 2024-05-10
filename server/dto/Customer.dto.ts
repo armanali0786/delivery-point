@@ -58,7 +58,7 @@ export class CartItem {
 
 
 export class OrderInputs {
-    txnId: string;
+    tnxId: string;
     amount: string;
     items: [CartItem];
     CustomerAddress: string;

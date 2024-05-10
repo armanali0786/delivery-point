@@ -181,6 +181,15 @@ export default function FoodDetails() {
         }
     };
 
+
+    useEffect(() => {
+        if (selectedFoodId) {
+            document.body.classList.add('body-no-scroll');
+        } else {
+            document.body.classList.remove('body-no-scroll');
+        }
+    }, [selectedFoodId]);
+
     return (
         <>
             <ToastContainer />

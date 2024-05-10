@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PaymentCancel from '../assets/payment-cancel.png';
-
+import  { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
 export default function CancelPayment() {
+    const navigate = useNavigate();
+    useEffect(()=>{
+        setTimeout(()=>{
+            navigate('/checkout')
+        },[3000])
+    })
   return (
     <div className="bg-gray-200 dark:bg-zinc-800">
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -13,9 +20,10 @@ export default function CancelPayment() {
                 <div className="md:w-1/2 text-center md:text-left md:pl-10">
                     <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">PAYMENT CANCELLED</h1>
                     <p className="mt-2 text-zinc-600 dark:text-zinc-300">Your payment process was interrupted and has not been completed.</p>
-                    <button className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+                    {/* <button className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
                         More Info
-                    </button>
+                    </button> */}
+                    <Loading/>
                 </div>
             </div>
         </div>
