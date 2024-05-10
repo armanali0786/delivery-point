@@ -44,13 +44,19 @@ export default function Orders() {
                             <span className="text-sm text-zinc-500">Delivered on Fri, Aug 18, 2023, 06:22 PM</span>
                         </div>
                         <div className="flex justify-between">
-                            <img src={`http://localhost:8080/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-lg h-[150px]" />
-                            <div className="flex-1 ml-4">
-                                <p>{order.items[0].food.name}</p>
-                                <p className="text-sm text-zinc-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
-                                <button className="text-blue-500 underline mt-1">VIEW DETAILS</button>
-                                <p className="mt-2">{order.items[0].food.name}  x {order.items[0].unit}</p>
-                            </div>
+                            {order.items.length > 0 && order.items[0].food ? (
+                                <>
+                                    <img src={`http://localhost:8080/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-lg w-1/3 h-[150px]" />
+                                    <div className="flex-1 ml-4">
+                                        <p className='text-lg'>{order.items[0].food.name}</p>
+                                        <p className="text-sm text-zinc-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
+                                        <button className="text-blue-500 underline mt-1">VIEW DETAILS</button>
+                                        <p className="mt-2 text-zinc-500">{order.items[0].food.name}  x {order.items[0].unit}</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <p className="text-red-500">Food not available</p>
+                            )}
                             <div>
                                 <p className="text-sm text-zinc-500">Total Paid: ₹{order.totalAmount}</p>
                             </div>

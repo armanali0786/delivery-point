@@ -41,7 +41,7 @@
   .food-card {
     display: block;
     position: relative;
-    background-color: #c0c0c0;
+    background-color: #cecece;
     border-radius: 10px;
     padding: 1em 1em;
     margin: 12px;
@@ -57,7 +57,7 @@
     z-index: -1;
     top: -16px;
     right: -16px;
-    background: linear-gradient(135deg, #dde0e2, #525252);
+    background: linear-gradient(135deg, #dde0e2, rgb(163, 163, 163));
     height: 40px;
     width: 36px;
     border-radius: 32px;
@@ -81,6 +81,6 @@
   }
   .food-card:hover p{
     transition: all 0.5s ease-out;
-    color: #ffffff;
+    color: #222222;
   }
   

@@ -23,7 +23,7 @@ function MenuItem({ foods }) {
                 const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
                 const descriptionText = removeHtmlTags(food.description);
                 return (
-                    <div class="w-full max-w-sm bg-white hover:bg-gray-200 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointerz" onClick={() => handleNavigate(food.vendorId)}>
+                    <div class="w-full max-w-sm bg-white hover:bg-gray-200 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer" onClick={() => handleNavigate(food.vendorId)}>
                         <img class="p-2 rounded-t-lg w-full h-[230px]" src={`http://localhost:8080/images/${food.images[0]}`} alt="product image" />
                         <div class="px-5 pb-2">
                             <div class="flex items-center justify-between">
