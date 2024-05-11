@@ -42,7 +42,7 @@ export default function FoodCardHover() {
                         const descriptionText = removeHtmlTags(food.description);
                         return (
                             <div class="food-card flex-row bg-[#C0C0C0] cursor-pointer" onClick={() => handleNavigate(food.vendorId)}>
-                                <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[150px] h-30 object-cover' />
+                                <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[150px] object-cover' />
                                 <div className="flex justify-between items-end my-1">
                                     <p className=" text-[16px] font-bold text-[#222222]">{food.name}</p>
                                     <p className=" text-sm font-bold text-[#222222]">{food.foodType}</p>

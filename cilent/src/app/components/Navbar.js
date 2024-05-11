@@ -77,7 +77,7 @@ export default function Navbar() {
                     <div className='relative'>
                         <Link to="/checkout">
                             <svg
-                                className="w-10 h-10 text-orange-400 hover:text-orange-600 cursor-pointer hidden sm:block"
+                                className="w-10 h-10 text-orange-400 hover:text-orange-600 cursor-pointer block"
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="24"
                                 height="24"

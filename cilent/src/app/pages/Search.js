@@ -133,7 +133,7 @@ export default function Search() {
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);
     }
-    
+
     const removeHtmlTags = (html) => {
         var doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
@@ -142,6 +142,8 @@ export default function Search() {
         const words = text.split(" ");
         return words.slice(0, n).join(" ");
     };
+
+    const isEmpty = filteredFoods.length === 0;
 
     return (
         <>
@@ -176,59 +178,59 @@ export default function Search() {
                             ))}
                         </FoodSlider>
                     </div>
-                    <div className="bg-gray-200 rounded-lg">
-                        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-                            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xl:gap-x-8">
-                                {filteredFoods.length === 0 ? (
-                                    <div className="w-full text-end text-gray-600 mt-8">
-                                        <p>No Food found.</p>
-                                    </div>
-                                ) : (
-                                    // filteredFoods.map((food) => (
-                                    filteredFoods.map((food, index) => {
-                                        const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
-                                        const descriptionText = removeHtmlTags(food.description);
-                                        return (
-                                            <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
-                                                <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
-                                                    <div >
-                                                        <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
-                                                        <div className='flex items-center my-1'>
-                                                            <span> <IoMdStar /> </span>{food.rating} .
-                                                            <p className='mx-1 text-gray-800'>20-25 MINS</p>
-                                                        </div>
-                                                    </div>
-                                                    <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
-                                                </div>
-                                                <hr className='mt-3' />
-                                                <div className='px-3 py-3'>
-                                                    <div className='flex justify-between'>
-                                                        <div>
-                                                            <p className='text-lg font-bold'>{food.name}</p>
-                                                            <p className='flex text-lg'>₹{food.price}</p>
-                                                        </div>
-
-                                                        <div className='relative'>
-                                                            <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
-                                                            <button
-                                                                className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                                                onClick={() => handleCartAction(food)}
-                                                            > Add
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div className='py-2'>
-                                                            <p className='text-[14px] text-left'>{getFirstNWords(descriptionText, numWordsToShow)}....</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            //     ))
-                                            // )}
-                                        );
-                                    }))}
+                    {isEmpty ? (
+                        <div className=" flex justify-center bg-gray-200 p-5">
+                            <div className="text-center">
+                              No Food Found
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="bg-gray-200 rounded-lg">
+                            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
+                                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xl:gap-x-8">
+                                        {filteredFoods.map((food, index) => {
+                                            const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
+                                            const descriptionText = removeHtmlTags(food.description);
+                                            return (
+                                                <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
+                                                    <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
+                                                        <div >
+                                                            <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
+                                                            <div className='flex items-center my-1'>
+                                                                <span> <IoMdStar /> </span>{food.rating} .
+                                                                <p className='mx-1 text-gray-800'>20-25 MINS</p>
+                                                            </div>
+                                                        </div>
+                                                        <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
+                                                    </div>
+                                                    <hr className='mt-3' />
+                                                    <div className='px-3 py-3'>
+                                                        <div className='flex justify-between'>
+                                                            <div>
+                                                                <p className='text-lg font-bold'>{food.name}</p>
+                                                                <p className='flex text-lg'>₹{food.price}</p>
+                                                            </div>
+
+                                                            <div className='relative'>
+                                                                <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
+                                                                <button
+                                                                    className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
+                                                                    onClick={() => handleCartAction(food)}
+                                                                > Add
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div className='py-2'>
+                                                            <p className='text-[14px] text-left'>{getFirstNWords(descriptionText, numWordsToShow)}....</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

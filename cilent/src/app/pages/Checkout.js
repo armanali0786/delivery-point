@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import EmptyImage from '../assets/emptycart.png';
@@ -12,17 +12,15 @@ import { STRIPE_PK } from "../../config";
 import {
     getCartTotal,
     removeItem,
-    resetCart,
     decreaseItemQuantity,
     increaseItemQuantity,
 } from "../cart/cartSlice";
 
 import { useAuth } from "../context/authContext";
 import CheckoutLogin from "./CheckoutLogin";
-import { Link, json, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import AddressPopup from "../components/AddressPopup";
 import ApplyOfferModel from "../components/ApplyOffer";
-import { CreateOrder } from "../apis/ApiCall";
 
 export default function Checkout() {
 
@@ -32,12 +30,15 @@ export default function Checkout() {
     const [buttonShow, setButtonShow] = useState(true);
     const [isAddressOpen, setIsAddressOpen] = useState(false);
     const [isOfferModelOpen, setIsOfferModelOpen] = useState(false);
+
     const [address, setAddress] = useState({});
-    const [receivedOffersData, setReceivedOffersData] = useState([]);
+
+    const NaviagatePayment = () =>{
+        navigate('/payment');
+    }
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const token = localStorage.getItem('token');
 
     const toggleAddressModal = () => {
         setIsAddressOpen(!isAddressOpen);
@@ -46,6 +47,7 @@ export default function Checkout() {
     const toggleOfferModal = () => {
         setIsOfferModelOpen(!isOfferModelOpen);
     };
+
 
     useEffect(() => {
         const deliveryAddress = localStorage.getItem('deliveryAddress');
@@ -85,7 +87,6 @@ export default function Checkout() {
         setButtonShow(false);
     };
 
-
     const { cart, totalQuantity, totalPrice } = useSelector(
         (state) => state.allCart
     );
@@ -108,117 +109,54 @@ export default function Checkout() {
         navigate(`/food-details/${vendorId}`);
     }
 
-    const isEmpty = cart.length === 0;
 
     const handleApplyData = (offers) => {
         const offer = localStorage.setItem('offer', JSON.stringify(offers));
     };
 
-    const offer = localStorage.getItem('offer');
-    useEffect(() => {
-        if (offer) {
-            try {
-                const offerData = JSON.parse(offer);
-                setReceivedOffersData(offerData)
-            } catch (error) {
-                console.error("Error parsing:", error);
-            }
-        } else {
-            console.log("No offer found in localStorage");
-        }
-    }, [offer]);
-
     // const handlePayment = async () => {
     //     try {
-    //         const stripe = await loadStripe(STRIPE_PK);
-
-    //         const body = {
-    //             products: cart
+    //         const payload = {
+    //             totalPrice: totalPrice,
+    //             paymentMode: "COD",
+    //             offerId: receivedOffersData.offerId
     //         };
 
     //         const headers = {
     //             'Content-Type': 'application/json',
     //             'Authorization': `Bearer ${token}`,
     //         };
-    //         const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
-    //             method: 'POST',
+    //         const response = await axios.post(`http://localhost:8080/customer/create-payment`,
+    //         payload, {
     //             headers: headers,
-    //             body: JSON.stringify(body),
     //         });
-    //         if (!response.ok) {
-    //             throw new Error(`Failed to create checkout session`);
-    //         }
-    //         const session = await response.json();
-
-    //         if (!session || !session.sessionId) {
-    //             throw new Error("Invalid session data received");
-    //         }
-    //         const result = await stripe.redirectToCheckout({
-    //             sessionId: session.sessionId,
-    //         });
-
-    //         if (result) {
+    //         if(response.status === 200) {
+    //             const transformedItems = cart.map(item => ({
+    //                 _id: item._id,
+    //                 unit: item.quantity 
+    //             }));
     //             const payloadData = {
-    //                 items: cart,
-    //                 tnxId: session.sessionId,
+    //                 items:  transformedItems,
+    //                 tnxId: response.data.transaction._id,
     //                 totalPrice: totalPrice,
-    //                 CustomerAddress: address,
+    //                 CustomerAddress: address.address,
     //             }
     //             CreateOrder(payloadData)
-    //         }
+    //             .then(async (response) => { 
+    //                 toast.success(response.message);
+    //                 await new Promise((resolve) => setTimeout(resolve, 3000));
+    //                 dispatch(resetCart());
+    //                 navigate('/profile/orders');
+    //             })
+    //             .catch(error => {
+    //                 console.error("Error creating order:", error);
+    //             });
 
-    //         if (result.error) {
-    //             console.error(result.error.message);
     //         }
     //     } catch (error) {
     //         console.error('Error processing payment:', error.message);
     //     }
     // };
-
-
-    const handlePayment = async () => {
-        try {
-            const payload = {
-                totalPrice: totalPrice,
-                paymentMode: "COD",
-                offerId: receivedOffersData.offerId
-            };
-
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            };
-            const response = await axios.post(`http://localhost:8080/customer/create-payment`,
-            payload, {
-                headers: headers,
-            });
-            if(response.status === 200) {
-                const transformedItems = cart.map(item => ({
-                    _id: item._id,
-                    unit: item.quantity 
-                }));
-                const payloadData = {
-                    items:  transformedItems,
-                    tnxId: response.data.transaction._id,
-                    totalPrice: totalPrice,
-                    CustomerAddress: address.address,
-                }
-                CreateOrder(payloadData)
-                .then(async (response) => { 
-                    toast.success(response.message);
-                    await new Promise((resolve) => setTimeout(resolve, 3000));
-                    dispatch(resetCart());
-                    navigate('/profile/orders');
-                })
-                .catch(error => {
-                    console.error("Error creating order:", error);
-                });
-            
-            }
-        } catch (error) {
-            console.error('Error processing payment:', error.message);
-        }
-    };
 
     useEffect(() => {
         if (isOfferModelOpen || isAddressOpen ) {
@@ -226,7 +164,9 @@ export default function Checkout() {
         } else {
             document.body.classList.remove('body-no-scroll');
         }
-    }, [isOfferModelOpen,isAddressOpen]);
+    }, [isOfferModelOpen, isAddressOpen]);
+
+    const isEmpty = cart.length === 0;
 
     return (
         <>
@@ -289,7 +229,7 @@ export default function Checkout() {
                                     </div>
                                 ) : (
                                     <div className="mb-4">
-                                        <div className="p-4 bg-white rounded-lg shadow-md">
+                                        <div className="p-4 bg-white  shadow-md">
                                             <p className="text-green-500">Logged in ✅</p>
                                             <p>ArmanAli | 7319977276</p>
                                         </div>
@@ -297,7 +237,7 @@ export default function Checkout() {
 
                                 )}
                                 <div className="mb-4">
-                                    <div className="p-4 bg-white rounded-lg shadow-md">
+                                    <div className="p-4 bg-white shadow-md">
                                         <h2 className="font-bold text-lg mb-3 ">Select delivery address</h2>
                                         <p className="text-gray-500">You have a saved address in this location</p>
                                         {isLoggedIn && (
@@ -328,10 +268,14 @@ export default function Checkout() {
                                 </div>
 
                                 <div className="mb-4">
-                                    <div className="p-4 bg-white rounded-lg shadow-md">
+                                    <div className="p-4 bg-white shadow-md">
                                         <p className="text-black font-bold text-xl">Payment ✅</p>
-                                        {isLoggedIn && address  && (
-                                            <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]' onClick={handlePayment}>Procced to Payment</button>
+                                        {isLoggedIn && address && (
+                                            <>
+                                                <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]'
+                                                    onClick={NaviagatePayment}
+                                                >Procced to Payment</button>
+                                            </>
                                         )}
                                     </div>
                                 </div>
@@ -340,7 +284,7 @@ export default function Checkout() {
 
                             <div className="w-full md:w-2/5 px-2">
                                 <div className="mb-4">
-                                    <div className="p-4 bg-white rounded-lg shadow-md">
+                                    <div className="p-4 bg-white  shadow-md">
                                         <div className="flex cursor-pointer" onClick={() => handleNavigate(vendorDetails[0]?.vendorId)}>
                                             <div className="mr-5">
                                                 <img src={`http://localhost:8080/images/${vendorDetails[0]?.vendorRestroImage}`} alt="Restro Image" className="w-16 h-16" />
@@ -398,8 +342,8 @@ export default function Checkout() {
                                                 <span>₹30</span>
                                             </div>
                                             <div className="flex justify-between mt-2">
-                                                <span>Discount Coupoun Code</span>
-                                                <span>₹{receivedOffersData.offerAmount}</span>
+                                                {/* <span>Discount Coupoun Code</span> */}
+                                                {/* <span>₹{receivedOffersData.offerAmount}</span> */}
                                             </div>
                                             <div className="flex justify-between mt-2">
                                                 <span className="font-bold">TO PAY</span>

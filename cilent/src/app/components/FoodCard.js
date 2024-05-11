@@ -101,10 +101,10 @@ export default function FoodCard() {
                 <div key={index} className='px-3 transition duration-300 ease-out transform hover:scale-105 mb-5' onClick={() => handleNavigate(food.vendorId)}>
                   <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[200px] object-cover' alt={food.name} />
                   <div className="p-2">
-                    <h3 className="text-lg font-semibold">{food.name}</h3>
+                    <h3 className="text-[16px] font-medium">{food.name}</h3>
                     <p className="text-zinc-600 text-sm">{getFirstNWords(descriptionText, numWordsToShow)}....</p>
                     <div className="flex items-center mt-2">
-                      <span className="text-green-500 text-sm">⭐ {food.rating}</span>
+                      <span className="text-green-500 text-sm font-bold">⭐ {food.rating}.0</span>
                       <span className="text-zinc-500 text-xs ml-2 font-bold">{food.readyTime} min</span>
                     </div>
                     <div className="mt-3 flex items-center justify-between">

@@ -5,14 +5,15 @@ import { Provider } from 'react-redux';
 import { store } from './app/cart/store';
 import App from './App';
 import { AuthProvider } from './app/context/authContext';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <AuthProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+          <App />
+      </AuthProvider>
+    </BrowserRouter>
   </Provider>
 );

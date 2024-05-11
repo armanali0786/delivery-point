@@ -21,7 +21,7 @@ import Address from './app/pages/Profile/Address';
 import SuccessPayment from './app/pages/SuccessPayment';
 import CancelPayment from './app/pages/CancelPayment';
 import DeliveryOne from './app/pages/Profile/DeliveryOne';
-import PaymentSections from './app/pages/Profile/PaymentSections';
+import PaymentSections from './app/pages/PaymentSections';
 function App() {
   const location = useLocation();
 
@@ -30,6 +30,7 @@ function App() {
     return !(pathname.includes('/profile')
       || pathname.includes('/food-details') ||
       pathname.includes('/checkout')
+      || pathname.includes('/payment')
     );
   };
 
@@ -51,10 +52,10 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/payment-success" element={<SuccessPayment />} />
         <Route path="/payment-cancel" element={<CancelPayment />} />
+        <Route path="/payment" element={<PaymentSections />} />
         <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
           <Route path="orders" element={<Orders />} />
           <Route path="favourites" element={<Favourites />} />
-          <Route path="payments" element={<PaymentSections />} />
           <Route path="manage_addresses" element={<Address />} />
           <Route path="super" element={<DeliveryOne />} />
         </Route>

@@ -318,10 +318,12 @@ export default function FoodDetails() {
 
                                     </div>
                                     <div className='flex-end my-2 relative'>
-                                        <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'bg-black text-white' : 'text-[#ED3535]'} bg-black p-1 rounded-lg text-start`}
+                                        { isLoggedIn && (
+                                         <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'bg-black text-white' : 'text-[#ED3535]'} bg-black p-1 rounded-lg text-start`}
                                             onClick={() => handleFavourite(food._id)}>
                                             <span><FaHeart /></span>
                                         </button>
+                                        )}
                                         <img src={`http://localhost:8080/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
                                         <button
                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'

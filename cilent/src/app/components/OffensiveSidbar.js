@@ -110,7 +110,7 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
             {/* Offcanvas component */}
             {isOpen && (
                 <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div ref={containerRef} className="bg-white w-full max-w-[500px] h-full shadow-lg p-4 transform translate-x-full">
+                    <div ref={containerRef} className="bg-white w-full max-w-[433px] absolute  right-[433px] h-full shadow-lg p-4 transform translate-x-full">
                         {/* Header */}
                         <div className="flex justify-between items-center mb-4">
                             <button className="text-gray-500" onClick={toggleOffcanvas}>
