@@ -9,12 +9,10 @@ export default function AddressPopup({ isAddressOpen, toggleAddressModal }) {
 
     const handleSubmitAddress = (e) => {
         e.preventDefault();
-
         if (!address.trim() || !flatNo.trim() || !addressType) {
             setError('Please fill out all fields');
             return;
         }
-
         // Save to localStorage
         const addressData = {
             address: address.trim(),
@@ -22,14 +20,7 @@ export default function AddressPopup({ isAddressOpen, toggleAddressModal }) {
             addressType: addressType, 
         };
         localStorage.setItem('deliveryAddress', JSON.stringify(addressData));
-
-        // Clear form inputs and error
-        setAddress('');
-        setFlatNo('');
-        setAddressType('');
-        setError('');
-
-        // Close the modal
+        setAddress(addressData);
         toggleAddressModal();
     };
 

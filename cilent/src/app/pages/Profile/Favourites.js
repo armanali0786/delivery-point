@@ -40,14 +40,14 @@ export default function Favourites() {
             const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
             const descriptionText = removeHtmlTags(food.description);
             return (
-              <div key={food._id} className="bg-white dark:bg-zinc-900 p-4 rounded-lg shadow">
+              <div key={food._id} className="bg-white dark:bg-zinc-900 p-4 rounded-lg shadow cursor-pointer" onClick={() => NavigateFoodDetails(food.vendorId)}>
                 <img
                   src={`http://localhost:8080/images/${food.images}`} // Assuming images are stored locally in public folder
                   alt={food.name}
                   className="w-full h-48 object-cover rounded-md"
                 />
                 <h3 className="mt-2 text-lg font-semibold text-zinc-800 dark:text-white">{food.name}</h3>
-                <p className="text-zinc-600 dark:text-zinc-400">{getFirstNWords(descriptionText, numWordsToShow)}....</p>
+                <p className="text-zinc-600 dark:text-zinc-400 text-sm">{getFirstNWords(descriptionText, numWordsToShow)}....</p>
                 <div className="mt-2 flex justify-between items-center">
                   <span className="text-zinc-800 dark:text-white font-bold">₹{food.price}</span>
                   <button className="bg-red-500 text-white px-3 py-2 rounded-lg">

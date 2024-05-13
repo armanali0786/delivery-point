@@ -163,7 +163,7 @@ export default function FoodDetails() {
             const isCurrentlyFavourite = favouriteStatus[foodId] || false;
             const newFavouriteStatus = !isCurrentlyFavourite;
 
-            const endpoint = newFavouriteStatus ? 'remove-favourite' : 'add-favourite';
+            const endpoint = newFavouriteStatus ? 'add-favourite' : 'remove-favourite';
             const response = await axios.post(`http://localhost:8080/customer/${endpoint}`,
                 { foodId: foodId },
                 {
@@ -319,7 +319,7 @@ export default function FoodDetails() {
                                     </div>
                                     <div className='flex-end my-2 relative'>
                                         { isLoggedIn && (
-                                         <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'bg-black text-white' : 'text-[#ED3535]'} bg-black p-1 rounded-lg text-start`}
+                                         <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'text-[#ED3535]' : 'bg-black text-white'} bg-black p-1 rounded-lg text-start`}
                                             onClick={() => handleFavourite(food._id)}>
                                             <span><FaHeart /></span>
                                         </button>

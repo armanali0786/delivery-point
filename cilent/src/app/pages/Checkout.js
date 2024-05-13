@@ -199,12 +199,17 @@ export default function Checkout() {
                                             {buttonShow && (
                                                 <>
                                                     <div className="mb-4 lg:mb-0">
-                                                        <h3 className="font-medium mb-1">Have an account?</h3>
-                                                        <button className="bg-zinc-200 text-black py-2 px-4  hover:bg-zinc-300 w-full lg:w-auto" onClick={handleLoginClick}>LOG IN</button>
+                                                        {/* <h3 className="font-medium mb-1">Have an account?</h3> */}
+                                                        <button className="text-[12px] font-bold bg-white border-2 border-[#4a9932] text-black  px-5 w-full lg:w-auto" onClick={handleLoginClick}>
+                                                            <span className="flex justify-center text-[10px] text-[#4a9932]">Have an account ?</span>
+                                                            LOG IN</button>
                                                     </div>
                                                     <div className="px-5">
-                                                        <h3 className="font-medium mb-1">New to Swiggy?</h3>
-                                                        <button className="bg-[#60b246] text-white py-2 px-4  hover:bg-[#4a9932] w-full lg:w-auto" onClick={handleSignUpClick}>SIGN UP</button>
+                                                        {/* <h3 className="font-medium mb-1">New to Swiggy?</h3> */}
+                                                        <button className="bg-[#60b246] text-white px-10 py-1 hover:bg-[#4a9932] w-full lg:w-auto text-[12px] font-bold" onClick={handleSignUpClick}>
+                                                        <span className="flex justify-center text-[10px] text-white">New to Dp ?</span>
+                                                            
+                                                            SIGN UP</button>
                                                     </div>
                                                 </>
                                             )}

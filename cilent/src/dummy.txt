@@ -860,3 +860,111 @@ function NavLink({ to, label, activeLink, setActiveLink }) {
 
     //     dispatch(addToCart({ ...item, quantity: 1 }));
     // };
+
+
+
+
+
+
+
+
+
+
+    INfinte scroll
+
+
+  const fetchDataCategory = async (categories, rating) => {
+    try {
+      let params = {
+        foodType: categories.join(',')
+      };
+
+      if (rating) {
+        params.rating = '4';
+      }
+
+      const response = await axios.get(`http://localhost:8080/get-foods-bycategory?limit=6&page=${page}`, {
+        params: params
+      });
+      if (response.status === 200) {
+        const data = await response.data;
+        setFilterData((prev) => [...prev, ...data]);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Error fetching food data:', error);
+    }
+  }
+
+  const handelInfiniteScroll = async () => {
+    try {
+      if (
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        setLoading(true);
+        setPage((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handelInfiniteScroll);
+    return () => window.removeEventListener("scroll", handelInfiniteScroll);
+  }, []);
+
+  APpi 
+
+
+export const getFoodByCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { foodType, rating, page, limit } = req.query;
+
+        // Ensure foodType is treated as a string
+        const foodTypeString = foodType as string;
+
+        // Prepare query conditions based on request parameters
+        const queryConditions: any = {};
+
+        if (foodTypeString) {
+            // Split comma-separated foodType string into an array of categories
+            const selectedCategories = foodTypeString.split(',').map((category: string) => category.trim().toLowerCase());
+            queryConditions.foodType = { $in: selectedCategories }; // Match any of the specified categories
+        }
+
+        if (rating) {
+            // Validate and convert rating to a number
+            const parsedRating = parseFloat(rating as string);
+            if (isNaN(parsedRating) || parsedRating < 0 || parsedRating > 5) {
+                return res.status(400).json({
+                    status: 400,
+                    message: 'Valid "rating" parameter is required as a number between 0 and 5'
+                });
+            }
+
+            queryConditions.rating = { $gte: parsedRating }; // Filter by rating greater than or equal to specified value
+        }
+
+        const pageNumber = parseInt(page as string, 10) || 1; // default to page 1 if not specified or invalid
+        const itemsPerPage = parseInt(limit as string, 10) || 6; // default to 9 items per page if not specified or invalid
+
+        const skip = (pageNumber - 1) * itemsPerPage;
+
+        // Query database with combined conditions
+        const foods = await Food.find(queryConditions)
+        .skip(skip)
+        .limit(itemsPerPage);
+
+        if (foods && foods.length > 0) {
+            return res.status(200).json(foods);
+        } else {
+            // No food found for the specified criteria
+            return res.status(200).json([]); // Return an empty array or object
+        }
+    } catch (error) {
+        console.error('Error fetching food data:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}

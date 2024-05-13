@@ -22,6 +22,8 @@ import SuccessPayment from './app/pages/SuccessPayment';
 import CancelPayment from './app/pages/CancelPayment';
 import DeliveryOne from './app/pages/Profile/DeliveryOne';
 import PaymentSections from './app/pages/PaymentSections';
+import Payments from './app/pages/Profile/Payments';
+import { LoadingFoods } from './app/components/LoadingFoods';
 function App() {
   const location = useLocation();
 
@@ -56,6 +58,7 @@ function App() {
         <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
           <Route path="orders" element={<Orders />} />
           <Route path="favourites" element={<Favourites />} />
+          <Route path="payments" element={<Payments />} />
           <Route path="manage_addresses" element={<Address />} />
           <Route path="super" element={<DeliveryOne />} />
         </Route>
