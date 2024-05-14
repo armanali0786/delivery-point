@@ -69,9 +69,10 @@ router.get('/offer/verify/:id',VerifyOffer);
 router.get('/available-offers',AvailableOffers)
 
 /** ---------------------Create Payment------------------------------ **/
+router.post('/create-checkout-session',CreateStripePayment);
+
 router.post('/create-payment',CreatePayment);
 
-router.post('/create-checkout-session',CreateStripePayment);
 
 /** ---------------------Create Order ------------------------------ **/
 router.post('/create-order', CreateOrder)

@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { loadStripe } from '@stripe/stripe-js';
+import { useStripe } from '@stripe/stripe-js';
+import { STRIPE_PK } from "../../config";
+import { jwtDecode } from "jwt-decode";
+
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -18,10 +23,11 @@ export default function PaymentSections() {
     );
     const [receivedOffersData, setReceivedOffersData] = useState([]);
     const [completeAddress, setCompleteAddress] = useState([]);
+    const token = localStorage.getItem('token');
 
     const navigate = useNavigate();
-
-
+    const decoded = jwtDecode(token);
+  
     useEffect(() => {
         const deliveryAddress = localStorage.getItem('deliveryAddress');
         if (deliveryAddress) {
@@ -39,9 +45,7 @@ export default function PaymentSections() {
         }
     }, []);
 
-
     const dispatch = useDispatch();
-
 
     const offer = localStorage.getItem('offer');
     useEffect(() => {
@@ -105,45 +109,57 @@ export default function PaymentSections() {
     //     }
     // };
 
+
     const handlePayment = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const payload = {
-                totalPrice: totalPrice,
-                paymentMode: "COD",
-                offerId: receivedOffersData.offerId
+            const stripe = await loadStripe(STRIPE_PK);
+            const body = {
+                products: cart,
             };
-
+            console.log("body", body);
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             };
-            const response = await axios.post(`http://localhost:8080/customer/create-checkout-session`, payload,
-            payload, {
+            const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
+                method: 'POST',
                 headers: headers,
-                Authorization: `Bearer ${token}`,
+                body: JSON.stringify(body),
             });
-            if(response.status === 200) {
+            const session = await response.json();
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.sessionId, // Use session.sessionId to access the correct property
+            });
+            console.log("Stripe Payment Result:", result);
+            console.log("res",response)
+            console.log("res data",response.data);
+            console.log("session",session)
+            console.log("result session Id",result.sessionId)
+
+            if (response.status === 200) {
                 const transformedItems = cart.map(item => ({
                     _id: item._id,
-                    unit: item.quantity 
+                    unit: item.quantity
                 }));
+                console.log("transformed", transformedItems);
                 const payloadData = {
-                    items:  transformedItems,
-                    tnxId: response.data.transaction._id,
+                    items: transformedItems,
+                    tnxId: response.data.sessionId,
                     totalPrice: totalPrice,
-                    CustomerAddress:completeAddress,
+                    CustomerAddress: completeAddress,
                 }
+                console.log("payloadData", payloadData);
+
                 CreateOrder(payloadData)
-                .then(async (response) => { 
-                    toast.success(response.message);
-                    await new Promise((resolve) => setTimeout(resolve, 3000));
-                    dispatch(resetCart());
-                    navigate('/profile/orders');
-                })
-                .catch(error => {
-                    console.error("Error creating order:", error);
-                });
+                    .then(async (response) => {
+                        toast.success(response.message);
+                        await new Promise((resolve) => setTimeout(resolve, 3000));
+                        dispatch(resetCart());
+                        navigate('/profile/orders');
+                    })
+                    .catch(error => {
+                        console.error("Error creating order:", error);
+                    });
 
             }
         } catch (error) {

@@ -504,7 +504,7 @@ export const CreateStripePayment = async (req: Request, res: Response, next: Nex
                 mode: "payment",
                 line_items: lineItems,
                 success_url: "http://localhost:3000/profile/orders",
-                cancel_url: "http://localhost:3000/payment/cancel"
+                cancel_url: "http://localhost:3000/payment-cancel"
             });
             res.json({ sessionId: session.id });
         } else {

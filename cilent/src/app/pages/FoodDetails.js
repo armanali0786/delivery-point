@@ -140,7 +140,7 @@ export default function FoodDetails() {
             {
                 breakpoint: 768,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 1,
                     slidesToScroll: 1,
                 },
             },
@@ -236,9 +236,9 @@ export default function FoodDetails() {
                                 <button className='bg-gray-300 p-2 rounded-3xl ml-5' type="button" onClick={goToNext}><FaArrowRight /></button>
                             </div>
                         </div>
-                        <div className='my-10 '>
+                        <div>
                             <OfferSlider ref={sliderRef}  {...settings}>
-                                <div className='w-96'>
+                                {/* <div className='max-w-80 sm:w-48'>
                                     <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
                                         <div className="flex items-center">
                                             <img src={Offers} className='h-16 w-16' alt='Offer' />
@@ -249,28 +249,19 @@ export default function FoodDetails() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='w-96'>
+
+                                <div className='max-w-80 sm:w-48'>
                                     <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
                                         <div className="flex items-center">
                                             <img src={Offers} className='h-16 w-16' alt='Offer' />
                                         </div>
                                         <div className="absolute top-5 left-20">
                                             <p className="top-4 mx-4 text-lg font-semibold">60% Off Upto ₹120</p>
-                                            <p className="top-4 mx-4 text-sm text-indigo-400 font-normal">USE MEGASAVER</p>
+                                            <p className="top-4 mx-4 text-sm text-indigo-400 font-normal">USE AMEXMATCHDAY</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='w-96'>
-                                    <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
-                                        <div className="flex items-center">
-                                            <img src={Offers} className='h-16 w-16' alt='Offer' />
-                                        </div>
-                                        <div className="absolute top-5 left-20">
-                                            <p className="top-4 mx-4 text-lg font-semibold">60% Off Upto ₹120</p>
-                                            <p className="top-4 mx-4 text-sm text-indigo-400 font-normal">USE TRYNEW</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div> */}
+                             
                             </OfferSlider>
                         </div>
                     </div>

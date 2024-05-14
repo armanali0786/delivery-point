@@ -1,7 +1,7 @@
 import './App.css';
 import "@stripe/stripe-js";
 import Navbar from './app/components/Navbar'
-import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Login from './app/auth/Login';
 import SignUp from './app/auth/SignUp';
 import Home from './app/pages/Home';
@@ -12,7 +12,6 @@ import PageNotFound from './app/pages/PageNotFound';
 import FoodDetails from './app/pages/FoodDetails';
 import CartPage from './app/cart/cartPage';
 import Search from './app/pages/Search';
-import ProtectedRoute from './app/components/ProtectedRoute';
 import Checkout from './app/pages/Checkout';
 import Profile from './app/pages/Profile/Profile';
 import Orders from './app/pages/Profile/Orders';
@@ -24,6 +23,7 @@ import DeliveryOne from './app/pages/Profile/DeliveryOne';
 import PaymentSections from './app/pages/PaymentSections';
 import Payments from './app/pages/Profile/Payments';
 import { LoadingFoods } from './app/components/LoadingFoods';
+import ProtectedRoute from './app/components/ProtectedRoute';
 function App() {
   const location = useLocation();
 
@@ -42,8 +42,8 @@ function App() {
         <Navbar />
       </div>
       <Routes>
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Home />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/menu" element={<MenuList />} />

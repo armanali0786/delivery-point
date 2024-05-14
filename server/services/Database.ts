@@ -24,7 +24,7 @@ export default async () => {
             });
 
     } catch (error) {
-
+        console.error('Error connecting to MongoDB:', error);
     }
 }
 

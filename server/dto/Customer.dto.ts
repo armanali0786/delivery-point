@@ -5,7 +5,6 @@ export class CreateCustomerInput {
     fullName: string;
 
     // lastName: string;
-
     address: string;
     
     @IsEmail()
