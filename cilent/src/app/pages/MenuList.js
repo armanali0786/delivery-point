@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import clsx from "clsx";
-import useLazyLoad from '../context/useLazyLoad';
-import { LoadingCard, LoadingFoods } from '../components/LoadingFoods';
 import axios from 'axios';
 import MenuItem from '../components/MenuItem';
 import Filter from '../components/Filter';
@@ -10,10 +7,13 @@ import FilterIcon from '../assets/filter.svg';
 import FoodSlider from '../components/FoodSlider';
 import NoDataFound from '../components/NoDataFound';
 import EmptyImage from '../assets/emptyfood.png';
+// import clsx from "clsx";
+// import useLazyLoad from '../context/useLazyLoad';
+// import { LoadingCard, LoadingFoods } from '../components/LoadingFoods';
 
 
-const NUM_PER_PAGE = 3;
-const TOTAL_PAGES = 3;
+// const NUM_PER_PAGE = 3;
+// const TOTAL_PAGES = 3;
 
 export default function MenuList() {
   const [filterData, setFilterData] = useState([]);
@@ -21,17 +21,17 @@ export default function MenuList() {
   const [ratingFilter, setRatingFilter] = useState(false);
   const [rating, setRating] = useState(4);
 
-  const triggerRef = useRef(null);
+  // const triggerRef = useRef(null);
 
-  const onGrabData = async (currentPage) => {
-    const startIndex = (currentPage - 1) * NUM_PER_PAGE;
-    const endIndex = startIndex + NUM_PER_PAGE;
-    const data = filterData.slice(startIndex, endIndex);
+  // const onGrabData = async (currentPage) => {
+  //   const startIndex = (currentPage - 1) * NUM_PER_PAGE;
+  //   const endIndex = startIndex + NUM_PER_PAGE;
+  //   const data = filterData.slice(startIndex, endIndex);
 
-    return data;
-  };
+  //   return data;
+  // };
 
-  const { data, loading } = useLazyLoad({ triggerRef, onGrabData });
+  // const { data, loading } = useLazyLoad({ triggerRef, onGrabData });
 
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function MenuList() {
   };
 
 
-  const loadPages = [1, 2, 3, 4, 5, 6];
+  // const loadPages = [1, 2, 3, 4, 5, 6];
 
 
   return (
@@ -113,8 +113,8 @@ export default function MenuList() {
 
         {filterData.length > 0 ? (
           <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8 gap-x-4 gap-y-10 ">
-            <MenuItem foods={data} />
-            {loadPages.map(num => {
+            <MenuItem foods={filterData} />
+            {/* {loadPages.map(num => {
               return (
                 <>
                   <div key={num} className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-200 dark:bg-gray-800 dark:border-gray-700 cursor-pointer">
@@ -124,7 +124,7 @@ export default function MenuList() {
                   </div>
                 </>
               )
-            })}
+            })} */}
           </div>
         ) : (
           <div className="flex items-center justify-center h-64 w-full">

@@ -17,20 +17,29 @@ export default function PaymentSections() {
         (state) => state.allCart
     );
     const [receivedOffersData, setReceivedOffersData] = useState([]);
+    const [completeAddress, setCompleteAddress] = useState([]);
 
     const navigate = useNavigate();
 
 
-    console.log("Cart Items ", cart);
+    useEffect(() => {
+        const deliveryAddress = localStorage.getItem('deliveryAddress');
+        if (deliveryAddress) {
+            try {
+                const data = typeof deliveryAddress === 'string' ? JSON.parse(deliveryAddress) : deliveryAddress;
+                const Custaddress = data.address;
+                const flatNo = data.flatNo;
+                // const addressType = data.addressType;
+                setCompleteAddress(`${flatNo} , ${Custaddress}`);
+            } catch (error) {
+                console.error('Error parsing Address items:', error);
+            }
+        } else {
+            console.log('No Address found in localStorage');
+        }
+    }, []);
 
-    const deliveryAddress = localStorage.getItem('deliveryAddress');
 
-    const data = typeof deliveryAddress === 'string' ? JSON.parse(deliveryAddress) : deliveryAddress;
-    const Custaddress = data.address;
-    const flatNo = data.flatNo;
-    const addressType = data.addressType;
-
-    const completeAddress = `${flatNo} , ${Custaddress}`;
     const dispatch = useDispatch();
 
 
@@ -49,6 +58,53 @@ export default function PaymentSections() {
     }, [offer]);
 
 
+    // const handlePayment = async () => {
+    //     try {
+    //         const token = localStorage.getItem('token');
+    //         const payload = {
+    //             totalPrice: totalPrice,
+    //             paymentMode: "COD",
+    //             offerId: receivedOffersData.offerId
+    //         };
+    //         if (cart.length > 0) {
+    //             const headers = {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`,
+    //             };
+    //             const response = await axios.post(`http://localhost:8080/customer/create-payment`,
+    //                 payload, {
+    //                 headers: headers,
+    //             });
+    //             if (response.status === 200) {
+    //                 const transformedItems = cart.map(item => ({
+    //                     _id: item._id,
+    //                     unit: item.quantity
+    //                 }));
+    //                 const payloadData = {
+    //                     items: transformedItems,
+    //                     tnxId: response.data.transaction._id,
+    //                     totalPrice: totalPrice,
+    //                     CustomerAddress: completeAddress,
+    //                 }
+    //                 CreateOrder(payloadData)
+    //                     .then(async (response) => {
+    //                         toast.success(response.message);
+    //                         await new Promise((resolve) => setTimeout(resolve, 3000));
+    //                         dispatch(resetCart());
+    //                         navigate('/profile/orders');
+    //                     })
+    //                     .catch(error => {
+    //                         console.error("Error creating order:", error);
+    //                     });
+    //             }
+    //         }else{
+    //             toast.error("Please, Add item to cart");
+    //         }
+    //     } catch (error) {
+    //         console.error('Error processing payment:', error.message);
+    //     }
+    // };
+
     const handlePayment = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -57,44 +113,44 @@ export default function PaymentSections() {
                 paymentMode: "COD",
                 offerId: receivedOffersData.offerId
             };
-            if (cart.length > 0) {
-                const headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                };
-                const response = await axios.post(`http://localhost:8080/customer/create-payment`,
-                    payload, {
-                    headers: headers,
-                });
-                if (response.status === 200) {
-                    const transformedItems = cart.map(item => ({
-                        _id: item._id,
-                        unit: item.quantity
-                    }));
-                    const payloadData = {
-                        items: transformedItems,
-                        tnxId: response.data.transaction._id,
-                        totalPrice: totalPrice,
-                        CustomerAddress: completeAddress,
-                    }
-                    CreateOrder(payloadData)
-                        .then(async (response) => {
-                            toast.success(response.message);
-                            await new Promise((resolve) => setTimeout(resolve, 3000));
-                            dispatch(resetCart());
-                            navigate('/profile/orders');
-                        })
-                        .catch(error => {
-                            console.error("Error creating order:", error);
-                        });
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            };
+            const response = await axios.post(`http://localhost:8080/customer/create-checkout-session`, payload,
+            payload, {
+                headers: headers,
+                Authorization: `Bearer ${token}`,
+            });
+            if(response.status === 200) {
+                const transformedItems = cart.map(item => ({
+                    _id: item._id,
+                    unit: item.quantity 
+                }));
+                const payloadData = {
+                    items:  transformedItems,
+                    tnxId: response.data.transaction._id,
+                    totalPrice: totalPrice,
+                    CustomerAddress:completeAddress,
                 }
-            }else{
-                toast.error("Please, Add item to cart");
+                CreateOrder(payloadData)
+                .then(async (response) => { 
+                    toast.success(response.message);
+                    await new Promise((resolve) => setTimeout(resolve, 3000));
+                    dispatch(resetCart());
+                    navigate('/profile/orders');
+                })
+                .catch(error => {
+                    console.error("Error creating order:", error);
+                });
+
             }
         } catch (error) {
             console.error('Error processing payment:', error.message);
         }
     };
+
 
     return (
         <>
