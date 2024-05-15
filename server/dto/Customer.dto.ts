@@ -54,6 +54,10 @@ export class CartItem {
     unit: number;
 }
  
+export class FavouriteItem {
+    foodId: string;
+}
+ 
 
 
 export class OrderInputs {

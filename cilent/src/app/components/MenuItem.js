@@ -2,7 +2,6 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
 function MenuItem({ foods }) {
-    console.log("foods", foods);
     const navigate = useNavigate();
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);

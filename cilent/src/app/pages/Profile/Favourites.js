@@ -8,10 +8,22 @@ export default function Favourites() {
 
   const navigate = useNavigate();
   const [favoriteFoods, setFavoriteFoods] = useState([]);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const fetchFavourites = async () => {
-      const response = await getFavouriteFoods();
-      setFavoriteFoods(response.data);
+      try {
+        const response = await getFavouriteFoods();
+        setFavoriteFoods(response.data.favouriteFoods);
+      } catch (error) {
+        if (error.response) {
+          setError(`Request failed with status ${error.response.status}`);
+        } else if (error.request) {
+          setError('Request was made but no response received');
+        } else {
+          setError('Error during request setup');
+        }
+      }
+
     }
     fetchFavourites();
   }, []);

@@ -115,6 +115,7 @@ export default function Search() {
         }
     };
     
+    console.log("SearchData",searchData)
 
     const filteredFoods = searchData.filter((food) => {
         if (food && food.name && searchTerm) {
@@ -194,7 +195,7 @@ export default function Search() {
                                             const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
                                             const descriptionText = removeHtmlTags(food.description);
                                             return (
-                                                <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full h-[290px]'>
+                                                <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full max-h-[320px]'>
                                                     <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
                                                         <div >
                                                             <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
@@ -209,17 +210,17 @@ export default function Search() {
                                                     <div className='px-3 py-3'>
                                                         <div className='flex justify-between'>
                                                             <div>
-                                                                <p className='text-lg font-bold'>{food.name}</p>
+                                                                <p className='text-sm font-bold'>{food.name}</p>
                                                                 <p className='flex text-lg'>₹{food.price}</p>
                                                             </div>
 
                                                             <div className='relative'>
                                                                 <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
-                                                                <button
+                                                                {/* <button
                                                                     className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
                                                                     onClick={() => handleCartAction(food)}
                                                                 > Add
-                                                                </button>
+                                                                </button> */}
                                                             </div>
                                                         </div>
                                                         <div className='py-2'>

@@ -24,15 +24,19 @@ import PaymentSections from './app/pages/PaymentSections';
 import Payments from './app/pages/Profile/Payments';
 import { LoadingFoods } from './app/components/LoadingFoods';
 import ProtectedRoute from './app/components/ProtectedRoute';
+import OrderDetails from './app/pages/Profile/OrderDetails';
 function App() {
   const location = useLocation();
 
   const shouldDisplayFooter = () => {
     const { pathname } = location;
-    return !(pathname.includes('/profile')
-      || pathname.includes('/food-details') ||
-      pathname.includes('/checkout')
-      || pathname.includes('/payment')
+    return !(
+         pathname.includes('/profile')
+      || pathname.includes('/food-details') 
+      || pathname.includes('/checkout')
+      || pathname.includes('/payment') 
+      || pathname.includes('/order-details')
+
     );
   };
 
@@ -57,11 +61,13 @@ function App() {
         <Route path="/payment" element={<PaymentSections />} />
         <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
           <Route path="orders" element={<Orders />} />
+          {/* <Route path="order-details/:orderId" element={<OrderDetails />} /> */}
           <Route path="favourites" element={<Favourites />} />
           <Route path="payments" element={<Payments />} />
           <Route path="manage_addresses" element={<Address />} />
           <Route path="super" element={<DeliveryOne />} />
         </Route>
+        <Route path="/order-details/:orderId" element={<ProtectedRoute element={<OrderDetails />} />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       {shouldDisplayFooter() && (

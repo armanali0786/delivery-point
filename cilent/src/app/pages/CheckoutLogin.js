@@ -60,8 +60,8 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
             if (response.status === 200) {
                 const token = response.data.signature;
                 localStorage.setItem('token', token);
-                toast.success(response.data.message);
                 setIsLoggedIn(true);
+                toast.success(response.data.message);
             } else {
                 const validationErrors = response.data.validation;
                 if (validationErrors) {

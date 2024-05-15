@@ -12,7 +12,7 @@ export interface FoodDoc extends Document {
     rating: number;
     images: [string];
     featured: boolean;
-    favourite: boolean;
+    favourite: Schema.Types.ObjectId[];
     brandName: string;
 }
 
@@ -30,7 +30,7 @@ const FoodSchema = new Schema({
     rating: {type: Number},
     images: {type: [String]},
     featured:{type: Boolean},
-    favourite: {type: Boolean},
+    favourite: [{ type: Schema.Types.ObjectId, ref: 'Customer' }],
     brandName: {type: String}
 
 },{

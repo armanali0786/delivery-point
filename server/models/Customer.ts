@@ -18,6 +18,7 @@ interface CustomerDoc extends Document {
     lng: number;
     orders: [OrderDoc]
     cart: [any],
+    favourite: mongoose.Types.ObjectId[];
 }
 
 
@@ -43,7 +44,8 @@ const CustomerSchema = new Schema({
     orders: [{
         type: Schema.Types.ObjectId,
         ref: 'order'
-    }]
+    }],
+    favourite: [{ type: Schema.Types.ObjectId, ref: 'food' }]
 
 },{
     toJSON: {

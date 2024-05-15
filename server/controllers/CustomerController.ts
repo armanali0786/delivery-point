@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
-import { CartItem, CreateCustomerInput, EditCustomerProfileInput, OrderInputs, Product, UserLoginInput } from '../dto/Customer.dto';
+import { CartItem, CreateCustomerInput, EditCustomerProfileInput, FavouriteItem, OrderInputs, Product, UserLoginInput } from '../dto/Customer.dto';
 import { GenerateOtp, GeneratePassword, GenerateSalt, GenerateSignature, ValidatePassword, onRequestOTP } from '../utility';
 import { Customer } from '../models/Customer';
 import { Order } from '../models/Order';
@@ -53,7 +53,7 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
             salt: salt,
             otp: otp,
             otp_expiry: expiry,
-            // address: address,
+            address: address,
             phone: phone,
             verified: false,
             lat: 0,
@@ -639,11 +639,13 @@ export const GetOrderById = async (req: Request, res: Response, next: NextFuncti
     try {
         const orderId = req.params.id;
         if (orderId) {
-
             const order = await Order.findById(orderId).populate("items.food");
-
             if (order) {
                 return res.status(200).json(order);
+            } else {
+                return res.status(404).json({
+                    message: "Order not found",
+                })
             }
         }
     } catch (error) {
@@ -655,18 +657,31 @@ export const GetOrderById = async (req: Request, res: Response, next: NextFuncti
 /** ---------------------Get Favourite Foods ------------------------------ **/
 
 export const getFavouriteFoods = async (req: Request, res: Response, next: NextFunction) => {
+    const customer = req.user;
     try {
-        const foods = await Food.find({ favourite: true });
-        if (foods) {
-            return res.status(200).json(foods);
-        } else {
-            return res.status(400).json({
-                status: 400,
-                message: 'No food found'
-            })
+        if (!customer) {
+            return res.status(404).json({
+                status: 404,
+                message: 'Customer not found'
+            });
         }
+        const customerWithFavourites = await Customer.findById(customer._id).populate('favourite.food');
+        if (!customerWithFavourites) {
+            return res.status(404).json({
+                status: 404,
+                message: 'Customer not found'
+            });
+        }
+
+        const favouriteFoodIds = customerWithFavourites.favourite.map(fav => fav.toString());
+
+        const favouriteFoods = await Food.find({ _id: { $in: favouriteFoodIds } });
+
+        return res.status(200).json({
+            favouriteFoods
+        });
     } catch (error) {
-        console.error('Error fetching food data:', error);
+        console.error('Error fetching favourite foods:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
@@ -674,48 +689,82 @@ export const getFavouriteFoods = async (req: Request, res: Response, next: NextF
 /** ---------------------Add Favourite Food ------------------------------ **/
 
 export const addFavouriteFood = async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?._id;
     const { foodId } = req.body;
+
     try {
+        // Check if customer ID is valid
+        if (!customerId) {
+            return res.status(400).json({ message: 'Invalid customer ID' });
+        }
+
+        // Find the customer by ID
+        const customer = await Customer.findById(customerId);
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' });
+        }
+
+        // Find the food item by ID
         const food = await Food.findById(foodId);
         if (!food) {
-            return res.status(404).json({
-                status: 404,
-                message: 'Food not found'
-            });
+            return res.status(404).json({ message: 'Food item not found' });
         }
-        food.favourite = true;
-        await food.save();
+
+        // Add food to customer's favorites
+        if (!customer.favourite.includes(foodId)) {
+            customer.favourite.push(foodId);
+            await customer.save();
+        } else {
+            return res.status(400).json({ message: 'Food already in favorites' });
+        }
+
+        // Return success response
         return res.status(200).json({
-            message: "Food Added to Favorite",
-            food
+            message: 'Food added to favorites successfully',
+            favourite: customer.favourite
         });
+
     } catch (error) {
         console.error('Error adding food to favorites:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
-
 /** ---------------------Remove Favourite Food ------------------------------ **/
 
 export const removeFavouriteFood = async (req: Request, res: Response, next: NextFunction) => {
-    const { foodId } = req.body;
+    const customerId = req.user?._id; // Assuming user object contains customer ID
+    const { foodId } = req.body; // Extract foodId from request body
+
     try {
-        const food = await Food.findById(foodId);
-        if (!food) {
-            return res.status(404).json({
-                status: 404,
-                message: 'Food not found'
-            });
+        // Check if customer ID is valid
+        if (!customerId) {
+            return res.status(400).json({ message: 'Invalid customer ID' });
         }
 
-        food.favourite = false;
-        await food.save();
+        // Find the customer by ID
+        const customer = await Customer.findById(customerId);
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' });
+        }
+
+        // Check if foodId exists in customer's favourites
+        const index = customer.favourite.indexOf(foodId);
+        if (index === -1) {
+            return res.status(400).json({ message: 'Food item not found in favourites' });
+        }
+
+        // Remove foodId from customer's favourites array
+        customer.favourite.splice(index, 1);
+        await customer.save();
+
+        // Return success response
         return res.status(200).json({
-            message: "Food remove from Favorite",
-            food
+            message: 'Food removed from favourites successfully',
+            favourite: customer.favourite
         });
+
     } catch (error) {
-        console.error('Error removing food from favorites:', error);
+        console.error('Error removing food from favourites:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };

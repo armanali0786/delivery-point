@@ -6,7 +6,7 @@ export default function CancelPayment() {
     const navigate = useNavigate();
     useEffect(()=>{
         setTimeout(()=>{
-            navigate('/payment')
+            navigate('/checkout')
         },[3000])
     })
   return (

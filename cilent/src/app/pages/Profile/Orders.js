@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { fetchOrderData } from '../../apis/ApiCall';
+import { useNavigate } from 'react-router-dom';
 
 export default function Orders() {
     const [orderData, setOrderData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const response = await fetchOrderData();
-                console.log("Response: " + response.data)
                 setOrderData(response)
             } catch (error) {
                 console.error('Error fetching offers:', error);
@@ -33,6 +34,15 @@ export default function Orders() {
     };
 
 
+    const NavigateOrderDetails = (orderId) => {
+        navigate(`/order-details/${orderId}`);
+    }
+
+    const NavigateReOrder = (vendorId) => {
+        navigate(`/food-details/${vendorId}`);
+    }
+
+
     return (
         <>
             <div className="max-w-2xl mx-auto">
@@ -50,7 +60,7 @@ export default function Orders() {
                                     <div className="flex-1 ml-4">
                                         <p className='text-lg'>{order.items[0].food.name}</p>
                                         <p className="text-sm text-zinc-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
-                                        <button className="text-blue-500 underline mt-1">VIEW DETAILS</button>
+                                        <button className="text-blue-500 hover:text-blue-700 underline mt-1" onClick={() => NavigateOrderDetails(order._id)}>VIEW DETAILS</button>
                                         <p className="mt-2 text-zinc-500">{order.items[0].food.name}  x {order.items[0].unit}</p>
                                     </div>
                                 </>
@@ -58,12 +68,12 @@ export default function Orders() {
                                 <p className="text-red-500">Food not available</p>
                             )}
                             <div>
-                                <p className="text-sm text-zinc-500">Total Paid: ₹{order.totalAmount}</p>
+                                <p className="text-sm text-zinc-500 font-bold">Total Paid: ₹{order.totalAmount}</p>
                             </div>
                         </div>
                         <div className="flex mt-3">
-                            <button className="bg-orange-500 text-white rounded-md px-4 py-2 mr-2">REORDER</button>
-                            <button className="bg-green-700 text-white rounded-md px-4 py-2">HELP</button>
+                            <button className="bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 mr-2 cursor-pointer"  onClick={() => NavigateReOrder(order.vendorId)} >REORDER</button>
+                            <button className="bg-[#60b246] hover:bg-[#4e9638] text-white rounded-md px-4 py-2">HELP</button>
                         </div>
                     </div>
                 ))}
