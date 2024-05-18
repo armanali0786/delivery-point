@@ -43,7 +43,7 @@ export default function Favourites() {
 
 
   return (
-    <div className="dark:bg-zinc-800">
+    <div className="dark:bg-zinc-800 py-4">
       <div className="container mx-auto px-4">
         <h1 className="text-2xl font-bold text-zinc-800 dark:text-white">Favorites</h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-5">Find your saved items and get ready to order them.</p>

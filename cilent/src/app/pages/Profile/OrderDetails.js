@@ -45,34 +45,64 @@ export default function OrderDetails() {
     return (
         <>
             <ToastContainer />
-            <div className='bg-gray-200 py-10 font-sans rounded-lg'>
-                <div className="max-w-4xl mx-auto bg-white p-6 shadow-lg">
+            <div className='bg-white py-5 font-sans rounded-lg'>
+                <div className="max-w-4xl mx-auto p-6 ">
                     <h1 className="text-2xl font-bold mb-2">Your Order is Confirmed!</h1>
                     <p className="mb-4">Hi {decoded.fullName}!</p>
                     <p className='mb-4'>Your Order has been confirmed and will be shipping soon</p>
 
-                    <div className='bg-gray-200 rounded-lg px-2'>
-                        <h2 className="text-xl font-semibold py-3">Order #{orderDetails.orderId}</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm py-3 px-2">
+                    <div className='bg-gray-200 shadow-slate-300 rounded-lg px-2'>
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 items-center text-sm py-3 px-2">
                             <div>
-                                <h3 className="font-semibold">Delivery Address</h3>
-                                <p className='text-zinc-600'>{orderDetails.CustomerAddress}</p>
+                                <h2 className="text-xl font-semibold">OrderId:  #{orderDetails.orderId}</h2>
                             </div>
                             <div>
-                                <h3 className="font-semibold">Billing Address</h3>
-                                <p className='text-zinc-600'>{orderDetails.CustomerAddress}</p>
+                                <h3 className="font-semibold">Order Amount</h3>
+                                <p className='text-zinc-600'>{orderDetails.totalAmount}</p>
                             </div>
                             <div>
-                                <h3 className="font-semibold">Contact Help</h3>
-                                <p className='text-zinc-600'>(+91)-731-9977-276<br />armanali.shaikh77@gmail.com</p>
-                            </div>
-                            <div>
-                                <h3 className="font-semibold">Payment Information</h3>
-                                <p className='text-zinc-600'>VISA Ending with 4242<br />Expires 02/25</p>
+                                <h3 className="font-semibold">Order Date</h3>
+                                <p className='text-zinc-600'>16 May</p>
                             </div>
                         </div>
                     </div>
+                    {/* <div>
+                        <h3 className="font-semibold">Contact Help</h3>
+                        <p className='text-zinc-600'>(+91)-731-9977-276<br />armanali.shaikh77@gmail.com</p>
+                    </div> */}
 
+
+                    <div className="mb-6 py-10">
+                        <h3 className="font-semibold mb-2">Shipping Progress</h3>
+                        <div className="w-full bg-zinc-200 rounded-full h-1.5 dark:bg-zinc-700 relative">
+                            <div className='flex justify-between absolute top-[-10px] w-full'>
+                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
+                                    <FaCheck />
+                                </div>
+                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
+                                    <FaCheck />
+                                </div>
+                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
+                                    <FaCheck />
+                                </div>
+                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
+                                    <FaCheck />
+                                </div>
+                            </div>
+                            <div className="bg-[#60b246] h-1.5 rounded-full" style={{ width: "25%" }}></div>
+                        </div>
+                        <div className="flex justify-between text-xs mt-2 ">
+                            <span>Order Placed</span>
+                            <span>Shipped</span>
+                            <span>Out of Delivery</span>
+                            <span>Delivered</span>
+                        </div>
+                    </div>
+
+                    <div className='py-5'>
+                        <h3 className="font-semibold">Delivery Address</h3>
+                        <p className='text-zinc-600'>{orderDetails.CustomerAddress}</p>
+                    </div>
 
                     <div className="mt-6">
                         <div className="flex justify-between items-center mb-2">
@@ -81,8 +111,8 @@ export default function OrderDetails() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {orderDetails.items && orderDetails.items.map((item, index) => (
-                                <div className=' border-gray-300 border-2 pt-2 px-2 rounded-lg'>
-                                    <div className="flex items-center mb-4">
+                                <div className='border-gray-300 border-2 pt-2 rounded-lg'>
+                                    <div className="px-2 flex items-center mb-4">
                                         <img src={`http://localhost:8080/images/${item.food.images[0]}`} alt="product image" className="mr-4 h-16 w-16" />
                                         <div>
                                             <p>{item.food.name}</p>
@@ -90,10 +120,11 @@ export default function OrderDetails() {
                                             <p>Quantity {item.unit}</p>
                                         </div>
                                     </div>
+                                    <button className='w-full hover:bg-red-500 hover:text-white hover:rounded-b-lg bg-gray-300 pt-2 pb-2 border-black' >Cancel</button>
                                 </div>
                             ))}
-                            <div className='border-gray-300 border-2 py-2 px-2 rounded-lg'>
-                                <div className="mb-2">
+                            <div className='border-gray-300 border-2 py-2  rounded-lg'>
+                                <div className="mb-2 px-2">
                                     <div className="flex justify-between mt-2">
                                         <span>Item Total</span>
                                         <span>---</span>
@@ -112,33 +143,6 @@ export default function OrderDetails() {
                         </div>
                     </div>
 
-                    <div className="mb-6 py-5 ">
-                        <h3 className="font-semibold mb-2">Shipping Progress</h3>
-                        <div className="w-full bg-zinc-200 rounded-full h-2.5 dark:bg-zinc-700 relative">
-                            <div className='flex justify-between absolute top-[-7px] w-full'>
-                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
-                                    <FaCheck className=' ' />
-                                </div>
-                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
-                                    <FaCheck className=' ' />
-                                </div>
-                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
-                                    <FaCheck className=' ' />
-                                </div>
-                                <div className='inline-block bg-[#60b246] text-white rounded-full p-1'>
-                                    <FaCheck className=' ' />
-                                </div>
-                            </div>
-                            <div className="bg-[#60b246] h-2.5 rounded-full" style={{ width: "25%" }}></div>
-                        </div>
-                        <div className="flex justify-between text-xs mt-2">
-
-                            <span>Order Placed</span>
-                            <span>Shipped</span>
-                            <span>Out of Delivery</span>
-                            <span>Delivered</span>
-                        </div>
-                    </div>
 
                     <p className="mt-6 text-sm text-zinc-600">We'll send you shipping confirmation when your items are on the way! We appreciate
                         your business, and hope you enjoy your purchase. Thank you!</p>

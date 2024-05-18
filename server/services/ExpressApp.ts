@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
-import { AdminRoute,VendorRoute, ShoppingRoute , CustomerRoute } from '../routes';
+import { AdminRoute,VendorRoute, ShoppingRoute , CustomerRoute, ChatRoute } from '../routes';
 
 /** --------------------- App Server ------------------------------ **/
 
@@ -23,6 +23,7 @@ export default async(app: Application) =>{
     app.use('/admin',AdminRoute);
     app.use('/vendor',VendorRoute);
     app.use('/customer',CustomerRoute);
+    app.use('/chats', ChatRoute);
     app.use(ShoppingRoute);
 
 }

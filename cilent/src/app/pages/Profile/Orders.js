@@ -35,7 +35,7 @@ export default function Orders() {
 
 
     const NavigateOrderDetails = (orderId) => {
-        navigate(`/order-details/${orderId}`);
+        navigate(`/profile/order-details/${orderId}`);
     }
 
     const NavigateReOrder = (vendorId) => {
@@ -45,7 +45,7 @@ export default function Orders() {
 
     return (
         <>
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto py-4">
                 <h2 className="text-xl font-semibold mb-4">Past Orders</h2>
                 {orderData.map((order) => (
                     <div className="bg-white rounded-lg shadow-md p-4 mb-4">

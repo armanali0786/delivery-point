@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 import { IoMdMenu } from "react-icons/io";
+import DeliveryOne from './DeliveryOne';
 import { useMediaQuery } from '@react-hook/media-query';
 export default function Profile() {
     const token = localStorage.getItem('token');
@@ -68,9 +69,8 @@ export default function Profile() {
                                 Edit Profile
                             </button>
                         </header>
-
                         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-200">
-                            <div className="container mx-auto py-4">
+                            <div className="container mx-auto">
                                 <Outlet />
                             </div>
                         </main>

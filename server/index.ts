@@ -11,6 +11,10 @@ const StartServer = async () =>{
     const app = express();
     await DbConnection();
     await App(app);
+
+
+
+
     app.listen(PORT , () => {
         console.log(`app listening on port no ${PORT}`);
     });
