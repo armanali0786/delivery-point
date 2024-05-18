@@ -1,3 +1,4 @@
+
 import { Request, Response, NextFunction } from 'express';
 
 const dialogflow = require('@google-cloud/dialogflow');
@@ -18,8 +19,6 @@ export const ChatMessageService = async (req: Request, res: Response, next: Next
             })
     }
 }
-
-
 
 
 async function runSample(message: string, projectId = 'deliverypoint-bot-k9dr') {

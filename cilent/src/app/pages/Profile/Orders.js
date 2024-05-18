@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { fetchOrderData } from '../../apis/ApiCall';
 import { useNavigate } from 'react-router-dom';
+import Chatbot from '../Chatbot';
 
 export default function Orders() {
     const [orderData, setOrderData] = useState([]);
+    const [isChatModelOpen, setIsChatModelOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,6 +44,9 @@ export default function Orders() {
         navigate(`/food-details/${vendorId}`);
     }
 
+    const toggleChatModel = () => {
+        setIsChatModelOpen(!isChatModelOpen);
+    };
 
     return (
         <>
@@ -73,7 +78,8 @@ export default function Orders() {
                         </div>
                         <div className="flex mt-3">
                             <button className="bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 mr-2 cursor-pointer"  onClick={() => NavigateReOrder(order.vendorId)} >REORDER</button>
-                            <button className="bg-[#60b246] hover:bg-[#4e9638] text-white rounded-md px-4 py-2">HELP</button>
+                            <button className="bg-[#60b246] hover:bg-[#4e9638] text-white rounded-md px-4 py-2" onClick={toggleChatModel} >HELP</button>
+                            <Chatbot  isChatModelOpen ={isChatModelOpen} toggleChatModel={toggleChatModel}  />
                         </div>
                     </div>
                 ))}

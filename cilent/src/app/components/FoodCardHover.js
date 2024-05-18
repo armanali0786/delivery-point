@@ -40,20 +40,22 @@ export default function FoodCardHover() {
                     {foodInMin && foodInMin.map((food, index) => {
                         const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
                         const descriptionText = removeHtmlTags(food.description);
+                        const numofNameToShow = food.name.split(' ').length > 2 ? 6 : 10;
+                        const descriptionName = removeHtmlTags(food.name);
                         return (
                             <div class="food-card flex-row bg-[#C0C0C0] cursor-pointer" onClick={() => handleNavigate(food.vendorId)}>
                                 <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[150px] object-cover' />
                                 <div className="flex justify-between items-end my-1">
-                                    <p className=" text-[16px] font-bold text-[#222222]">{food.name}</p>
+                                    <p className=" text-[16px] font-bold text-[#222222]">{getFirstNWords(descriptionName, numofNameToShow)}...</p>
                                     <p className=" text-sm font-bold text-[#222222]">{food.foodType}</p>
-                                </div>
-                                <div className=" flex justify-between items-end">
-                                    <p className=" text-sm font-bold text-gray-900">₹{food.price}</p>
-                                    <p className=" text-sm font-bold text-[#222222]">{food.category}</p>
                                 </div>
                                 <p className='text-sm'>
                                 {getFirstNWords(descriptionText, numWordsToShow)}....
                                 </p>
+                                <div className=" flex justify-between items-end">
+                                    <p className=" text-sm font-bold text-gray-900">₹{food.price}</p>
+                                    <p className=" text-sm font-bold text-[#222222]">{food.category}</p>
+                                </div>
                                 <div class="go-corner">
                                     <div class="go-arrow">→</div>
                                 </div>

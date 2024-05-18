@@ -1,7 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }) => {
+
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState();
+
+  const handleInputChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && searchText.trim() !== '') {
+      navigate(`/search?query=${encodeURIComponent(searchText)}`);
+    }
+  };
+
+  const handleSearchButton = (e) => {
+    e.preventDefault();
+    if (searchText.trim() !== '') {
+      navigate(`/search?query=${encodeURIComponent(searchText.trim())}`);
+    }
+  };
+
+
   const [title, setTitle] = useState("We are always here to serve you.");
+
   return (
     <div id="product">
       <div style={{ textShadow: '0px 1px 1px gray' }} className="flex flex-col items-center justify-start font-sans bg-gray-50 lg:pt-10 lg:pb-20 bg-hero sm:bg-hero md:bg-hero lg:bg-hero lg:bg-cover">
@@ -20,6 +45,7 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
           </h1>
           <div className="flex justify-center mt-2 flex-col gap-5 sm:gap-7 items-center">
             <div className="flex items-center gap-4 justify-center w-fit">
+
               <div
                 className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:shadow-orange-600 cursor-pointer group pt-2"
                 onMouseEnter={() =>
@@ -104,20 +130,23 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
                 </svg>
                 <input
                   type="text"
+                  value={searchText}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
                   className="py-1 outline-none max-w-[156px] sm:max-w-none placeholder:text-xs sm:placeholder:text-sm"
                   placeholder="Street Address, City, State"
                 />
               </div>
-              <button
-                className="bg-orange-600 px-6 py-1 text-base lg:text-lg font-semibold text-white rounded-r-lg shadow-md "
-                type="submit"
-              >
-                Search
-              </button>
+                <button
+                  className="bg-orange-600 px-6 py-1 text-base lg:text-lg font-semibold text-white rounded-r-lg shadow-md "
+                  type="submit"
+                  onSubmit={handleSearchButton}
+                >
+                  Search
+                </button>
             </div>
           </div>
         </div>
-
       </div>
       {/* <div className="z-0 flex flex-row items-start justify-center w-screen h-screen pt-20 -mb-16 bg-gray-50 lg:bg-white lg:mb-20 lg:w-full lg:h-80 lg:pt-0">
         <img className="absolute left-0 lg:left-auto lg:-mt-64" src={rectangle_1} alt=""/><img className="absolute right-0 lg:right-auto lg:ml-24 lg:-mt-16" src={rectangle_2} alt=""/>

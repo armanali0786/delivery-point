@@ -13,7 +13,7 @@ router.use(Authenticate);
 
 /** --------------------- Create Vendor ------------------------------ **/
 
-router.post('/api-messages',ChatMessageService);
+router.post('/sent-messages',ChatMessageService);
 
 
 export {router as ChatRoute}; 

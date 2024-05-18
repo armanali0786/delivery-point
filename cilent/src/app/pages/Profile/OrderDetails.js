@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -6,10 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { FaCheck } from "react-icons/fa6";
+import Chatbot from '../Chatbot';
 
 
 export default function OrderDetails() {
-    const [orderDetails, setOrderDetails] = React.useState({});
+    const [orderDetails, setOrderDetails] = useState({});
+    const [isChatModelOpen, setIsChatModelOpen] = useState(false);
     const token = localStorage.getItem('token');
     const decoded = jwtDecode(token);
     const { orderId } = useParams();
@@ -41,6 +43,10 @@ export default function OrderDetails() {
     useEffect(() => {
         fetchOrderDetails();
     }, [orderId]);
+
+    const toggleChatModel = () => {
+        setIsChatModelOpen(!isChatModelOpen);
+    };
 
     return (
         <>
@@ -148,7 +154,9 @@ export default function OrderDetails() {
                         your business, and hope you enjoy your purchase. Thank you!</p>
 
                     <div className="text-center mt-4">
-                        <a href="#" className="text-blue-500 hover:text-blue-700">Contact our Customer Support</a>
+                        <a href="#" className="text-blue-500 hover:text-blue-700" onClick={toggleChatModel}>Contact our Customer Support</a>
+                        <Chatbot  isChatModelOpen ={isChatModelOpen} toggleChatModel={toggleChatModel}  />
+
                     </div>
                 </div>
             </div>

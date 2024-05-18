@@ -181,7 +181,7 @@ export default function Checkout() {
                             <p className="text-green-700 text-center text-2xl font-bold">Your cart is empty</p>
                             <p className="text-[#7e808c]  text-center text-sm font-bold mb-5">You can go to home page to view more restaurants</p>
                         </div>
-                        <Link to='/menu'> <button className="text-white bg-orange-500 mb-5 w-28 h-14">Go to Menu</button></Link>
+                        <Link to='/menu'> <button className="text-white bg-orange-500 mb-5 w-28 h-12 hover:bg-orange-700">Go to Menu</button></Link>
                     </div>
                 </div>
             ) : (

@@ -93,12 +93,12 @@ export default function MenuList() {
               onChange={handleCategoryChange}
             />
             {/* <Filter text={'Sort By'} FilterType={'radio'} setFilterData={setFilterData} /> */}
-            <button className="mx-2 border-2 w-20 rounded-3xl border-slate-500 hover:bg-[#5B63B7] hover:text-white hover:border-white">
+            {/* <button className="mx-2 border-2 w-20 rounded-3xl border-slate-500 hover:bg-[#5B63B7] hover:text-white hover:border-white">
               Offers
             </button>
             <button className="mx-2 border-2 w-36 rounded-3xl border-slate-500 hover:bg-[#5B63B7] hover:text-white hover:border-white">
               Fast Delivery
-            </button>
+            </button> */}
             <button onClick={handleRatingButtonClick}
               className={`mx-2 border-2 w-36 rounded-3xl border-slate-500 ${ratingFilter ? 'bg-[#5B63B7] text-white hover:bg-[#5B63B7] hover:text-white' : 'hover:bg-[#5B63B7] hover:text-white'
                 }`}

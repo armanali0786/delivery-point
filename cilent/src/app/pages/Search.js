@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+
 import FoodSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { IoMdStar } from "react-icons/io";
 import { fetchFoods } from '../apis/ApiCall';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaArrowRight } from "react-icons/fa";
+import { MdArrowForward } from "react-icons/md";
+import { MdArrowOutward } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addToCart, removeItem } from "../cart/cartSlice";
 
@@ -40,6 +41,7 @@ export default function Search() {
     const [searchText, setSearchText] = useState();
     const [expandedDescription, setExpandedDescription] = useState({});
 
+    const [hover, setHover] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -115,7 +117,6 @@ export default function Search() {
         }
     };
     
-    console.log("SearchData",searchData)
 
     const filteredFoods = searchData.filter((food) => {
         if (food && food.name && searchTerm) {
@@ -204,7 +205,8 @@ export default function Search() {
                                                                 <p className='mx-1 text-gray-800'>20-25 MINS</p>
                                                             </div>
                                                         </div>
-                                                        <p className="mt-1 text-lg font-medium text-gray-900"><FaArrowRight /></p>
+                                                        <p className="mt-1 text-2xl text-black !font-extrabold bg-gray-400 p-2 rounded-full " onMouseEnter={() => setHover(true)}
+                                                         onMouseLeave={() => setHover(false)}>{hover ? <MdArrowForward /> : <MdArrowOutward />}</p>
                                                     </div>
                                                     <hr className='mt-3' />
                                                     <div className='px-3 py-3'>
