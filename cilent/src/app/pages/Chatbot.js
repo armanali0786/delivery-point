@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { IoMdSend } from "react-icons/io";
 import CustomerSupprt from '../assets/customer-servic.png';
 import ChatBotImage from '../assets/chatbot-image.png';
@@ -9,6 +9,7 @@ import axios from 'axios';
 export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
     const [userMessage, setUserMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    const messagesEndRef = useRef(null);
 
     const sendMessage = async () => {
         try {
@@ -44,6 +45,21 @@ export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
             document.body.classList.remove('body-no-scroll');
         }
     }, [isChatModelOpen]);
+
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      };
+    
+      useEffect(() => {
+        scrollToBottom();
+      }, []);
+    
+      useEffect(() => {
+        scrollToBottom();
+      });
 
     return (
         <>
@@ -82,7 +98,7 @@ export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
                                            <img src={ChatBotImage} alt="ChatBot" className='bg-white rounded-full h-8 w-8' />
                                         )}
                                     </div>
-                                    <div className={` text-sm bg-${message.fromUser ? 'blue-500' : 'white'} text-${message.fromUser ? 'white' : 'black'} rounded-lg p-3 shadow max-w-xs `}>
+                                    <div className={` text-sm bg-${message.fromUser ? 'blue-500' : 'white'} text-${message.fromUser ? 'white' : 'black'} rounded-lg p-3 shadow max-w-xs `} ref={messagesEndRef}>
                                         <p>{message.text}</p>
                                     </div>
                                     {!message.fromUser && <AiOutlineMessage />}
