@@ -22,8 +22,8 @@ export default function LocationList() {
 
 function LocationListItem({ name, count }) {
   return (
-    <div className="border-2 border-solid border-slate-200 bg-gray-200 p-4 rounded-lg transition duration-300 ease-out transform hover:scale-105">
-      <p className="text-xl py-1">{name}</p>
+    <div className="border-solid bg-white p-4 rounded-lg transition duration-300 ease-out transform hover:scale-105">
+      <p className="text-xl py-1 text-zinc-900">{name}</p>
       <span>{count} places</span>
       <i className="flex justify-end">
         <FaArrowRight />

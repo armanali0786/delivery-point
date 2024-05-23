@@ -21,7 +21,8 @@ import {
     CreateStripePayment,
     getFavouriteFoods,
     addFavouriteFood,
-    removeFavouriteFood
+    removeFavouriteFood,
+    GetTransactionsByCustomer
     } from '../controllers';
     
 import { Authenticate } from '../middlewares';
@@ -60,7 +61,6 @@ router.get('/cart',GetCart);
 /** ---------------------Delete Cart------------------------------ **/
 router.delete('/cart',DeleteCart);
 
-
 /** ---------------------Verify Offer------------------------------ **/
 router.get('/offer/verify/:id',VerifyOffer); 
 
@@ -93,5 +93,9 @@ router.post('/add-favourite', addFavouriteFood);
 /** --------------------- Remove Favourite------------------------------ **/
 
 router.post('/remove-favourite', removeFavouriteFood);
+
+/** --------------------- Get  transaction by Customer------------------------------ **/
+
+router.get('/get-transactions', GetTransactionsByCustomer);
 
 export {router as CustomerRoute} ; 

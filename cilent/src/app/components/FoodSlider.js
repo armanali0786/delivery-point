@@ -84,7 +84,7 @@ export default function FoodSlider({ slideToshow }) {
                         {foods.map((food, index) => (
                             <div key={index}>
                                 <div className='flex items-center'>
-                                    <img src={food.image} alt={food.name} className='mx-auto rounded-full h-[150px] h-30 object-contain' />
+                                    <img src={food.image} alt={food.name} className='mx-auto rounded-full h-[150px] object-contain' />
                                 </div>
                             </div>
                         ))}

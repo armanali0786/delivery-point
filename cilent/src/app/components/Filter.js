@@ -87,25 +87,25 @@ export default function Filter({
                                 <label className="ml-2">Relevance (Default)</label>
                             </li>
                         </ul> */}
-                        <ul className="space-y-2 text-sm">
+                        <ul className="space-y-2 text-sm ">
                             <li className="flex items-center">
                                 <input
                                     id="veg"
                                     type={FilterType}
                                     onChange={handleCheckboxChange}
-                                    className="w-4 h-4"
+                                    className="w-4 h-4  cursor-pointer"
                                     checked={selectedCategories.includes("veg")}
                                 />
                                 <label className="ml-2">Veg</label>
                             </li>
                         </ul>
-                        <ul className="space-y-2 text-sm">
+                        <ul className="space-y-2 text-sm ">
                             <li className="flex items-center">
                                 <input
                                     id="nonveg"
                                     type={FilterType}
                                     onChange={handleCheckboxChange}
-                                    className="w-4 h-4"
+                                    className="w-4 h-4  cursor-pointer"
                                     checked={selectedCategories.includes("nonveg")}
                                 />
                                 <label className="ml-2">Non-veg</label>

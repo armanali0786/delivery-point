@@ -10,9 +10,9 @@ import axios from 'axios'
 import OfferSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 
-import { addToCart, removeItem, setItems } from "../cart/cartSlice";
+import { addToCart, removeItem } from "../cart/cartSlice";
 import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { useAuth } from "../context/authContext";
@@ -228,46 +228,46 @@ export default function FoodDetails() {
                 </div>
 
                 <div className='flex justify-center items-center'>
-                    <div className='md:w-[750px] sm:w-[500px] pb-4' >
-                        <div className='flex justify-between px-4'>
+                    <div className='w-full md:w-[750px] sm:w-[500px] pb-5 px-4'>
+                        <div className='flex justify-between items-center pb-5'>
                             <p className='text-2xl font-bold text-[#222222]'>Deals for you</p>
-                            <div className='text-sm'>
-                                <button className='bg-gray-300 p-2 rounded-3xl' type="button" onClick={goToPrev}><FaArrowLeft /></button>
-                                <button className='bg-gray-300 p-2 rounded-3xl ml-5' type="button" onClick={goToNext}><FaArrowRight /></button>
+                            <div className='text-sm flex space-x-5'>
+                                <button className='bg-gray-300 p-2 rounded-full' type="button" onClick={goToPrev}>
+                                    <FaArrowLeft />
+                                </button>
+                                <button className='bg-gray-300 p-2 rounded-full' type="button" onClick={goToNext}>
+                                    <FaArrowRight />
+                                </button>
                             </div>
                         </div>
-                        <div>
-                            <OfferSlider ref={sliderRef}  {...settings}>
-                                {/* <div className='max-w-80 sm:w-48'>
-                                    <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
-                                        <div className="flex items-center">
-                                            <img src={Offers} className='h-16 w-16' alt='Offer' />
-                                        </div>
-                                        <div className="absolute top-5 left-20">
-                                            <p className="top-4 mx-4 text-lg font-semibold">60% Off Upto ₹120</p>
-                                            <p className="top-4 mx-4 text-sm text-indigo-400 font-normal">USE AMEXMATCHDAY</p>
-                                        </div>
+                        <OfferSlider ref={sliderRef} {...settings}>
+                            <div className='max-w-[350px] sm:w-64 w-full pb-5'>
+                                <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
+                                    <div className="flex items-center">
+                                        <img src={Offers} className='h-16 w-16' alt='Offer' />
+                                    </div>
+                                    <div className="absolute top-5 left-20">
+                                        <p className="top-4 mx-4 text-lg font-semibold sm:text-sm">60% Off Upto ₹120</p>
+                                        <p className="top-4 mx-4 text-sm text-indigo-400 font-normal sm:text-sm">USE AMEXMATCHDAY</p>
                                     </div>
                                 </div>
-
-                                <div className='max-w-80 sm:w-48'>
-                                    <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
-                                        <div className="flex items-center">
-                                            <img src={Offers} className='h-16 w-16' alt='Offer' />
-                                        </div>
-                                        <div className="absolute top-5 left-20">
-                                            <p className="top-4 mx-4 text-lg font-semibold">60% Off Upto ₹120</p>
-                                            <p className="top-4 mx-4 text-sm text-indigo-400 font-normal">USE AMEXMATCHDAY</p>
-                                        </div>
+                            </div>
+                            <div className='max-w-[350px] sm:w-64 w-full pb-5'>
+                                <div className="relative flex flex-col border-2 border-solid border-slate-200 bg-gray-200 p-2 rounded-lg">
+                                    <div className="flex items-center">
+                                        <img src={Offers} className='h-16 w-16' alt='Offer' />
                                     </div>
-                                </div> */}
-                             
-                            </OfferSlider>
-                        </div>
+                                    <div className="absolute top-5 left-20">
+                                        <p className="top-4 mx-4 text-lg font-semibold sm:text-sm">60% Off Upto ₹120</p>
+                                        <p className="top-4 mx-4 text-sm text-indigo-400 font-normal sm:text-sm">USE AMEXMATCHDAY</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </OfferSlider>
                     </div>
                 </div>
 
-                <div className='flex justify-center align-center font-bold text-lg'>
+                <div className='flex justify-center align-center font-bold text-lg pb-5'>
                     <button alt="MENU👇🏻" className='menu_button'>
                         <i>D</i>
                         <i>E</i>
@@ -309,11 +309,11 @@ export default function FoodDetails() {
 
                                     </div>
                                     <div className='flex-end my-2 relative'>
-                                        { isLoggedIn && (
-                                         <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'text-[#ED3535]' : 'bg-black text-white'} bg-black p-1 rounded-lg text-start`}
-                                            onClick={() => handleFavourite(food._id)}>
-                                            <span><FaHeart /></span>
-                                        </button>
+                                        {isLoggedIn && (
+                                            <button className={`absolute right-2 top-2 ${favouriteStatus[food._id] ? 'text-[#ED3535]' : 'bg-black text-white'} bg-black p-1 rounded-lg text-start`}
+                                                onClick={() => handleFavourite(food._id)}>
+                                                <span><FaHeart /></span>
+                                            </button>
                                         )}
                                         <img src={`http://localhost:8080/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
                                         <button

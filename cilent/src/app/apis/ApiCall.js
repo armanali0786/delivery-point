@@ -158,6 +158,22 @@ const getFavouriteFoods = async () => {
 };
 
 
+const fetchTransaction = async () => {
+    try {
+        const response = await axios.get(`http://localhost:8080/customer/get-transactions`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+        return response;
+    } catch (error) {
+        console.error('Error fetching foods:', error);
+        throw error;
+    }
+}
+
 
 
 export {
@@ -171,4 +187,5 @@ export {
     fetchOrderData,
     CreateOrder,
     getFavouriteFoods,
+    fetchTransaction
 };

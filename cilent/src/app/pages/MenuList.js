@@ -80,8 +80,8 @@ export default function MenuList() {
         </div>
         <FoodSlider slideToshow={5} />
         <div className="mt-20">
-          <h1 className="text-xl text-[#222222] font-semibold pb-5 px-5">
-            Restaurants with online food delivery in Rajkot
+          <h1 className="text-2xl text-[#222222] font-semibold pb-5 px-5">
+            Restaurants with online food delivery
           </h1>
           <div className="flex flex-nowrap ">
             <Filter

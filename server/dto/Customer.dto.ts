@@ -38,7 +38,6 @@ export class EditCustomerProfileInput {
     @Length(6,16)
     address: string;
 }
- 
 
 export interface CustomerPayload {
     _id: string;
@@ -57,8 +56,6 @@ export class CartItem {
 export class FavouriteItem {
     foodId: string;
 }
- 
-
 
 export class OrderInputs {
     tnxId: string;

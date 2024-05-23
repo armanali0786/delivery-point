@@ -968,3 +968,53 @@ export const getFoodByCategory = async (req: Request, res: Response, next: NextF
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+
+
+ <div style="color: rgb(255, 255, 255); background-color: rgb(138, 0, 0);" class=" flex flex-row justify-between block">
+                <div class=" w-full mx-2 md:mx-auto">
+                    <div class="flex justify-between md:justify-center gap-x-2 m-0 md:m-2 p-2 md:p-0">
+                        <div class="mr-5 hidden md:flex justify-center items-center text-5xl"><img
+                            src="https://namastedevprod.s3.ap-south-1.amazonaws.com/banner+and+logos/discount.png" alt="user"
+                            width="60" height="60" class="object-contain"/></div>
+                        <div class=" flex flex-col md:flex-row gap-x-4 md:gap-x-12">
+                            <div>
+                                <h1 class="font-semibold text-[11px] md:text-lg">Namaste Frontend System Design is here 🚀</h1>
+                                <h1 class="font-bold md:font-bold text-[12px] md:text-xl">Coupon code : EARLYBIRD</h1>
+                            </div>
+                            <div>
+                                <div class=" flex gap-x-2 md:gap-x-3">
+                                    <div class="flex flex-col justify-center items-center"><b class="text-base md:text-2xl">0</b>
+                                        <p class="text-[10px] md:text-sm">DAYS</p>
+                                    </div>
+                                    <p class=" flex justify-center items-center">:</p>
+                                    <div class="flex flex-col justify-center items-center"><b class="text-base md:text-2xl">10</b>
+                                        <p class="text-[10px] md:text-sm">HOURS</p>
+                                    </div>
+                                    <p class=" flex justify-center items-center">:</p>
+                                    <div class="flex flex-col justify-center items-center"><b class="text-base md:text-2xl">27</b>
+                                        <p class="text-[10px] md:text-sm">MINS</p>
+                                    </div>
+                                    <p class=" flex justify-center items-center">:</p>
+                                    <div class="flex flex-col justify-center items-center"><b class="text-base md:text-2xl">04</b>
+                                        <p class="text-[10px] md:text-sm">SECS</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ml-0 md:ml-12 flex flex-col md:flex-row justify-end md:justify-center items-center "><a
+                            href="https://namastedev.com/learn/namaste-frontend-system-design?coupon=EARLYBIRD"><button
+                                style="background-color: rgb(40, 167, 69); color: rgb(255, 255, 255);"
+                                class="btn font-semibold text-xs md:text-base px-4 md:px-8 btn-sm md:btn-md hover:bg-blend-darken rounded-full  border-none">ENROLL
+                                NOW</button></a></div>
+                    </div>
+                </div>
+                <div class="absolute top-0 md:top-3 right-0 md:right-3 flex flex-col md:flex-row items-end md:justify-end"><button
+                    class="p-3"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                        class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+                        </path>
+                    </svg></button></div>
+            </div>

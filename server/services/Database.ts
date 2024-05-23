@@ -6,7 +6,6 @@ import { MONGO_URI } from '../config';
 
 export default async () => {
     try {
-
         interface CustomConnectOptions extends mongoose.ConnectOptions {
             useNewUrlParser: boolean;
         }
