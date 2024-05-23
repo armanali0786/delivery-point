@@ -103,6 +103,12 @@ Future Enhancements:
 
 
 ## Video Streaming
+HomePage:- 
+https://github.com/armanali0786/delivery-point/assets/76746226/0c4771cd-8352-4eca-b9c7-bcdedc545169
+
+
+chatbot :- 
+[chatbot.webm](https://github.com/armanali0786/delivery-point/assets/76746226/6293dff2-18f6-4590-9e36-9eee8cb02c2f)
 
 
 
