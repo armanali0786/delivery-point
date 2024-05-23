@@ -1,4 +1,4 @@
-
+[payment.webm](https://github.com/armanali0786/delivery-point/assets/76746226/c4937f87-54b9-46ed-91d4-355b0e36e343)
 # Delivery Point
 
 Design and developed websites features such as food listing with quick delivery options within 30 minutes, showcasing top-rated restaurants, and enabling robust search capabilities for food items and restaurants.
@@ -102,14 +102,32 @@ Future Enhancements:
 ![LoginScreen](https://github.com/armanali0786/delivery-point/assets/76746226/8589e8a9-3adc-4fb6-90e4-815e79c2da58)
 
 
-## Video Streaming
+## Video Streaming 👇 👇 👇  
+(Click on Provided Link to see the Video) 
+
 HomePage:- 
 https://github.com/armanali0786/delivery-point/assets/76746226/0c4771cd-8352-4eca-b9c7-bcdedc545169
 
+MenuList:- 
+https://github.com/armanali0786/delivery-point/assets/76746226/431c287f-c0cb-4b73-940e-33cc5c72610d
+
+Food Details:- 
+[food-details.webm](https://github.com/armanali0786/delivery-point/assets/76746226/0e8ebe9b-5a7d-4eca-b017-0786417b9137)
+
+Checkout Page :- 
+[checkoutpage.webm](https://github.com/armanali0786/delivery-point/assets/76746226/38e39042-7a44-4ca4-888d-150d956c2f7f)
+
+Payment Process:- 
+[payment.webm](https://github.com/armanali0786/delivery-point/assets/76746226/e0d31104-d2e0-4580-9d62-c33f32c33c4f)
+
+Customer Profile:-
+[profile-section.webm](https://github.com/armanali0786/delivery-point/assets/76746226/489462e7-ebe0-4920-8f41-a420d99d4a9b)
 
 chatbot :- 
 [chatbot.webm](https://github.com/armanali0786/delivery-point/assets/76746226/6293dff2-18f6-4590-9e36-9eee8cb02c2f)
 
+Login & Signup :-
+[login-signup.webm](https://github.com/armanali0786/delivery-point/assets/76746226/2c9291e1-b821-4628-a72e-4667248d578e)
 
 
 ## Documentation
