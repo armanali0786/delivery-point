@@ -49,8 +49,8 @@ export default function Checkout() {
     };
 
 
+    const deliveryAddress = localStorage.getItem('deliveryAddress');
     useEffect(() => {
-        const deliveryAddress = localStorage.getItem('deliveryAddress');
         if (deliveryAddress) {
             try {
                 const parseAddress = JSON.parse(deliveryAddress);
@@ -168,6 +168,8 @@ export default function Checkout() {
 
     const isEmpty = cart.length === 0;
 
+
+
     return (
         <>
             <ToastContainer />
@@ -275,7 +277,7 @@ export default function Checkout() {
                                 <div className="mb-4">
                                     <div className="p-4 bg-white shadow-md">
                                         <p className="text-black font-bold text-xl">Payment ✅</p>
-                                        {isLoggedIn && address && (
+                                        {isLoggedIn && deliveryAddress && (
                                             <>
                                                 <button className='mt-5 w-full py-3 bg-[#60b246] text-white hover:bg-[#4a9932]'
                                                     onClick={NaviagatePayment}
