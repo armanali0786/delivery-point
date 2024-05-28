@@ -49,7 +49,7 @@ export default function MenuList() {
         params.rating = '4';
       }
 
-      const response = await axios.get('http://localhost:8080/get-foods-bycategory', {
+      const response = await axios.get('https://delivery-point.onrender.com/get-foods-bycategory', {
         params: params
       });
       if (response.status === 200) {

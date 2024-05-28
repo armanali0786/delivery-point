@@ -15,7 +15,7 @@ export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                'http://localhost:8080/chats/sent-messages',
+                'https://delivery-point.onrender.com/chats/sent-messages',
                 { message: userMessage },
                 {
                     headers: {

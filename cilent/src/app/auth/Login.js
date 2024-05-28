@@ -27,7 +27,7 @@ export default function SignUp() {
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:8080/customer/login', values);
+      const response = await axios.post('https://delivery-point.onrender.com/customer/login', values);
       console.log(response.data.signature)
       if (response.status === 200) {
         const token = response.data.signature;

@@ -460,8 +460,8 @@ const CreateStripePayment = (req, res, next) => __awaiter(void 0, void 0, void 0
                 payment_method_types: ["card"],
                 mode: "payment",
                 line_items: lineItems,
-                success_url: "http://localhost:3000/profile/orders",
-                cancel_url: "http://localhost:3000/payment-cancel"
+                success_url: "https://delivery-point.onrender.com/profile/orders",
+                cancel_url: "https://delivery-point.onrender.com/payment-cancel"
             });
             res.json({ sessionId: session.id });
         }

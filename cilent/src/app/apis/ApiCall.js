@@ -5,7 +5,7 @@ const token = localStorage.getItem("token");
 
 const fetchFoods = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/get-all-foods', {
+        const response = await axios.get('https://delivery-point.onrender.com/get-all-foods', {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -19,7 +19,7 @@ const fetchFoods = async () => {
 
 const fetchTopFoods = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/get-top-foods', {
+        const response = await axios.get('https://delivery-point.onrender.com/get-top-foods', {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -35,7 +35,7 @@ const fetchTopFoods = async () => {
 
 const fetchVendors = async (pincode) => {
     try {
-        const response = await axios.get(`http://localhost:8080/${pincode}`, {
+        const response = await axios.get(`https://delivery-point.onrender.com/${pincode}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -49,7 +49,7 @@ const fetchVendors = async (pincode) => {
 
 const fetchVendorsById = async (vendorId) => {
     try {
-        const response = await axios.get(`http://localhost:8080/foods/${vendorId}`, {
+        const response = await axios.get(`https://delivery-point.onrender.com/foods/${vendorId}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -64,7 +64,7 @@ const fetchVendorsById = async (vendorId) => {
 
 const fetchRestaurants = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/all-restaurant`, {
+        const response = await axios.get(`https://delivery-point.onrender.com/all-restaurant`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -79,7 +79,7 @@ const fetchRestaurants = async () => {
 
 const fetchFoodInMin = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/foods-30-min`, {
+        const response = await axios.get(`https://delivery-point.onrender.com/foods-30-min`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -94,7 +94,7 @@ const fetchFoodInMin = async () => {
 
 const fetchOffersData = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/customer/available-offers`, {
+        const response = await axios.get(`https://delivery-point.onrender.com/customer/available-offers`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -110,7 +110,7 @@ const fetchOffersData = async () => {
 
 const fetchOrderData = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/customer/orders`, {
+        const response = await axios.get(`https://delivery-point.onrender.com/customer/orders`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -126,7 +126,7 @@ const fetchOrderData = async () => {
 
 const CreateOrder = async (payloadData) => {
     try {
-        const response = await axios.post(`http://localhost:8080/customer/create-order`,
+        const response = await axios.post(`https://delivery-point.onrender.com/customer/create-order`,
             payloadData, {
             headers: {
                 'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ const CreateOrder = async (payloadData) => {
 
 const getFavouriteFoods = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/customer/get-favourites`,
+        const response = await axios.get(`https://delivery-point.onrender.com/customer/get-favourites`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ const getFavouriteFoods = async () => {
 
 const fetchTransaction = async () => {
     try {
-        const response = await axios.get(`http://localhost:8080/customer/get-transactions`,
+        const response = await axios.get(`https://delivery-point.onrender.com/customer/get-transactions`,
             {
                 headers: {
                     'Content-Type': 'application/json',

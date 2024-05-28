@@ -31,7 +31,7 @@ const CartPage = () => {
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       const response = await axios.get("http://localhost:8080/customer/cart", {
+  //       const response = await axios.get("https://delivery-point.onrender.com/customer/cart", {
   //         headers: {
   //           'Content-Type': 'application/json',
   //           'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ const CartPage = () => {
         _id: cart._id,
         unit: totalQuantity,
       }]
-        const response = await axios.post("http://localhost:8080/create-order", payload, {
+        const response = await axios.post("https://delivery-point.onrender.com/create-order", payload, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`, // Note the space after 'Bearer'
@@ -90,7 +90,7 @@ const CartPage = () => {
                       <div className="w-1/4 md:w-3/12">
                         <div className="bg-gray-200 hover:bg-gray-300 overflow-hidden rounded-lg">
                           <img
-                            src={`http://localhost:8080/images/${data.images}`}
+                            src={`https://delivery-point.onrender.com/images/${data.images}`}
                             alt="Food Images"
                             className="w-full h-32"
                           />

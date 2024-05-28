@@ -1,0 +1,1 @@
+export default __webpack_public_path__ + "assets/images/node_modules/slick-carousel/slick/ajax-loader.gif";

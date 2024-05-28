@@ -55,7 +55,7 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
                 };
             }
     
-            const url = showLoginForm ? 'http://localhost:8080/customer/login' : 'http://localhost:8080/customer/signup';
+            const url = showLoginForm ? 'https://delivery-point.onrender.com/customer/login' : 'https://delivery-point.onrender.com/customer/signup';
             const response = await axios.post(url, params);
             if (response.status === 200) {
                 const token = response.data.signature;

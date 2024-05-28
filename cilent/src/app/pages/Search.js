@@ -217,7 +217,7 @@ export default function Search() {
                                                             </div>
 
                                                             <div className='relative'>
-                                                                <img src={`http://localhost:8080/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
+                                                                <img src={`https://delivery-point.onrender.com/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
                                                                 {/* <button
                                                                     className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
                                                                     onClick={() => handleCartAction(food)}

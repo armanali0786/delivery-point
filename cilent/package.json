@@ -42,10 +42,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "webpack --env.API_URL=http://localhost:8000 --config webpack.config.build.js",
+     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "webpack --env.API_URL=http://localhost:8000 --config webpack.config.dev.js"
+    "dev": "webpack --env API_URL=https://delivery-point.onrender.com --config webpack.config.dev.js"
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
+    "file-loader": "^6.2.0",
     "react-router-dom": "^6.23.1",
     "tailwindcss": "^3.4.3",
     "webpack": "^5.91.0",

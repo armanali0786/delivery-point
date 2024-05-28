@@ -75,7 +75,7 @@ export default function PaymentSections() {
     //                 'Content-Type': 'application/json',
     //                 'Authorization': `Bearer ${token}`,
     //             };
-    //             const response = await axios.post(`http://localhost:8080/customer/create-payment`,
+    //             const response = await axios.post(`https://delivery-point.onrender.com/customer/create-payment`,
     //                 payload, {
     //                 headers: headers,
     //             });
@@ -121,7 +121,7 @@ export default function PaymentSections() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             };
-            const response = await fetch(`http://localhost:8080/customer/create-checkout-session`, {
+            const response = await fetch(`https://delivery-point.onrender.com/customer/create-checkout-session`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(body),

@@ -126,7 +126,7 @@ export default function Checkout() {
     //             'Content-Type': 'application/json',
     //             'Authorization': `Bearer ${token}`,
     //         };
-    //         const response = await axios.post(`http://localhost:8080/customer/create-payment`,
+    //         const response = await axios.post(`https://delivery-point.onrender.com/customer/create-payment`,
     //         payload, {
     //             headers: headers,
     //         });
@@ -294,7 +294,7 @@ export default function Checkout() {
                                     <div className="p-4 bg-white  shadow-md">
                                         <div className="flex cursor-pointer" onClick={() => handleNavigate(vendorDetails[0]?.vendorId)}>
                                             <div className="mr-5">
-                                                <img src={`http://localhost:8080/images/${vendorDetails[0]?.vendorRestroImage}`} alt="Restro Image" className="w-16 h-16" />
+                                                <img src={`https://delivery-point.onrender.com/images/${vendorDetails[0]?.vendorRestroImage}`} alt="Restro Image" className="w-16 h-16" />
                                             </div>
                                             <div>
                                                 <h2 className="font-bold text-lg">{vendorDetails[0]?.vendorName}</h2>

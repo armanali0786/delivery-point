@@ -44,7 +44,7 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
 
     const onSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
-            const url = isLoginForm ? 'http://localhost:8080/customer/login' : 'http://localhost:8080/customer/signup';
+            const url = isLoginForm ? 'https://delivery-point.onrender.com/customer/login' : 'https://delivery-point.onrender.com/customer/signup';
             const response = await axios.post(url, values);
             if (response.status === 200) {
                 const token = response.data.signature;

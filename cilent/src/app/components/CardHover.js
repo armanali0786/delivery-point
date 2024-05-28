@@ -42,7 +42,7 @@ export const CardHover = ({restaurants,className}) => {
             )}
           </AnimatePresence>
           <Card className="pb-2">
-            <img src={`http://localhost:8080/images/${item.coverImages[0]}`} alt="Restro Image" className="mx-auto w-full h-[150px] rounded-lg" />
+            <img src={`https://delivery-point.onrender.com/images/${item.coverImages[0]}`} alt="Restro Image" className="mx-auto w-full h-[150px] rounded-lg" />
             <div class="mt-2 flex items-center justify-between">
               <CardTitle>{item.name}</CardTitle>
               <div className='flex items-center'>

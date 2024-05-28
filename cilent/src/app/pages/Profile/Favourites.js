@@ -54,7 +54,7 @@ export default function Favourites() {
             return (
               <div key={food._id} className="bg-white dark:bg-zinc-900 p-4 rounded-lg shadow cursor-pointer" onClick={() => NavigateFoodDetails(food.vendorId)}>
                 <img
-                  src={`http://localhost:8080/images/${food.images}`} // Assuming images are stored locally in public folder
+                  src={`https://delivery-point.onrender.com/images/${food.images}`} // Assuming images are stored locally in public folder
                   alt={food.name}
                   className="w-full h-48 object-cover rounded-md"
                 />

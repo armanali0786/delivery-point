@@ -164,7 +164,7 @@ export default function FoodDetails() {
             const newFavouriteStatus = !isCurrentlyFavourite;
 
             const endpoint = newFavouriteStatus ? 'add-favourite' : 'remove-favourite';
-            const response = await axios.post(`http://localhost:8080/customer/${endpoint}`,
+            const response = await axios.post(`https://delivery-point.onrender.com/customer/${endpoint}`,
                 { foodId: foodId },
                 {
                     headers: {
@@ -315,7 +315,7 @@ export default function FoodDetails() {
                                                 <span><FaHeart /></span>
                                             </button>
                                         )}
-                                        <img src={`http://localhost:8080/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
+                                        <img src={`https://delivery-point.onrender.com/images/${food.images}`} className='h-28 w-48 rounded-lg' onClick={() => toggleModal(food._id)} />
                                         <button
                                             className='bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
                                             onClick={() => handleCartAction(food, vendor)}
@@ -358,7 +358,7 @@ export default function FoodDetails() {
 
                                                 </div>
                                                 <div className='flex-end my-2'>
-                                                    <img src={`http://localhost:8080/images/${food.images}`} className='h-48 w-full rounded-lg' onClick={toggleModal} />
+                                                    <img src={`https://delivery-point.onrender.com/images/${food.images}`} className='h-48 w-full rounded-lg' onClick={toggleModal} />
 
                                                 </div>
 

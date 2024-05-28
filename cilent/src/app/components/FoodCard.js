@@ -101,7 +101,7 @@ export default function FoodCard() {
               const descriptionName = removeHtmlTags(food.name);
               return (
                 <div key={index} className='px-3 transition duration-300 ease-out transform hover:scale-105 mb-5' onClick={() => handleNavigate(food.vendorId)}>
-                  <img src={`http://localhost:8080/images/${food.images[0]}`} className='rounded-xl w-full h-[200px] object-cover' alt={food.name} />
+                  <img src={`https://delivery-point.onrender.com/images/${food.images[0]}`} className='rounded-xl w-full h-[200px] object-cover' alt={food.name} />
                   <div className="p-2">
                     <h3 className="text-[16px] font-medium">{getFirstNWords(descriptionName, numofNamesToShow)}....</h3>
                     <p className="text-zinc-600 text-sm">{getFirstNWords(descriptionText, numWordsToShow)}....</p>
@@ -127,7 +127,7 @@ export default function FoodCard() {
                 // <div className="bg-zinc-100 p-4">
                 //   <div className="max-w-screen-xl mx-auto">
                 //       <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                //         <img src={`http://localhost:8080/images/${food.images[0]}`} alt="Food Image" className="w-full h-32 sm:h-32 object-cover"/>
+                //         <img src={`https://delivery-point.onrender.com/images/${food.images[0]}`} alt="Food Image" className="w-full h-32 sm:h-32 object-cover"/>
                 //           <div className="p-4">
                 //             <h3 className="text-lg font-semibold">{food.name}</h3>
                 //             <p className="text-zinc-600 text-sm">{getFirstNWords(descriptionText, numWordsToShow)}....</p>

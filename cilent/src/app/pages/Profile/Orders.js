@@ -61,7 +61,7 @@ export default function Orders() {
                         <div className="flex justify-between">
                             {order.items.length > 0 && order.items[0].food ? (
                                 <>
-                                    <img src={`http://localhost:8080/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-lg w-1/3 h-[150px]" />
+                                    <img src={`https://delivery-point.onrender.com/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-lg w-1/3 h-[150px]" />
                                     <div className="flex-1 ml-4">
                                         <p className='text-lg'>{order.items[0].food.name}</p>
                                         <p className="text-sm text-zinc-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
