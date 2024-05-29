@@ -196,7 +196,7 @@ export default function FoodDetails() {
             <div className={`bg-gray-100 px-4 ${selectedFoodId ? 'overscroll-none' : 'overscroll-none'}`}>
                 <div className='flex justify-center items-center py-16'>
                     {/* ---------------------  Restaurants Details  ------------------------------  */}
-                    <div className='w-full max-w-[650px] pb-4 border border-1 border-gray-300 bg-slate-100 px-5 py-2 text-center rounded-xl shadow-2xl shadow-black-100'>
+                    <div className='w-full max-w-[650px] pb-4 border border-1 border-gray-300 bg-slate-100 px-5 py-2 text-center rounded-2xl shadow-2xl shadow-black-100'>
                         <div className='mt-1 cursor-pointer'>
                             <p className='flex text-lg font-bold'>{vendorData[0]?.name}</p>
                             <div className='flex items-center mt-1'>
@@ -221,6 +221,9 @@ export default function FoodDetails() {
                                 </div>
                                 <div className='absolute flex top-8'>
                                     <p className='text-sm px-5'>15 min to 45 min</p>
+                                </div>
+                                <div>
+                                    
                                 </div>
                             </div>
                         </div>

@@ -429,7 +429,6 @@ export const AvailableOffers = async (req: Request, res: Response, next: NextFun
     } catch (error) {
         return res.json({ message: 'Offers Not available' });
     }
-
 }
 
 /** ---------------------Create Payment ------------------------------ **/

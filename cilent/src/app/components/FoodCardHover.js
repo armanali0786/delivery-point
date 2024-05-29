@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import '../assets/styles/foodCardHover.css'
 import { fetchFoodInMin } from '../apis/ApiCall';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
+
 export default function FoodCardHover() {
 
     const [foodInMin, setFoodInMin] = useState([]);
@@ -31,6 +33,10 @@ export default function FoodCardHover() {
         const words = text.split(" ");
         return words.slice(0, n).join(" ");
     };
+
+    if (!Array.isArray(foodInMin) || foodInMin.length === 0) {
+        return <p className='flex justify-center'><Loading/></p>;
+      }
 
     return (
         <>

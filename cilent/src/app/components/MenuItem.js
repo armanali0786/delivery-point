@@ -22,7 +22,7 @@ function MenuItem({ foods }) {
                 const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
                 const descriptionText = removeHtmlTags(food.description);
                 return (
-                    <div key={index} className="w-full max-w-sm bg-white hover:bg-gray-200 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer" onClick={() => handleNavigate(food.vendorId)}>
+                    <div key={index} className="w-full max-w-sm bg-white hover:bg-slate-200 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 cursor-pointer" onClick={() => handleNavigate(food.vendorId)}>
                         <img className="p-2 rounded-t-lg w-full h-[230px]" src={`https://delivery-point.onrender.com/images/${food.images[0]}`} alt="product image" />
                         <div className="px-5 pb-2">
                             <div className="flex items-center justify-between">

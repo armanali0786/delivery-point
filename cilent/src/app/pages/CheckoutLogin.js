@@ -5,8 +5,8 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { FaEyeSlash, FaEye } from "react-icons/fa";
 import * as Yup from 'yup';
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useAuth } from '../context/authContext';
 
 export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {

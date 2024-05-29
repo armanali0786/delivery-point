@@ -111,12 +111,12 @@ export default function Search() {
     };
 
     const handleSearchButton = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         if (searchText.trim() !== '') {
             navigate(`/search?query=${encodeURIComponent(searchText.trim())}`);
         }
     };
-    
+
 
     const filteredFoods = searchData.filter((food) => {
         if (food && food.name && searchTerm) {
@@ -147,6 +147,10 @@ export default function Search() {
         return words.slice(0, n).join(" ");
     };
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
     const isEmpty = filteredFoods.length === 0;
 
     return (
@@ -161,12 +165,11 @@ export default function Search() {
                                 onKeyDown={handleKeyDown}
                                 placeholder="Search foods and restaurants"
                             />
-                            <div class="ms:flex items-center px-2 rounded-lg space-x-4 mx-auto ">
+                            <div class="flex items-center px-2 rounded-lg space-x-4 mx-auto ">
                                 <button type="submit" class="p-1.5 ms-2 text-sm font-medium text-white bg-indigo-600 rounded-lg border border-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg>
-                                    {/* <span class="sr-only">Search</span> */}
                                 </button>
                             </div>
                         </div>
@@ -185,53 +188,53 @@ export default function Search() {
                     {isEmpty ? (
                         <div className=" flex justify-center bg-gray-200 p-5">
                             <div className="text-center">
-                              No Food Found
+                                No Food Found
                             </div>
                         </div>
                     ) : (
                         <div className="bg-gray-200 rounded-lg">
                             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xl:gap-x-8">
-                                        {filteredFoods.map((food, index) => {
-                                            const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
-                                            const descriptionText = removeHtmlTags(food.description);
-                                            return (
-                                                <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full max-h-[320px]'>
-                                                    <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
-                                                        <div >
-                                                            <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
-                                                            <div className='flex items-center my-1'>
-                                                                <span> <IoMdStar /> </span>{food.rating} .
-                                                                <p className='mx-1 text-gray-800'>20-25 MINS</p>
-                                                            </div>
+                                    {filteredFoods.map((food, index) => {
+                                        const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
+                                        const descriptionText = removeHtmlTags(food.description);
+                                        return (
+                                            <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full max-h-[320px]'>
+                                                <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
+                                                    <div >
+                                                        <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
+                                                        <div className='flex items-center my-1'>
+                                                            <span> <IoMdStar /> </span>{food.rating} .
+                                                            <p className='mx-1 text-gray-800'>20-25 MINS</p>
                                                         </div>
-                                                        <p className="mt-1 text-2xl text-black !font-extrabold bg-gray-400 p-2 rounded-full " onMouseEnter={() => setHover(true)}
-                                                         onMouseLeave={() => setHover(false)}>{hover ? <MdArrowForward /> : <MdArrowOutward />}</p>
                                                     </div>
-                                                    <hr className='mt-3' />
-                                                    <div className='px-3 py-3'>
-                                                        <div className='flex justify-between'>
-                                                            <div>
-                                                                <p className='text-sm font-bold'>{food.name}</p>
-                                                                <p className='flex text-lg'>₹{food.price}</p>
-                                                            </div>
+                                                    <p className="mt-1 text-2xl text-black !font-extrabold bg-gray-400 p-2 rounded-full " onMouseEnter={() => setHover(true)}
+                                                        onMouseLeave={() => setHover(false)}>{hover ? <MdArrowForward /> : <MdArrowOutward />}</p>
+                                                </div>
+                                                <hr className='mt-3' />
+                                                <div className='px-3 py-3'>
+                                                    <div className='flex justify-between'>
+                                                        <div>
+                                                            <p className='text-sm font-bold'>{food.name}</p>
+                                                            <p className='flex text-lg'>₹{food.price}</p>
+                                                        </div>
 
-                                                            <div className='relative'>
-                                                                <img src={`https://delivery-point.onrender.com/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
-                                                                {/* <button
+                                                        <div className='relative'>
+                                                            <img src={`https://delivery-point.onrender.com/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
+                                                            {/* <button
                                                                     className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
                                                                     onClick={() => handleCartAction(food)}
                                                                 > Add
                                                                 </button> */}
-                                                            </div>
-                                                        </div>
-                                                        <div className='py-2'>
-                                                            <p className='text-[14px] text-left'>{getFirstNWords(descriptionText, numWordsToShow)}....</p>
                                                         </div>
                                                     </div>
+                                                    <div className='py-2'>
+                                                        <p className='text-[14px] text-left'>{getFirstNWords(descriptionText, numWordsToShow)}....</p>
+                                                    </div>
                                                 </div>
-                                            );
-                                        })}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

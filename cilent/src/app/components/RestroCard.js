@@ -1,14 +1,15 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { CardHover } from "./CardHover";
-import {fetchRestaurants} from "../apis/ApiCall";
-export  default function RestroCard() {
+import { fetchRestaurants } from "../apis/ApiCall";
+import Loading from '../components/Loading';
+export default function RestroCard() {
 
-  const [restaurants , setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchRestaurants(); 
+        const response = await fetchRestaurants();
         setRestaurants(response);
       } catch (error) {
         console.error('Error fetching foods:', error);
@@ -16,6 +17,10 @@ export  default function RestroCard() {
     };
     fetchData();
   }, []);
+
+  if (!Array.isArray(restaurants) || restaurants.length === 0) {
+    return <p className='flex justify-center'><Loading /></p>;
+  }
 
   return (
     <div className="container mx-auto py-10">

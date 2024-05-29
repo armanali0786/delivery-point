@@ -26,6 +26,11 @@ import { LoadingFoods } from './app/components/LoadingFoods';
 import ProtectedRoute from './app/components/ProtectedRoute';
 import OrderDetails from './app/pages/Profile/OrderDetails';
 import Chatbot from './app/pages/Chatbot';
+import PrivacyPolicy from './app/pages/PrivacyPolicy';
+import WhoWeAre from './app/pages/WhoWeAre';
+import ContactUs from './app/pages/ContactUs';
+import TermCondition from './app/pages/TermCondition';
+import Support from './app/pages/Support';
 function App() {
   const location = useLocation();
 
@@ -37,6 +42,11 @@ function App() {
       || pathname.includes('/checkout')
       || pathname.includes('/payment')
       || pathname.includes('/order-details')
+      || pathname.includes('/privacy-policy')
+      || pathname.includes('/who-we-are')
+      || pathname.includes('/support')
+      || pathname.includes('/terms-and-conditions')
+      || pathname.includes('/contact-us')
 
     );
   };
@@ -60,6 +70,12 @@ function App() {
         <Route path="/payment-success" element={<SuccessPayment />} />
         <Route path="/payment-cancel" element={<CancelPayment />} />
         <Route path="/payment" element={<PaymentSections />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/who-we-are" element={<WhoWeAre />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/terms-and-conditions" element={<TermCondition />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+
         <Route path="/profile" element={<ProtectedRoute element={<Profile />} />}>
           <Route path="orders" element={<Orders />} />
           <Route path="favourites" element={<Favourites />} />

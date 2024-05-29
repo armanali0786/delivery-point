@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { getFavouriteFoods } from '../../apis/ApiCall';
+import Loading from '../../components/Loading';
 
 export default function Favourites() {
 
@@ -41,6 +42,9 @@ export default function Favourites() {
     navigate(`/food-details/${vendorId}`);
   }
 
+  if (!Array.isArray(favoriteFoods) || favoriteFoods.length === 0) {
+    return <p className='flex justify-center mt-20'><Loading/></p>;
+  }
 
   return (
     <div className="dark:bg-zinc-800 py-4">

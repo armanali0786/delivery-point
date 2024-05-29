@@ -5,6 +5,7 @@ import CardSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 export default function FoodCard() {
   const sliderRef = useRef(null);
@@ -26,8 +27,6 @@ export default function FoodCard() {
     };
     fetchData();
   }, []);
-
-
   const settings = {
     dots: false,
     arrows: false,
@@ -51,23 +50,19 @@ export default function FoodCard() {
       },
     ],
   };
-
   const goToNext = () => {
     if (sliderRef.current) {
       sliderRef.current.slickNext();
     }
   };
-
   const goToPrev = () => {
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
     }
   };
-
   const handleNavigate = (vendorId) => {
     navigate(`/food-details/${vendorId}`);
   }
-
   const removeHtmlTags = (html) => {
     var doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || "";
@@ -76,6 +71,10 @@ export default function FoodCard() {
     const words = text.split(" ");
     return words.slice(0, n).join(" ");
   };
+
+  if (!Array.isArray(foods) || foods.length === 0) {
+    return <p className='flex justify-center'><Loading /></p>;
+  }
 
   return (
     <>

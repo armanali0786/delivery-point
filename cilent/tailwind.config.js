@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 const defaultTheme = require("tailwindcss/defaultTheme");
- 
+
 const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
@@ -16,8 +16,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: theme => ({
-       'hero': "url('/src/app/assets/hero.png')",
-       'action': "url('/src/app/assets/action.jpg')",
+        'hero': "url('/src/app/assets/hero.png')",
+        'action': "url('/src/app/assets/action.jpg')",
       }),
       animation: {
         scroll:
@@ -30,12 +30,28 @@ module.exports = {
           },
         },
       },
+      screens: {
+        'sm': '640px',
+        // => @media (min-width: 640px) { ... }
+  
+        'md': '768px',
+        // => @media (min-width: 768px) { ... }
+  
+        'lg': '1024px',
+        // => @media (min-width: 1024px) { ... }
+  
+        'xl': '1280px',
+        // => @media (min-width: 1280px) { ... }
+  
+        '2xl': '1536px',
+        // => @media (min-width: 1536px) { ... }
+      }
     },
   },
   corePlugins: {
     aspectRatio: true,
   },
-  plugins: [ require('@tailwindcss/aspect-ratio'),addVariablesForColors],
+  plugins: [require('@tailwindcss/aspect-ratio'), addVariablesForColors],
 }
 
 function addVariablesForColors({ addBase, theme }) {
@@ -43,7 +59,7 @@ function addVariablesForColors({ addBase, theme }) {
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });

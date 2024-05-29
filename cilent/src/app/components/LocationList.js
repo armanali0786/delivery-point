@@ -4,7 +4,7 @@ import { FaArrowRight } from 'react-icons/fa';
 export default function LocationList() {
   return (
     <>
-      <h1 className="text-4xl font-light px-5">Popular localities in and around You</h1>
+      <h1 className="text-3xl font-light px-5">Popular localities in and around You</h1>
       <div className="mt-5 flex flex-wrap">
         <div className="w-full md:w-1/3 p-4">
           <LocationListItem name="Rajkot Dudh Sagar" count={23} />

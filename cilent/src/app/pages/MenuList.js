@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 import MenuItem from '../components/MenuItem';
 import Filter from '../components/Filter';
@@ -7,6 +7,11 @@ import FilterIcon from '../assets/filter.svg';
 import FoodSlider from '../components/FoodSlider';
 import NoDataFound from '../components/NoDataFound';
 import EmptyImage from '../assets/emptyfood.png';
+import Loading from '../components/Loading';
+
+
+
+
 // import clsx from "clsx";
 // import useLazyLoad from '../context/useLazyLoad';
 // import { LoadingCard, LoadingFoods } from '../components/LoadingFoods';
@@ -79,6 +84,7 @@ export default function MenuList() {
           <LocationList />
         </div>
         <FoodSlider slideToshow={5} />
+
         <div className="mt-20">
           <h1 className="text-2xl text-[#222222] font-semibold pb-5 px-5">
             Restaurants with online food delivery
@@ -100,7 +106,7 @@ export default function MenuList() {
               Fast Delivery
             </button> */}
             <button onClick={handleRatingButtonClick}
-              className={`mx-2 border-2 w-36 rounded-3xl border-slate-500 ${ratingFilter ? 'bg-[#5B63B7] text-white hover:bg-[#5B63B7] hover:text-white' : 'hover:bg-[#5B63B7] hover:text-white'
+              className={`mx-2 border-2 w-36 rounded-3xl border-slate-500 ${ratingFilter ? 'bg-[#5B63B7] text-white  hover:text-white border-white border-2' : ''
                 }`}
             >
               Rating 4.0+
@@ -128,7 +134,8 @@ export default function MenuList() {
           </div>
         ) : (
           <div className="flex items-center justify-center h-64 w-full">
-            <NoDataFound EmptyImage={EmptyImage} data={"No Food Found"} />
+            <p><Loading /></p>
+            {/* <NoDataFound EmptyImage={EmptyImage} data={"No Food Found"} /> */}
           </div>
         )}
 
