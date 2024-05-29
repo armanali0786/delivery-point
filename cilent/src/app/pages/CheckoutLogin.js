@@ -38,7 +38,7 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
         })
     });
 
-    const onSubmit = async (values, { setSubmitting, setErrors }) => {
+    const onSubmit = async (values, { setSubmitting, setErrors, resetForm}) => {
         let params = {};
         try {
             if (showLoginForm) {
@@ -62,6 +62,7 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
                 localStorage.setItem('token', token);
                 setIsLoggedIn(true);
                 toast.success(response.data.message);
+                resetForm();
             } else {
                 const validationErrors = response.data.validation;
                 if (validationErrors) {
@@ -93,12 +94,17 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
         setShowPassword(!showPassword);
     };
 
+    // useEffect(() => {
+    //     setErrors({});
+    // }, [showLoginForm]);
+
     return (
         <>
         <ToastContainer />
             <div className='flex justify-center items-center'>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                    {({ isSubmitting }) => (
+                    {({ isSubmitting, setErrors }) => 
+                    (
                         <Form className="form w-full max-w-[350px]">
                             {showLoginForm ? (
                                 <>
