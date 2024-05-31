@@ -53,7 +53,8 @@ export default function Orders() {
         <>
             <div className="max-w-2xl mx-auto py-4">
                 <h2 className="text-xl font-semibold mb-4">Past Orders</h2>
-                {/* {orderData.map((order) => ( */}
+                 {/* {orderData.map((order) => ( 
+                 ))} */}
                 {orderData.length > 0 ? (
                     orderData.map((order) => (
                         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
@@ -85,12 +86,10 @@ export default function Orders() {
                                 <Chatbot isChatModelOpen={isChatModelOpen} toggleChatModel={toggleChatModel} />
                             </div>
                         </div>
-                // ))}
                     ))
                 ) : (
                     <p className='flex justify-center mt-10'><Loading /></p>
                 )}
-
             </div>
         </>
     )

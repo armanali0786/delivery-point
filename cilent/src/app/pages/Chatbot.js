@@ -56,10 +56,7 @@ export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
       useEffect(() => {
         scrollToBottom();
       }, []);
-    
-      useEffect(() => {
-        scrollToBottom();
-      });
+
 
     return (
         <>
