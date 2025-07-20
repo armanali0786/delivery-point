@@ -16,6 +16,7 @@ Design and developed websites features such as food listing with quick delivery 
 - Cart Management
 - Order Placement
 - Food Details Page
+- CHAT BOT AUTO RESPONSE
 
 
 
