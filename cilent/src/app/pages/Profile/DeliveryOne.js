@@ -3,14 +3,14 @@ import Appstore from '../../assets/appstore.avif';
 import Playstore from '../../assets/playstore.png';
 import FoodImage from '../../assets/foodImage.avif';
 export default function DeliveryOne() {
-    
+
     return (
-        <body className="bg-slate-200 font-sans leading-normal tracking-normal">
+        <div className="bg-gray-50 font-sans leading-normal tracking-normal">
             <div className="flex">
                 <div className="flex-1 p-8">
-                    <h1 className="text-2xl font-bold mb-4">DeliveryPoint One</h1>
-                    <p className="mb-4">Get free delivery and extra discounts all across Swiggy.</p>
-                    <p className="mb-4">Your Swiggy One benefits can be availed only on the Swiggy App.</p>
+                    <h1 className="text-2xl font-bold mb-4 text-gray-900">DeliveryPoint One</h1>
+                    <p className="mb-4 text-gray-600">Get free delivery and extra discounts all across Swiggy.</p>
+                    <p className="mb-4 text-gray-600">Your Swiggy One benefits can be availed only on the Swiggy App.</p>
                     <div className="flex space-x-4">
                         <div className='flex'>
                             <a href="#" className="block">
@@ -26,6 +26,6 @@ export default function DeliveryOne() {
                     </div>
                 </div>
             </div>
-        </body>
+        </div>
     )
 }

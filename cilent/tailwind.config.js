@@ -15,6 +15,29 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      colors: {
+        primary: {
+          50: '#FFF4F1',
+          100: '#FFE3DB',
+          200: '#FFC2B0',
+          300: '#FF9B7D',
+          400: '#FF6F49',
+          500: '#F0431E',
+          600: '#D4340F',
+          700: '#AC290C',
+          800: '#84200A',
+          900: '#5F1707',
+          950: '#3A0E04',
+        },
+        ink: {
+          900: '#14171F',
+          800: '#1E2230',
+          700: '#2A2F3F',
+        },
+      },
+      fontFamily: {
+        sans: ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       backgroundImage: theme => ({
         'hero': "url('/src/app/assets/hero.png')",
         'action': "url('/src/app/assets/action.jpg')",
@@ -30,22 +53,6 @@ module.exports = {
           },
         },
       },
-      screens: {
-        'sm': '640px',
-        // => @media (min-width: 640px) { ... }
-  
-        'md': '768px',
-        // => @media (min-width: 768px) { ... }
-  
-        'lg': '1024px',
-        // => @media (min-width: 1024px) { ... }
-  
-        'xl': '1280px',
-        // => @media (min-width: 1280px) { ... }
-  
-        '2xl': '1536px',
-        // => @media (min-width: 1536px) { ... }
-      }
     },
   },
   corePlugins: {

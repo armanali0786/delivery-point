@@ -29,12 +29,12 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
 
   return (
     <div id="product">
-      <div style={{ textShadow: '0px 1px 1px gray' }} className="flex flex-col items-center justify-start font-sans bg-gray-50 lg:pt-10 lg:pb-20 bg-hero sm:bg-hero md:bg-hero lg:bg-hero lg:bg-cover">
+      <div style={{ textShadow: '0px 1px 3px rgba(0,0,0,0.35)' }} className="flex flex-col items-center justify-start font-sans bg-gray-50 lg:pt-10 lg:pb-20 bg-hero sm:bg-hero md:bg-hero lg:bg-hero lg:bg-cover">
         <div>
           <p className="p-3 pt-12 text-lg font-bold text-white lg:text-white">{appType}</p>
         </div>
         <div>
-          <p className="p-2 text-4xl font-bold text-center text-white lg:mx-auto lg:w-4/6 lg:text-5xl lg:text-gray-100">
+          <p className="p-2 text-4xl font-bold text-center text-white lg:mx-auto lg:w-4/6 lg:text-5xl lg:text-white">
             {tagLine}
           </p>
         </div>
@@ -47,7 +47,7 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
             <div className="flex items-center gap-4 justify-center w-fit">
 
               <div
-                className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:shadow-orange-600 cursor-pointer group pt-2"
+                className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:ring-4 hover:ring-primary-300 transition-shadow cursor-pointer group pt-2"
                 onMouseEnter={() =>
                   setTitle("Bringing Your Favorite Food to You")
                 }
@@ -67,7 +67,7 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
                 </svg>
               </div>
               <div
-                className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:shadow-orange-600 cursor-pointer group"
+                className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:ring-4 hover:ring-primary-300 transition-shadow cursor-pointer group"
                 onMouseEnter={() =>
                   setTitle("Delivered Drinks for Every Occasion")
                 }
@@ -77,7 +77,7 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="#000000"
+                  fill="#374151"
                   width="25"
                   height="25"
                   viewBox="0 0 244.247 244.247"
@@ -96,7 +96,7 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
                 </svg>
               </div>
               <div
-                className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:shadow-orange-600 cursor-pointer group"
+                className="rounded-full w-12 h-12 flex items-center justify-center bg-white shadow-md hover:ring-4 hover:ring-primary-300 transition-shadow cursor-pointer group"
                 onMouseEnter={() => setTitle("Order Your Favorite Food")}
                 onMouseLeave={() =>
                   setTitle("We are always here to serve you.")
@@ -113,9 +113,9 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
               </div>
             </div>
             <div className="flex justify-center min-w-[100px] sm:min-w-[360px] !max-w-[200px] sm:max-w-[360px]">
-              <div className="flex bg-white py-2.5 pl-2 pr-1 rounded-l-lg items-center gap-1.5 w-full max-w-[280px] sm:max-w-xl">
+              <div className="flex bg-white py-2.5 pl-3 pr-1 rounded-l-full items-center gap-1.5 w-full max-w-[280px] sm:max-w-xl shadow-md">
                 <svg
-                  class="text-orange-600 min-w-[20px] min-h-[20px] fill-orange-600"
+                  className="text-primary-600 min-w-[20px] min-h-[20px] fill-primary-600"
                   xmlns="http://www.w3.org/2000/svg"
                   width="10"
                   height="14"
@@ -138,9 +138,9 @@ const Hero = ({ appType, tagLine, description, mainActionText, extraActionText }
                 />
               </div>
                 <button
-                  className="bg-orange-600 px-6 py-1 text-base lg:text-lg font-semibold text-white rounded-r-lg shadow-md "
-                  type="submit"
-                  onSubmit={handleSearchButton}
+                  className="bg-primary-600 hover:bg-primary-700 px-6 py-1 text-base lg:text-lg font-semibold text-white rounded-r-full shadow-md transition-colors"
+                  type="button"
+                  onClick={handleSearchButton}
                 >
                   Search
                 </button>

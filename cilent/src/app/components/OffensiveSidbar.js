@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react'
-import '../assets/styles/login.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { Formik, Form, Field } from 'formik';
+import { IoMdClose } from "react-icons/io";
 import * as Yup from 'yup';
+import Input from './ui/Input';
+import PasswordField from './ui/PasswordField';
+import Button from './ui/Button';
 
 
 const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
 
-    const [isLoginForm, setIsLoginForm] = useState(true); 
+    const [isLoginForm, setIsLoginForm] = useState(true);
 
     const toggleFormType = () => {
         setIsLoginForm(!isLoginForm); // Toggle between login and signup form
     };
 
-    const [showPassword, setShowPassword] = useState(false);
     const containerRef = useRef(null);
-
-    const navigate = useNavigate();
 
     const initialValues = {
         email: '',
@@ -32,14 +31,8 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        fullName: Yup.string().when('isLoginForm', {
-            is: false,
-            then: Yup.string().required('Full Name is required')
-        }),
-        phone: Yup.string().when('isLoginForm', {
-            is: false,
-            then: Yup.string().required('Phone Number is required')
-        })
+        fullName: isLoginForm ? Yup.string() : Yup.string().required('Full Name is required'),
+        phone: isLoginForm ? Yup.string() : Yup.string().required('Phone Number is required'),
     });
 
     const onSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -50,7 +43,6 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
                 const token = response.data.signature;
                 localStorage.setItem('token', token);
                 toast.success(response.data.message);
-                // navigate('/otp-verify');
                 setIsOpen(false);
             } else {
                 const validationErrors = response.data.validation;
@@ -75,10 +67,6 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
         } finally {
             setSubmitting(false);
         }
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
     };
 
     useEffect(() => {
@@ -107,132 +95,51 @@ const OffcanvasSidebar = ({ isOpen, toggleOffcanvas, setIsOpen }) => {
 
     return (
         <div>
-            {/* Offcanvas component */}
+            <ToastContainer />
             {isOpen && (
-                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-                    <div ref={containerRef} className="bg-white w-full max-w-[433px] absolute  right-[433px] h-full shadow-lg p-4 transform translate-x-full">
-                        {/* Header */}
-                        <div className="flex justify-between items-center mb-4">
-                            <button className="text-gray-500" onClick={toggleOffcanvas}>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
+                <div className="fixed inset-0 z-50 bg-black/50 flex justify-end">
+                    <div ref={containerRef} className="bg-white w-full max-w-[420px] h-full shadow-2xl overflow-y-auto">
+                        <div className="flex justify-between items-center p-5 border-b border-gray-100">
+                            <div>
+                                <div className="text-xl font-bold text-gray-900">{isLoginForm ? 'Login' : 'Sign Up'}</div>
+                                <div className="text-sm text-gray-500 cursor-pointer" onClick={toggleFormType}>
+                                    {isLoginForm ? (
+                                        <>or <span className="text-primary-600 font-medium">create an account</span></>
+                                    ) : (
+                                        <>or <span className="text-primary-600 font-medium">login</span></>
+                                    )}
+                                </div>
+                            </div>
+                            <button className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700" onClick={toggleOffcanvas}>
+                                <IoMdClose className="h-5 w-5" />
                             </button>
                         </div>
 
-                        {/* Body */}
-                        <div className="h-64">
-                            {/* Content goes here */}
-                            <div className="flex justify-between items-center w-96">
-                                <span className="icon-close-thin"></span>
-                                <div className='flex flex-col'>
-                                    <div className="text-xl font-bold">{isLoginForm ? 'Login' : 'Sign Up'}</div>
-                                    {/* <div className="text-sm">or <a className="text-blue-500">create an account</a></div> */}
-                                    <div className="text-sm cursor-pointer" onClick={toggleFormType}>
+                        <div className="p-5">
+                            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                                {({ isSubmitting, errors, touched }) => (
+                                    <Form>
                                         {isLoginForm ? (
                                             <>
-                                                or <a className="text-blue-500" >create an account</a>
+                                                <Field as={Input} type="email" name="email" label="Email" error={touched.email && errors.email} />
+                                                <Field as={PasswordField} name="password" label="Password" error={touched.password && errors.password} />
                                             </>
                                         ) : (
                                             <>
-                                                or <a className="text-blue-500">login</a>
+                                                <Field as={Input} type="text" name="fullName" label="Full Name" error={touched.fullName && errors.fullName} />
+                                                <Field as={Input} type="email" name="email" label="Email" error={touched.email && errors.email} />
+                                                <Field as={Input} type="text" name="phone" label="Phone" error={touched.phone && errors.phone} />
+                                                <Field as={PasswordField} name="password" label="Password" error={touched.password && errors.password} />
                                             </>
                                         )}
-                                    </div>
 
-                                </div>
-
-                                <img className="w-24 h-24 object-cover"
-                                    src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/Image-login_btpq7r"
-                                    alt="img renderer" />
-                            </div>
-                            <div className='flex justify-center items-center'>
-                                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                                    {({ isSubmitting }) => (
-                                        <Form className="form w-full max-w-[350px]">
-                                            {isLoginForm ? (
-                                                <>
-                                                    <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30" type="email" name="email" />
-                                                        <ErrorMessage name="email" component="span" className="super text-red-700" />
-                                                        <span className="text-gray-700">Email</span>
-                                                    </label>
-                                                    <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30"
-                                                            type={
-                                                                showPassword ? "text" : "password"
-                                                            }
-                                                            name="password" />
-                                                        <ErrorMessage name="password" component="span" className="super text-red-700" />
-                                                        <span className="text-gray-700">Password</span>
-                                                        <i
-                                                            className="text-black absolute top-6 right-3"
-                                                            onClick={togglePasswordVisibility}
-                                                            style={{ cursor: 'pointer', marginLeft: '5px' }}
-                                                        >
-                                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                                        </i>
-                                                    </label>
-                                                </>
-                                            ) : (
-                                                <>
-
-                                                    <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30" type="name" name="fullName" />
-                                                        <ErrorMessage name="fullName" component="span" className="super text-red-700" />
-                                                        <span className="text-gray-700">Full Name</span>
-                                                    </label>
-
-                                                    <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30" type="email" name="email" />
-                                                        <ErrorMessage name="email" component="span" className="super text-red-700" />
-                                                        <span className="text-gray-700">Email</span>
-                                                    </label>
-
-                                                    <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30" type="text" name="phone" />
-                                                        <ErrorMessage name="phone" component="span" className="super text-red-700" />
-                                                        <span className="text-gray-700">Phone</span>
-                                                    </label>
-
-                                                    <label className="block mb-2">
-                                                        <Field className="input mt-1 block w-full  border-gray-30"
-                                                            type={
-                                                                showPassword ? "text" : "password"
-                                                            }
-                                                            name="password" />
-                                                        <ErrorMessage name="password" component="span" className="super text-red-700" />
-                                                        <span className="text-gray-700">Password</span>
-                                                        <i
-                                                            className="text-black absolute top-6 right-3"
-                                                            onClick={togglePasswordVisibility}
-                                                            style={{ cursor: 'pointer', marginLeft: '5px' }}
-                                                        >
-                                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                                        </i>
-                                                    </label>
-                                                </>
-                                            )}
-
-                                            <button className="bg-[#6366f1] text-white font-semibold px-4 py-2 hover:bg-[#34369b] transition duration-300" type="submit" disabled={isSubmitting}>
-                                                {isLoginForm ? 'Login' : 'Sign Up'}
-                                            </button>
-                                            <p className="text-gray-700 mt-4 text-center">By clicking on Login, I accept the  <Link to="/policy" className="text-[#6366f1] hover:text-[#34369b] hover:underline">Terms & Conditions & Privacy Policy</Link> </p>
-                                        </Form>
-                                    )}
-                                </Formik>
-                            </div>
+                                        <Button type="submit" pill fullWidth disabled={isSubmitting}>
+                                            {isLoginForm ? 'Login' : 'Sign Up'}
+                                        </Button>
+                                        <p className="text-gray-500 text-xs mt-4 text-center">By clicking on Login, I accept the  <Link to="/policy" className="text-primary-600 hover:text-primary-700 hover:underline">Terms & Conditions & Privacy Policy</Link> </p>
+                                    </Form>
+                                )}
+                            </Formik>
                         </div>
                     </div>
                 </div>

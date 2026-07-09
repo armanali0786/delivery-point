@@ -1,10 +1,9 @@
 import React, { useRef } from 'react'
 
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
-
 import BrandSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import SectionHeader from './ui/SectionHeader';
 
 const foods = [
     { name: 'Burger', image: require('../assets/food/Burger.avif') },
@@ -68,23 +67,14 @@ export default function FoodSlider({ slideToshow }) {
     return (
         <>
             <div className='py-5'>
-                <div className='flex justify-between px-4'>
-                    <p className='text-2xl font-bold text-[#222222]'>What's on your mind?</p>
-                    <div className='text-sm flex justify-between'>
-                        <button className='bg-gray-300 p-2 rounded-3xl mr-2' type="button" onClick={goToPrev}>
-                            <FaArrowLeft />
-                        </button>
-                        <button className='bg-gray-300 p-2 rounded-3xl ml-2' type="button" onClick={goToNext}>
-                            <FaArrowRight />
-                        </button>
-                    </div>
-                </div>
-                <div className='mt-5 cursor-pointer px-3'>
+                <SectionHeader title="What's on your mind?" onPrev={goToPrev} onNext={goToNext} />
+                <div className='mt-2 cursor-pointer px-3'>
                     <BrandSlider ref={sliderRef}  {...settings}>
                         {foods.map((food, index) => (
                             <div key={index}>
-                                <div className='flex items-center'>
-                                    <img src={food.image} alt={food.name} className='mx-auto rounded-full h-[150px] object-contain' />
+                                <div className='flex flex-col items-center gap-2'>
+                                    <img src={food.image} alt={food.name} className='mx-auto rounded-full h-[120px] w-[120px] object-contain border border-gray-100 shadow-sm' />
+                                    <span className="text-xs font-medium text-gray-600">{food.name.replace(/_/g, ' ')}</span>
                                 </div>
                             </div>
                         ))}

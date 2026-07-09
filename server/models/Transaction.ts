@@ -26,7 +26,7 @@ const TransactionSchema = new Schema({
  
 },{
     toJSON: {
-        transform(doc, ret){
+        transform(doc, ret: any){
             delete ret.__v;
         }
     },

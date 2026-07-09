@@ -32,16 +32,16 @@ export default function Home() {
         mainActionText={data.hero.mainActionText}
         extraActionText={data.hero.extraActionText}
       />
-      <div className='bg-gray-200'>
+      <div className='bg-white'>
         <TopBrand />
       </div>
-      <div className='bg-gray-100'>
+      <div className='bg-gray-50'>
         <FoodCard />
       </div>
-      <div className="bg-gray-200">
+      <div className="bg-white">
         <FoodCardHover />
       </div>
-      <div className="bg-gray-100">
+      <div className="bg-gray-50">
         <RestroCard />
       </div>
       <BottomLead

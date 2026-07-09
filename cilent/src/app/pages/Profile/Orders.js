@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { fetchOrderData } from '../../apis/ApiCall';
 import { useNavigate } from 'react-router-dom';
 import Chatbot from '../Chatbot';
-import Loading from '../../components/Loading';
+import { Card, CardBody } from '../../components/ui/Card';
+import Button from '../../components/ui/Button';
+import LoadingState from '../../components/ui/LoadingState';
+import EmptyState from '../../components/ui/EmptyState';
 
 export default function Orders() {
     const [orderData, setOrderData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isChatModelOpen, setIsChatModelOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -16,6 +20,8 @@ export default function Orders() {
                 setOrderData(response)
             } catch (error) {
                 console.error('Error fetching offers:', error);
+            } finally {
+                setLoading(false);
             }
         }
         fetchOrders();
@@ -51,44 +57,45 @@ export default function Orders() {
 
     return (
         <>
-            <div className="max-w-2xl mx-auto py-4">
-                <h2 className="text-xl font-semibold mb-4">Past Orders</h2>
-                 {/* {orderData.map((order) => ( 
-                 ))} */}
-                {orderData.length > 0 ? (
+            <div className="max-w-2xl mx-auto py-4 px-4">
+                <h2 className="text-xl font-semibold mb-4 text-gray-900">Past Orders</h2>
+                {loading ? (
+                    <LoadingState count={2} className="sm:grid-cols-1" />
+                ) : orderData.length > 0 ? (
                     orderData.map((order) => (
-                        <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <Card hover={false} key={order._id} className="mb-4">
+                            <CardBody>
                             <div className="flex justify-end items-center mb-3">
-                                {/* <h3 className="text-lg font-semibold">{order.items[0].food.name}</h3> */}
-                                <span className="text-sm text-zinc-500">Delivered on Fri, Aug 18, 2023, 06:22 PM</span>
+                                <span className="text-sm text-gray-500">Delivered on Fri, Aug 18, 2023, 06:22 PM</span>
                             </div>
                             <div className="flex justify-between">
                                 {order.items.length > 0 && order.items[0].food ? (
                                     <>
-                                        <img src={`https://delivery-point.onrender.com/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-lg w-1/3 h-[150px]" />
+                                        <img src={`https://delivery-point.onrender.com/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-xl w-1/3 h-[150px] object-cover" />
                                         <div className="flex-1 ml-4">
-                                            <p className='text-lg'>{order.items[0].food.name}</p>
-                                            <p className="text-sm text-zinc-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
-                                            <button className="text-blue-500 hover:text-blue-700 underline mt-1" onClick={() => NavigateOrderDetails(order._id)}>VIEW DETAILS</button>
-                                            <p className="mt-2 text-zinc-500">{order.items[0].food.name}  x {order.items[0].unit}</p>
+                                            <p className='text-lg text-gray-900 font-medium'>{order.items[0].food.name}</p>
+                                            <p className="text-sm text-gray-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
+                                            <button className="text-primary-600 hover:text-primary-700 underline mt-1 text-sm font-medium" onClick={() => NavigateOrderDetails(order._id)}>VIEW DETAILS</button>
+                                            <p className="mt-2 text-gray-500 text-sm">{order.items[0].food.name}  x {order.items[0].unit}</p>
                                         </div>
                                     </>
                                 ) : (
                                     <p className="text-red-500">Food not available</p>
                                 )}
                                 <div>
-                                    <p className="text-sm text-zinc-500 font-bold">Total Paid: ₹{order.totalAmount}</p>
+                                    <p className="text-sm text-gray-500 font-bold">Total Paid: ₹{order.totalAmount}</p>
                                 </div>
                             </div>
-                            <div className="flex mt-3">
-                                <button className="bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 mr-2 cursor-pointer" onClick={() => NavigateReOrder(order.vendorId)} >REORDER</button>
-                                <button className="bg-[#60b246] hover:bg-[#4e9638] text-white rounded-md px-4 py-2" onClick={toggleChatModel} >HELP</button>
+                            <div className="flex mt-3 gap-2">
+                                <Button size="sm" pill onClick={() => NavigateReOrder(order.vendorId)}>REORDER</Button>
+                                <Button size="sm" pill variant="outline" onClick={toggleChatModel}>HELP</Button>
                                 <Chatbot isChatModelOpen={isChatModelOpen} toggleChatModel={toggleChatModel} />
                             </div>
-                        </div>
+                            </CardBody>
+                        </Card>
                     ))
                 ) : (
-                    <p className='flex justify-center mt-10'><Loading /></p>
+                    <EmptyState title="No orders yet" subtitle="Your past orders will show up here." />
                 )}
             </div>
         </>

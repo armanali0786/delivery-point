@@ -1,22 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
-import '../assets/styles/login.css';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useAuth } from '../context/authContext';
+import Input from '../components/ui/Input';
+import PasswordField from '../components/ui/PasswordField';
+import Button from '../components/ui/Button';
 
 export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
 
-    const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-    const [showPassword, setShowPassword] = useState(false);
-    const containerRef = useRef(null);
-
-    const navigate = useNavigate();
+    const { setIsLoggedIn } = useAuth();
 
     const initialValues = {
         email: '',
@@ -28,14 +24,8 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-        fullName: Yup.string().when('isLoginForm', {
-            is: false,
-            then: Yup.string().required('Full Name is required')
-        }),
-        phone: Yup.string().when('isLoginForm', {
-            is: false,
-            then: Yup.string().required('Phone Number is required')
-        })
+        fullName: showLoginForm ? Yup.string() : Yup.string().required('Full Name is required'),
+        phone: showLoginForm ? Yup.string() : Yup.string().required('Phone Number is required'),
     });
 
     const onSubmit = async (values, { setSubmitting, setErrors, resetForm}) => {
@@ -54,7 +44,7 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
                     password: values.password
                 };
             }
-    
+
             const url = showLoginForm ? 'https://delivery-point.onrender.com/customer/login' : 'https://delivery-point.onrender.com/customer/signup';
             const response = await axios.post(url, params);
             if (response.status === 200) {
@@ -76,12 +66,10 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
                     toast.error(validationErrors);
                     setErrors(validationErrors);
                 } else {
-                    // Handle other types of errors
                     setErrors({ server: 'An unexpected error occurred' });
                     console.error('Unexpected error:', error.message);
                 }
             } else {
-                // The request was made but no response was received
                 console.error('Error submitting form:', error.message);
                 setErrors({ server: 'An unexpected error occurred' });
             }
@@ -90,90 +78,32 @@ export default function CheckoutLogin({ showLoginForm, showSignUpForm }) {
         }
     };
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    // useEffect(() => {
-    //     setErrors({});
-    // }, [showLoginForm]);
-
     return (
         <>
         <ToastContainer />
             <div className='flex justify-center items-center'>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                    {({ isSubmitting, setErrors }) => 
+                    {({ isSubmitting, errors, touched }) =>
                     (
-                        <Form className="form w-full max-w-[350px]">
+                        <Form className="w-full max-w-[350px]">
                             {showLoginForm ? (
                                 <>
-                                    <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30" type="email" name="email" />
-                                        <ErrorMessage name="email" component="span" className="super text-red-700" />
-                                        <span className="text-gray-700">Email</span>
-                                    </label>
-                                    <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30"
-                                            type={
-                                                showPassword ? "text" : "password"
-                                            }
-                                            name="password" />
-                                        <ErrorMessage name="password" component="span" className="super text-red-700" />
-                                        <i
-                                            className="text-black absolute top-6 right-3"
-                                            onClick={togglePasswordVisibility}
-                                            style={{ cursor: 'pointer', marginLeft: '5px' }}
-                                        >
-                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                        </i>
-                                        <span className="text-gray-700">Password</span>
-                                    </label>
+                                    <Field as={Input} type="email" name="email" label="Email" error={touched.email && errors.email} />
+                                    <Field as={PasswordField} name="password" label="Password" error={touched.password && errors.password} />
                                 </>
                             ) : (
                                 <>
-
-                                    <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30" type="name" name="fullName" />
-                                        <ErrorMessage name="fullName" component="span" className="super text-red-700" />
-                                        <span className="text-gray-700">Full Name</span>
-                                    </label>
-
-                                    <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30" type="email" name="email" />
-                                        <ErrorMessage name="email" component="span" className="super text-red-700" />
-                                        <span className="text-gray-700">Email</span>
-                                    </label>
-
-                                    <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30" type="text" name="phone" />
-                                        <ErrorMessage name="phone" component="span" className="super text-red-700" />
-                                        <span className="text-gray-700">Phone</span>
-                                    </label>
-
-                                    <label className="block mb-2">
-                                        <Field className="input mt-1 block w-full  border-gray-30"
-                                            type={
-                                                showPassword ? "text" : "password"
-                                            }
-                                            name="password" />
-                                        <ErrorMessage name="password" component="span" className="super text-red-700" />
-                                        <span className="text-gray-700">Password</span>
-                                        <i
-                                            className="text-black absolute top-6 right-3"
-                                            onClick={togglePasswordVisibility}
-                                            style={{ cursor: 'pointer', marginLeft: '5px' }}
-                                        >
-                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                        </i>
-                                    </label>
+                                    <Field as={Input} type="text" name="fullName" label="Full Name" error={touched.fullName && errors.fullName} />
+                                    <Field as={Input} type="email" name="email" label="Email" error={touched.email && errors.email} />
+                                    <Field as={Input} type="text" name="phone" label="Phone" error={touched.phone && errors.phone} />
+                                    <Field as={PasswordField} name="password" label="Password" error={touched.password && errors.password} />
                                 </>
                             )}
 
-                            <button className="bg-[#60b246] text-white font-semibold px-4 py-2 hover:bg-[#4a9932] transition duration-300" type="submit" disabled={isSubmitting}>
+                            <Button type="submit" pill fullWidth disabled={isSubmitting}>
                                 {showLoginForm ? 'Login' : 'Sign Up'}
-                            </button>
-                            <p className="text-gray-700 text-sm text-center">By clicking on Login, I accept the  <Link to="/policy" className="text-[#6366f1] hover:text-[#34369b] hover:underline">Terms & Conditions & Privacy Policy</Link> </p>
+                            </Button>
+                            <p className="text-gray-500 text-xs text-center mt-3">By clicking on Login, I accept the  <Link to="/policy" className="text-primary-600 hover:text-primary-700 hover:underline">Terms & Conditions & Privacy Policy</Link> </p>
                         </Form>
                     )}
                 </Formik>

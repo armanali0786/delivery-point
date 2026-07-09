@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FiSearch, FiShoppingBag, FiChevronDown, FiUser } from 'react-icons/fi';
 import Dpointlogo from '../assets/logo/Dpointlogo1.png'
 import '../assets/styles/navbar.css';
 import { useDispatch, useSelector } from "react-redux";
@@ -48,109 +49,58 @@ export default function Navbar() {
     }
 
     return (
-        <section className="w-full px-8 text-gray-700 bg-white">
-            <div className="flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row">
-                <div className="relative flex flex-col md:flex-row">
-                    <Link to="/" className="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
-                        <span className="mx-auto text-xl font-black leading-none text-gray-900 select-none">
-                            <img src={Dpointlogo} className='h-15 w-10' />
-                        </span>
+        <section className="w-full border-b border-gray-100 bg-white px-4 sm:px-8">
+            <div className="mx-auto flex max-w-7xl flex-col flex-wrap items-center justify-between py-3 md:flex-row">
+                <div className="relative flex flex-col md:flex-row md:items-center">
+                    <Link to="/" className="mb-4 flex items-center font-medium text-gray-900 md:mb-0">
+                        <img src={Dpointlogo} alt="DeliveryPoint" className="h-10 w-auto" />
                     </Link>
-                    <nav className="flex flex-wrap items-center mb-5 text-base md:mb-0 md:pl-8 md:ml-8 md:border-l md:border-gray-200">
+                    <nav className="mb-4 flex flex-wrap items-center gap-1 text-base md:mb-0 md:ml-8 md:border-l md:border-gray-200 md:pl-8">
                         <NavLink to="/" label="Home" activeLink={activeLink} setActiveLink={setActiveLink} />
                         <NavLink to="/menu" label="Menus" activeLink={activeLink} setActiveLink={setActiveLink} />
-                        {/* <NavLink to="/check" label="Check" activeLink={activeLink} setActiveLink={setActiveLink} /> */}
 
-                        {/* <SearchText searchText={searchText} setSearchText={setSearchText}/> */}
-                        <button type="submit" class="group flex p-1.5 ms-2 text-sm font-medium text-gray-900 hover:text-[#5B63B7]"
-                            onClick={handleNavigateSearch} activeLink={activeLink} setActiveLink={setActiveLink}
+                        <button
+                            type="button"
+                            className="group ml-2 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-600"
+                            onClick={handleNavigateSearch}
                         >
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                            <span className='flex justify-center items-center mx-2 text-gray-900 font-medium group-hover:text-[#5B63B7]'>Search</span>
+                            <FiSearch className="h-4 w-4" />
+                            <span>Search</span>
                         </button>
-
                     </nav>
                 </div>
-                <div className='flex'>
-                    <div className='relative'>
-                        <Link to="/checkout">
-                            <svg
-                                className="w-10 h-10 text-orange-400 hover:text-orange-600 cursor-pointer block"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                                />
-                            </svg>
-                            <span className='absolute top-0 left-8 text-orange-600'>
-                                ({totalQuantity})
+                <div className="flex items-center">
+                    <Link to="/checkout" className="relative flex h-10 w-10 items-center justify-center rounded-full text-gray-500 hover:bg-primary-50 hover:text-primary-600">
+                        <FiShoppingBag className="h-5 w-5" />
+                        {totalQuantity > 0 && (
+                            <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary-600 text-[10px] font-bold text-white">
+                                {totalQuantity}
                             </span>
-                        </Link>
-                    </div>
+                        )}
+                    </Link>
                     {!isLoggedIn ? (
-                        <div className="inline-flex items-center ml-5 space-x-6 lg:justify-end">
+                        <div className="ml-3 inline-flex items-center lg:justify-end">
                             <OffensiveSidbar isOpen={isOpen} setIsOpen={setIsOpen} toggleOffcanvas={toggleOffcanvas} />
 
-                            <button onClick={toggleOffcanvas} label="Sign In" className="text-base font-medium leading-6 text-black whitespace-no-wrap transition duration-150 ease-in-out hover:text-[#5B63B7]">
+                            <button onClick={toggleOffcanvas} className="rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
                                 Sign in
                             </button>
                         </div>
 
                     ) : (
-                        <div className="flex">
-                            <div className='relative'>
-                                <div className="group cursor-pointer">
-                                    <div className="mx-5 flex items-end gap-x-2 font-medium text-blue-gray">
-                                        <svg
-                                            width="16"
-                                            height="17"
-                                            viewBox="0 0 16 17"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M16 8.5C16 10.6217 15.1571 12.6566 13.6569 14.1569C12.1566 15.6571 10.1217 16.5 8 16.5C5.87827 16.5 3.84344 15.6571 2.34315 14.1569C0.842855 12.6566 0 10.6217 0 8.5C0 6.37827 0.842855 4.34344 2.34315 2.84315C3.84344 1.34285 5.87827 0.5 8 0.5C10.1217 0.5 12.1566 1.34285 13.6569 2.84315C15.1571 4.34344 16 6.37827 16 8.5ZM10 5.5C10 6.03043 9.78929 6.53914 9.41421 6.91421C9.03914 7.28929 8.53043 7.5 8 7.5C7.46957 7.5 6.96086 7.28929 6.58579 6.91421C6.21071 6.53914 6 6.03043 6 5.5C6 4.96957 6.21071 4.46086 6.58579 4.08579C6.96086 3.71071 7.46957 3.5 8 3.5C8.53043 3.5 9.03914 3.71071 9.41421 4.08579C9.78929 4.46086 10 4.96957 10 5.5ZM8 9.5C7.0426 9.49981 6.10528 9.77449 5.29942 10.2914C4.49356 10.8083 3.85304 11.5457 3.454 12.416C4.01668 13.0706 4.71427 13.5958 5.49894 13.9555C6.28362 14.3152 7.13681 14.5009 8 14.5C8.86319 14.5009 9.71638 14.3152 10.5011 13.9555C11.2857 13.5958 11.9833 13.0706 12.546 12.416C12.147 11.5457 11.5064 10.8083 10.7006 10.2914C9.89472 9.77449 8.9574 9.49981 8 9.5Z"
-                                                fill="#90A4AE"
-                                            />
-                                        </svg>
-                                        {/* <a className="flex items-center text-indigo-700 group-hover:text-indigo-900">Account</a> */}
-
-                                        <a class="menu-hover text-base font-medium text-black lg:mx-4" >
-                                            Account
-                                        </a>
-                                        <div class="group relative cursor-pointer">
-                                            <div class="flex items-center justify-between bg-white">
-                                                <span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                                        stroke="currentColor" class="h-6 w-6">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div
-                                                class="invisible absolute left-[-100px] w-[145px] rounded-lg z-50 flex flex-col bg-gray-100 py-1 px-4 text-gray-900 shadow-xl group-hover:visible">
-                                                <Link to='/profile' class="my-2 block border-b border-gray-100 py-1 font-semibold text-gray-900 hover:text-[#5B63B7] md:mx-2">
-                                                    Profile
-                                                </Link>
-                                                <Link onClick={handleLogout} class="my-2 block border-b border-gray-100 py-1 font-semibold text-gray-900 hover:text-[#5B63B7] md:mx-2">
-                                                    Logout
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div className="group relative ml-3 cursor-pointer">
+                            <div className="flex items-center gap-1.5 rounded-full px-3 py-2 font-medium text-gray-700 hover:bg-gray-50">
+                                <FiUser className="h-4 w-4" />
+                                <span className="text-sm">Account</span>
+                                <FiChevronDown className="h-4 w-4" />
+                            </div>
+                            <div className="invisible absolute right-0 z-50 mt-1 flex w-40 flex-col rounded-xl bg-white py-1 px-2 text-gray-900 shadow-xl ring-1 ring-gray-100 group-hover:visible">
+                                <Link to='/profile' className="block rounded-lg border-b border-gray-100 px-2 py-2 text-sm font-semibold text-gray-700 hover:bg-primary-50 hover:text-primary-600">
+                                    Profile
+                                </Link>
+                                <Link onClick={handleLogout} className="block rounded-lg px-2 py-2 text-sm font-semibold text-gray-700 hover:bg-primary-50 hover:text-primary-600">
+                                    Logout
+                                </Link>
                             </div>
                         </div>
                     )}
@@ -167,7 +117,7 @@ function NavLink({ to, label, activeLink, setActiveLink }) {
     return (
         <Link
             to={to}
-            className={`mr-5 font-medium leading-6 text-black hover:text-[#5B63B7] ${isActive ? 'underline text-[#5B63B7]' : ''}`}
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${isActive ? 'bg-primary-50 text-primary-600' : 'text-gray-700 hover:bg-gray-50'}`}
             onClick={() => setActiveLink(to)}
         >
             {label}

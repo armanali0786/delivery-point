@@ -75,7 +75,7 @@ export const GetVendors = async (req: Request, res: Response, next: NextFunction
 
 export const GetVendorById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const VendorId = req.params.id;
+        const VendorId = req.params.id as string;
         const Vendor = await FindVendor(VendorId);
         if (Vendor != null) {
             return res.status(200).json(Vendor);

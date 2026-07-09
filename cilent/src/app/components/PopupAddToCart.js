@@ -8,7 +8,7 @@ export default function PopupAddToCart() {
     };
     return (
         <>
-            <div className='fixed bottom-0 left-0 right-0 bg-[#60b246] container mx-auto flex justify-between p-3 w-full max-w-[745px]'>
+            <div className='fixed bottom-0 left-0 right-0 bg-primary-600 container mx-auto flex justify-between p-3 w-full max-w-[745px] shadow-lg rounded-t-xl'>
                 <div className='flex items-center text-white text-sm font-bold '>
                    1 Item Added
                 </div>

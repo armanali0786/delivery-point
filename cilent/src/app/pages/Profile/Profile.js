@@ -2,8 +2,19 @@ import React, { useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 import { IoMdMenu } from "react-icons/io";
-import DeliveryOne from './DeliveryOne';
+import { FiPackage, FiHeart, FiCreditCard, FiMapPin, FiTruck } from "react-icons/fi";
 import { useMediaQuery } from '@react-hook/media-query';
+import Button from '../../components/ui/Button';
+import { cn } from '../../../utils/cn';
+
+const NAV_ITEMS = [
+    { to: '/profile/orders', label: 'Orders', icon: FiPackage },
+    { to: '/profile/favourites', label: 'Favourites', icon: FiHeart },
+    { to: '/profile/payments', label: 'Payments', icon: FiCreditCard },
+    { to: '/profile/manage_addresses', label: 'Addresses', icon: FiMapPin },
+    { to: '/profile/super', label: 'Delivery Ones', icon: FiTruck },
+];
+
 export default function Profile() {
     const token = localStorage.getItem('token');
     const decoded = jwtDecode(token);
@@ -21,55 +32,52 @@ export default function Profile() {
     const isMediumScreen = useMediaQuery('(max-width: 768px)');
     return (
         <>
-            <div className="bg-slate-100 font-sans leading-normal tracking-normal">
+            <div className="font-sans leading-normal tracking-normal">
                 <div className="flex h-screen">
 
                     <div
-                        className={`bg-[#35728a] text-white w-64 space-y-6 py-2 absolute inset-y-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                        className={`bg-ink-900 text-white w-64 space-y-6 py-6 absolute inset-y-0 left-0 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                             } md:relative md:translate-x-0 transition duration-200 ease-in-out`}
                     >
-                        <div className="text-center">
-                            <h1 className="text-lg font-medium">{decoded.fullName}</h1>
-                            <p>{decoded.phone}</p>
-                            <p>{decoded.email}</p>
+                        <div className="text-center px-4">
+                            <h1 className="text-lg font-semibold">{decoded.fullName}</h1>
+                            <p className="text-sm text-white/60">{decoded.phone}</p>
+                            <p className="text-sm text-white/60">{decoded.email}</p>
                         </div>
-                        <nav>
-                            <Link to="/profile/orders" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/orders') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
-                                <i className="fas fa-box"></i> 📦 Orders
-                            </Link>
-                            <Link to="/profile/favourites" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/favourites') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
-                                <i className="fas fa-star"></i> ❤️ Favourites
-                            </Link>
-                            <Link to="/profile/payments" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/payments') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
-                                <i className="fas fa-wallet"></i> 💳 Payments
-                            </Link>
-                            <Link to="/profile/manage_addresses" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/manage_addresses') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
-                                <i className="fas fa-map-marker-alt"></i> 📍 Addresses
-                            </Link>
-                            <Link to="/profile/super" className={`block py-2.5 px-4 transition duration-200 ${isActiveLink('/profile/super') ? 'text-black bg-slate-100' : 'text-white hover:text-black hover:text-black'}`}>
-                                <i className="fas fa-map-marker-alt"></i> 🍔 Delivery Ones
-                            </Link>
+                        <nav className="px-3 space-y-1">
+                            {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
+                                <Link
+                                    key={to}
+                                    to={to}
+                                    className={cn(
+                                        'flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors',
+                                        isActiveLink(to) ? 'bg-white text-gray-900' : 'text-white/80 hover:bg-white/10 hover:text-white'
+                                    )}
+                                >
+                                    <Icon className="h-4 w-4" /> {label}
+                                </Link>
+                            ))}
                         </nav>
                     </div>
 
 
                     <div className="flex-1 flex flex-col overflow-hidden">
-                        <header className="flex justify-end items-center p-4 bg-[#35728a]">
+                        <header className="relative flex justify-end items-center p-4 bg-ink-900 border-b border-white/10">
                             {
                                 isMediumScreen && (
                                     <button
-                                        className="text-white absolute left-0"
+                                        className="text-white absolute left-4"
                                         onClick={toggleSidebar}
                                     >
-                                        <IoMdMenu />
+                                        <IoMdMenu className="h-6 w-6" />
                                     </button>
                                 )
                             }
-                            <button className="text-white border-2 border-white font-bold py-2 px-4 hover:text-black hover:bg-white">
+                            <Button variant="outline" size="sm" pill className="!bg-transparent !text-white !border-white/40 hover:!bg-white hover:!text-gray-900">
                                 Edit Profile
-                            </button>
+                            </Button>
                         </header>
-                        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-200">
+                        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
                             <div className="container mx-auto">
                                 <Outlet />
                             </div>

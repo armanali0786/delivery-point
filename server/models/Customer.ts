@@ -49,7 +49,7 @@ const CustomerSchema = new Schema({
 
 },{
     toJSON: {
-        transform(doc, ret){
+        transform(doc, ret: any){
             delete ret.password;
             delete ret.salt;
             delete ret.__v;

@@ -65,7 +65,7 @@ export const CustomerSignUp = async (req: Request, res: Response, next: NextFunc
             // await onRequestOTP(otp, phone);
             //Generate the Signature
             const signature = await GenerateSignature({
-                _id: result._id,
+                _id: result._id.toString(),
                 email: result.email,
                 verified: result.verified,
                 fullName: result.fullName,
@@ -117,7 +117,7 @@ export const CustomerLogin = async (req: Request, res: Response, next: NextFunct
             if (validation) {
                 try {
                     const signature = await GenerateSignature({
-                        _id: customer._id,
+                        _id: customer._id.toString(),
                         email: customer.email,
                         verified: customer.verified,
                         fullName: customer.fullName,
@@ -159,7 +159,7 @@ export const CustomerVerify = async (req: Request, res: Response, next: NextFunc
                     const updatedCustomerResponse = await profile.save();
 
                     const signature = await GenerateSignature({
-                        _id: updatedCustomerResponse._id,
+                        _id: updatedCustomerResponse._id.toString(),
                         email: updatedCustomerResponse.email,
                         verified: updatedCustomerResponse.verified,
                         fullName: updatedCustomerResponse.fullName,
@@ -558,7 +558,7 @@ export const CreateOrder = async (req: Request, res: Response, next: NextFunctio
             const foods = await Food.find().where('_id').in(items.map(item => item._id)).exec();
             foods.map(food => {
                 items.map(({ _id, unit }) => {
-                    if (food._id == _id) {
+                    if (food._id.toString() == _id) {
                         vendorId = food.vendorId;
                         netAmount += (food.price * unit);
                         cartItems.push({

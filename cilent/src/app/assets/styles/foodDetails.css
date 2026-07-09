@@ -8,8 +8,8 @@
  font-size: 18px;
  text-transform: uppercase;
  border: 0;
- box-shadow: hsl(29, 100%, 69%) 0px 7px 0px 0px;
- background-color: hsl(19, 87%, 56%);
+ box-shadow: #FF9B7D 0px 7px 0px 0px;
+ background-color: #D4340F;
  border-radius: 12px;
  overflow: hidden;
  transition: 31ms cubic-bezier(.5, .7, .4, 1);

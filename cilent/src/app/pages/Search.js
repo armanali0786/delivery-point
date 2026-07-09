@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import FoodSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { IoMdStar } from "react-icons/io";
+import { FiSearch } from 'react-icons/fi';
 import { fetchFoods } from '../apis/ApiCall';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MdArrowForward } from "react-icons/md";
-import { MdArrowOutward } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { addToCart, removeItem } from "../cart/cartSlice";
+import UiFoodCard from '../components/ui/FoodCard';
+import LoadingState from '../components/ui/LoadingState';
+import EmptyState from '../components/ui/EmptyState';
 
 
 const foodsImage = [
@@ -34,14 +35,12 @@ const foodsImage = [
 
 export default function Search() {
     const [searchData, setSearchData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const location = useLocation();
     const navigate = useNavigate();
     const searchParams = new URLSearchParams(location.search);
     const searchTerm = searchParams.get('query');
     const [searchText, setSearchText] = useState();
-    const [expandedDescription, setExpandedDescription] = useState({});
-
-    const [hover, setHover] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -86,6 +85,8 @@ export default function Search() {
             setSearchData(response);
         } catch (error) {
             console.error('Error fetching food data:', error);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -127,13 +128,6 @@ export default function Search() {
         return false;
     });
 
-    const toggleDescription = (foodId) => {
-        setExpandedDescription((prev) => ({
-            ...prev,
-            [foodId]: !prev[foodId]
-        }));
-    };
-
     const handleNavigate = (vendorId) => {
         navigate(`/food-details/${vendorId}`);
     }
@@ -142,34 +136,28 @@ export default function Search() {
         var doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
     };
-    const getFirstNWords = (text, n) => {
-        const words = text.split(" ");
-        return words.slice(0, n).join(" ");
-    };
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
 
-    const isEmpty = filteredFoods.length === 0;
+    const isEmpty = !loading && filteredFoods.length === 0;
 
     return (
         <>
-            <div class="bg-gray-100 flex justify-center items-center py-10">
-                <div class="w-full max-w-[860px] mx-auto rounded-lg p-14">
+            <div className="bg-gray-50 flex justify-center items-center py-10">
+                <div className="w-full max-w-[860px] mx-auto rounded-lg p-6 sm:p-14">
                     <form onSubmit={handleSearchButton}>
-                        <div class="sm:flex items-center border border-2 border-gray-400 overflow-hidden px-2 py-1 justify-between">
-                            <input class="text-base text-black bg-gray-100 flex-grow outline-none px-2 py-2 " type="text"
+                        <div className="sm:flex items-center bg-white border-2 border-gray-200 rounded-full overflow-hidden px-2 py-1 justify-between shadow-sm focus-within:border-primary-500">
+                            <input className="text-base text-gray-900 bg-transparent flex-grow outline-none px-4 py-2" type="text"
                                 value={searchText}
                                 onChange={handleInputChange}
                                 onKeyDown={handleKeyDown}
                                 placeholder="Search foods and restaurants"
                             />
-                            <div class="flex items-center px-2 rounded-lg space-x-4 mx-auto ">
-                                <button type="submit" class="p-1.5 ms-2 text-sm font-medium text-white bg-indigo-600 rounded-lg border border-indigo-600 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                    </svg>
+                            <div className="flex items-center px-1 rounded-lg space-x-4 mx-auto">
+                                <button type="submit" className="p-2.5 text-sm font-medium text-white bg-primary-600 rounded-full hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-200">
+                                    <FiSearch className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
@@ -178,65 +166,32 @@ export default function Search() {
                         <FoodSlider {...settings}>
                             {foodsImage.map((food, index) => (
                                 <div key={index}>
-                                    <div className='flex items-center' onClick={() => handleSearch(food.name)}>
-                                        <img src={food.image} alt={food.name} className='mx-auto rounded-full h-[100px] h-20 object-contain' />
+                                    <div className='flex flex-col items-center gap-2' onClick={() => handleSearch(food.name)}>
+                                        <img src={food.image} alt={food.name} className='mx-auto rounded-full h-20 w-20 object-contain border border-gray-100 shadow-sm' />
+                                        <span className="text-xs font-medium text-gray-600">{food.name.replace(/_/g, ' ')}</span>
                                     </div>
                                 </div>
                             ))}
                         </FoodSlider>
                     </div>
-                    {isEmpty ? (
-                        <div className=" flex justify-center bg-gray-200 p-5">
-                            <div className="text-center">
-                                No Food Found
-                            </div>
-                        </div>
+                    {loading ? (
+                        <LoadingState count={4} className="sm:grid-cols-2 lg:grid-cols-2" />
+                    ) : isEmpty ? (
+                        <EmptyState title="No food found" subtitle="Try searching for a different dish or restaurant." />
                     ) : (
-                        <div className="bg-gray-200 rounded-lg">
-                            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-                                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xl:gap-x-8">
-                                    {filteredFoods.map((food, index) => {
-                                        const numWordsToShow = food.description.split(' ').length > 2 ? 10 : 20;
-                                        const descriptionText = removeHtmlTags(food.description);
-                                        return (
-                                            <div key={food.id} href={food.href} className='group bg-white rounded-xl w-full max-h-[320px]'>
-                                                <div className='flex justify-between items-center px-4 cursor-pointer' onClick={() => handleNavigate(food.vendorId)}>
-                                                    <div >
-                                                        <h3 className="mt-4 text-sm text-gray-800">{food.name}</h3>
-                                                        <div className='flex items-center my-1'>
-                                                            <span> <IoMdStar /> </span>{food.rating} .
-                                                            <p className='mx-1 text-gray-800'>20-25 MINS</p>
-                                                        </div>
-                                                    </div>
-                                                    <p className="mt-1 text-2xl text-black !font-extrabold bg-gray-400 p-2 rounded-full " onMouseEnter={() => setHover(true)}
-                                                        onMouseLeave={() => setHover(false)}>{hover ? <MdArrowForward /> : <MdArrowOutward />}</p>
-                                                </div>
-                                                <hr className='mt-3' />
-                                                <div className='px-3 py-3'>
-                                                    <div className='flex justify-between'>
-                                                        <div>
-                                                            <p className='text-sm font-bold'>{food.name}</p>
-                                                            <p className='flex text-lg'>₹{food.price}</p>
-                                                        </div>
-
-                                                        <div className='relative'>
-                                                            <img src={`https://delivery-point.onrender.com/images/${food.images[0]}`} className='h-28 w-36 rounded-lg' />
-                                                            {/* <button
-                                                                    className='absolute bottom-0 right-5 bg-white rounded-lg text-lg border-2 w-20 text-[#1C9D34] hover:bg-gray-300 font-bold'
-                                                                    onClick={() => handleCartAction(food)}
-                                                                > Add
-                                                                </button> */}
-                                                        </div>
-                                                    </div>
-                                                    <div className='py-2'>
-                                                        <p className='text-[14px] text-left'>{getFirstNWords(descriptionText, numWordsToShow)}....</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {filteredFoods.map((food, index) => (
+                                <UiFoodCard
+                                    key={food.id || index}
+                                    variant="list"
+                                    onClick={() => handleNavigate(food.vendorId)}
+                                    image={`https://delivery-point.onrender.com/images/${food.images[0]}`}
+                                    name={food.name}
+                                    description={removeHtmlTags(food.description)}
+                                    price={food.price}
+                                    rating={food.rating}
+                                />
+                            ))}
                         </div>
                     )}
                 </div>

@@ -36,7 +36,7 @@ const OrderSchema = new Schema({
     CustomerAddress:{ type: String}
 },{
     toJSON: {
-        transform(doc, ret){
+        transform(doc, ret: any){
             delete ret.__v;
             delete ret.createdAt;
             delete ret.updatedAt;
