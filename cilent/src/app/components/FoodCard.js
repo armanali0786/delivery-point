@@ -8,10 +8,12 @@ import Loading from '../components/Loading';
 import SectionHeader from './ui/SectionHeader';
 import UiFoodCard from './ui/FoodCard';
 import Badge from './ui/Badge';
+import { useLocationContext } from '../context/locationContext';
 
 export default function FoodCard() {
   const sliderRef = useRef(null);
   const [foods, setFoods] = useState();
+  const { location } = useLocationContext() || {};
 
   const navigate = useNavigate();
 
@@ -70,7 +72,7 @@ export default function FoodCard() {
   return (
     <>
       <div className='mx-auto container py-5'>
-        <SectionHeader title="Best Food in Rajkot" onPrev={goToPrev} onNext={goToNext} />
+        <SectionHeader title={`Best Food in ${location?.city || 'Rajkot'}`} onPrev={goToPrev} onNext={goToNext} />
         <div className='py-3'>
           {foods && foods.length > 0 ? (
             <CardSlider ref={sliderRef}  {...settings}>

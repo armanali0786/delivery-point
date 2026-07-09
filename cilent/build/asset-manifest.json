@@ -1,13 +1,11 @@
 {
   "files": {
-    "main.css": "/static/css/main.7c0cd66d.css",
-    "main.js": "/static/js/main.b85af8c9.js",
-    "static/media/hero.png": "/static/media/hero.699dda9742f78636aac9.png",
+    "main.css": "/static/css/main.00f1c1a9.css",
+    "main.js": "/static/js/main.2d5afec1.js",
     "static/media/payment-cancel.png": "/static/media/payment-cancel.4cc646ec430a2621f438.png",
     "static/media/foodImage.avif": "/static/media/foodImage.78901256ad0888c100af.avif",
     "static/media/action.jpg": "/static/media/action.792b3f94d52957a36160.jpg",
     "static/media/chatbot-image.png": "/static/media/chatbot-image.9cf4414f56f17765f40b.png",
-    "static/media/emptycart.png": "/static/media/emptycart.29f20fc95b2511ab4c3d.png",
     "static/media/user.png": "/static/media/user.a59c0fbad32afc39bac3.png",
     "static/media/desert.avif": "/static/media/desert.56d11c2796640486f3da.avif",
     "static/media/customer-servic.png": "/static/media/customer-servic.5e829d47a77503b04996.png",
@@ -38,11 +36,11 @@
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.7c0cd66d.css.map": "/static/css/main.7c0cd66d.css.map",
-    "main.b85af8c9.js.map": "/static/js/main.b85af8c9.js.map"
+    "main.00f1c1a9.css.map": "/static/css/main.00f1c1a9.css.map",
+    "main.2d5afec1.js.map": "/static/js/main.2d5afec1.js.map"
   },
   "entrypoints": [
-    "static/css/main.7c0cd66d.css",
-    "static/js/main.b85af8c9.js"
+    "static/css/main.00f1c1a9.css",
+    "static/js/main.2d5afec1.js"
   ]
 }

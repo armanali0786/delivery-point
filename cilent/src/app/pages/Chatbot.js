@@ -1,10 +1,10 @@
 import React, { useState, useEffect,useRef } from 'react';
-import { IoMdSend } from "react-icons/io";
+import { IoMdSend, IoMdClose } from "react-icons/io";
 import CustomerSupprt from '../assets/customer-servic.png';
 import ChatBotImage from '../assets/chatbot-image.png';
 import UserImage from '../assets/user.png';
-import { AiOutlineMessage } from "react-icons/ai";
 import axios from 'axios';
+import { cn } from '../../utils/cn';
 
 export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
     const [userMessage, setUserMessage] = useState('');
@@ -52,7 +52,7 @@ export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
           messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
       };
-    
+
       useEffect(() => {
         scrollToBottom();
       }, []);
@@ -61,62 +61,50 @@ export default function Chatbot({ isChatModelOpen, toggleChatModel }) {
     return (
         <>
             {isChatModelOpen && (
-                <div className='flex justify-end fixed top-20 left-0 right-0 bottom-0 z-50 bg-black bg-opacity-50 '>
-                    <div className="flex flex-col bg-zinc-100 max-w-md min-h-[250px] ">
-                        <div className="bg-[#35728a] text-white p-4 flex justify-between items-center">
-                            <h1 className="text-lg">DeliveryPoint Support</h1>
+                <div className='flex justify-end fixed top-20 left-0 right-0 bottom-0 z-50 bg-black/50'>
+                    <div className="flex flex-col bg-gray-100 w-full max-w-md min-h-[250px] shadow-2xl">
+                        <div className="bg-ink-900 text-white p-4 flex justify-between items-center">
+                            <h1 className="text-lg font-semibold">DeliveryPoint Support</h1>
                             <button
                                 onClick={toggleChatModel}
-                                className="text-white hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 flex justify-center items-center"
+                                className="text-white hover:bg-white/10 rounded-lg w-8 h-8 flex justify-center items-center"
                             >
-                                <svg
-                                    className="w-3 h-3"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 14 14"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                                    />
-                                </svg>
+                                <IoMdClose className="h-5 w-5" />
                                 <span className="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <div className="flex-grow overflow-auto p-4 space-y-4 bg-slate-300">
-                            <p className='flex justify-start bg-white space-x-2 rounded-lg p-3 shadow max-w-40'>Happy to help you</p>
+                        <div className="flex-grow overflow-auto p-4 space-y-4 bg-gray-100">
+                            <p className='flex justify-start bg-white space-x-2 rounded-2xl p-3 shadow-sm max-w-[10rem] text-sm text-gray-700'>Happy to help you</p>
                             {messages.map((message, index) => (
-                                <div key={index} className={`flex space-x-1 ${message.fromUser ? 'justify-end' : 'justify-start'} `}>
-                                    <div className='flex items-end '>
-                                        {!message.fromUser && (
-                                           <img src={ChatBotImage} alt="ChatBot" className='bg-white rounded-full h-8 w-8' />
+                                <div key={index} className={`flex items-end gap-1 ${message.fromUser ? 'justify-end' : 'justify-start'}`}>
+                                    {!message.fromUser && (
+                                        <img src={ChatBotImage} alt="ChatBot" className='bg-white rounded-full h-8 w-8' />
+                                    )}
+                                    <div
+                                        ref={messagesEndRef}
+                                        className={cn(
+                                            'text-sm rounded-2xl p-3 shadow-sm max-w-xs',
+                                            message.fromUser ? 'bg-primary-600 text-white' : 'bg-white text-gray-900'
                                         )}
-                                    </div>
-                                    <div className={` text-sm bg-${message.fromUser ? 'blue-500' : 'white'} text-${message.fromUser ? 'white' : 'black'} rounded-lg p-3 shadow max-w-xs `} ref={messagesEndRef}>
+                                    >
                                         <p>{message.text}</p>
                                     </div>
-                                    {!message.fromUser && <AiOutlineMessage />}
-                                    <div className='flex items-end'>
-                                         { message.fromUser && (
-                                            <img src={UserImage} alt="User" className='h-8 w-8' />
-                                        )}
-                                    </div>
+                                    {message.fromUser && (
+                                        <img src={UserImage} alt="User" className='h-8 w-8 rounded-full' />
+                                    )}
                                 </div>
                             ))}
                         </div>
-                        <div className="p-4 bg-[#404756] flex items-center">
+                        <div className="p-4 bg-ink-900 flex items-center gap-2">
                             <button>
-                                <img src={CustomerSupprt} alt="CustomerSupprt" className='h-8 w-8' />
+                                <img src={CustomerSupprt} alt="CustomerSupprt" className='h-8 w-8 rounded-full' />
                             </button>
-                            <input type="text" placeholder="Type your message here" className="flex-grow mx-2 p-2 border rounded "
+                            <input type="text" placeholder="Type your message here" className="flex-grow rounded-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-400"
                                 value={userMessage}
                                 onChange={(e) => setUserMessage(e.target.value)}
                                 onKeyDown={handleKeyDown}
                             />
-                            <button className="p-3 bg-orange-500 rounded-sm text-white hover:bg-orange-700" onClick={sendMessage}>
+                            <button className="p-2.5 bg-primary-600 rounded-full text-white hover:bg-primary-700" onClick={sendMessage}>
                                 <IoMdSend />
                             </button>
                         </div>
