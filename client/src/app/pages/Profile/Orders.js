@@ -68,21 +68,21 @@ export default function Orders() {
                             <div className="flex justify-end items-center mb-3">
                                 <span className="text-sm text-gray-500">Delivered on Fri, Aug 18, 2023, 06:22 PM</span>
                             </div>
-                            <div className="flex justify-between">
+                            <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
                                 {order.items.length > 0 && order.items[0].food ? (
-                                    <>
-                                        <img src={`https://delivery-point.onrender.com/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-xl w-1/3 h-[150px] object-cover" />
-                                        <div className="flex-1 ml-4">
+                                    <div className="flex gap-3 sm:gap-4">
+                                        <img src={`https://delivery-point.onrender.com/images/${order.items[0].food.images[0]}`} alt="Dish Image" className="rounded-xl w-24 sm:w-1/3 h-24 sm:h-[150px] object-cover shrink-0" />
+                                        <div className="flex-1">
                                             <p className='text-lg text-gray-900 font-medium'>{order.items[0].food.name}</p>
                                             <p className="text-sm text-gray-500">ORDER {order.orderId} | {formatDate(order.orderDate)}</p>
                                             <button className="text-primary-600 hover:text-primary-700 underline mt-1 text-sm font-medium" onClick={() => NavigateOrderDetails(order._id)}>VIEW DETAILS</button>
                                             <p className="mt-2 text-gray-500 text-sm">{order.items[0].food.name}  x {order.items[0].unit}</p>
                                         </div>
-                                    </>
+                                    </div>
                                 ) : (
                                     <p className="text-red-500">Food not available</p>
                                 )}
-                                <div>
+                                <div className="sm:text-right">
                                     <p className="text-sm text-gray-500 font-bold">Total Paid: ₹{order.totalAmount}</p>
                                 </div>
                             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CardHover } from "./CardHover";
 import { fetchRestaurants } from "../apis/ApiCall";
-import Loading from '../components/Loading';
+import LoadingState from './ui/LoadingState';
 export default function RestroCard() {
 
   const [restaurants, setRestaurants] = useState([]);
@@ -27,9 +27,7 @@ export default function RestroCard() {
       <p className='py-5 px-4 text-2xl font-bold text-gray-900'>Top Restaurant at your Location</p>
       {/* <CardHover restaurants={restaurants} /> */}
       {loading ? (
-        <div className='text-center mt-5'>
-           <p className='flex justify-center'><Loading /></p>
-        </div>
+        <LoadingState count={6} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6" />
       ) : (
         <CardHover restaurants={restaurants} />
       )}

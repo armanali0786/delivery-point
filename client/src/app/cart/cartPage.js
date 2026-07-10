@@ -61,17 +61,17 @@ const CartPage = () => {
                 </CardHeader>
                 <CardBody>
                   {cart.map((data) => (
-                    <div key={data.id} className="flex items-center justify-between mb-4 last:mb-0">
-                      <div className="w-1/4 md:w-3/12">
+                    <div key={data.id} className="flex flex-wrap sm:flex-nowrap items-center gap-3 mb-4 last:mb-0 pb-4 last:pb-0 border-b border-gray-100 last:border-0">
+                      <div className="w-20 sm:w-1/4 md:w-3/12 shrink-0">
                         <div className="bg-gray-100 overflow-hidden rounded-xl">
                           <img
                             src={`https://delivery-point.onrender.com/images/${data.images}`}
                             alt="Food Images"
-                            className="w-full h-32 object-cover"
+                            className="w-full h-20 sm:h-32 object-cover"
                           />
                         </div>
                       </div>
-                      <div className="mx-3 w-1/3 md:w-4/12">
+                      <div className="flex-1 min-w-[120px] sm:w-4/12">
                         <p className="font-semibold text-gray-900">{data.name}</p>
                         <button
                           type="button"
@@ -81,7 +81,7 @@ const CartPage = () => {
                           <MdDelete />
                         </button>
                       </div>
-                      <div className="w-1/4 md:w-6/12 sm:w-3/12 flex items-center justify-between gap-2">
+                      <div className="order-3 sm:order-none w-full sm:w-auto sm:flex-1 flex items-center justify-between sm:justify-end gap-2">
                         <button
                           className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-primary-50 hover:text-primary-600"
                           onClick={() => dispatch(decreaseItemQuantity(data._id))}

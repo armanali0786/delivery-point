@@ -190,19 +190,17 @@ export default function FoodDetails() {
                                 <span className='text-sm font-semibold text-gray-900'>· ₹200 for two</span>
                             </div>
                             <p className='mt-2 text-primary-600 font-medium'>North Indian</p>
-                            <div className='relative mt-4'>
-                                <div className='flex items-start justify-center'>
-                                    <div className='flex flex-col items-center'>
-                                        <div className='mt-1 w-2 h-2 rounded-full bg-primary-500'></div>
-                                        <div className='w-0.5 h-[30px] bg-gray-300'></div>
-                                        <div className='w-2 h-2 rounded-full bg-primary-500'></div>
+                            <div className='mt-4 flex items-start justify-center gap-3 text-left max-w-sm mx-auto'>
+                                <div className='flex flex-col items-center pt-1.5 shrink-0'>
+                                    <div className='w-2 h-2 rounded-full bg-primary-500'></div>
+                                    <div className='w-0.5 flex-1 min-h-[24px] bg-gray-300'></div>
+                                    <div className='w-2 h-2 rounded-full bg-primary-500'></div>
+                                </div>
+                                <div className='flex flex-col gap-3'>
+                                    <div>
+                                        <p className='text-sm text-gray-500'>outlet</p>
+                                        <p className='text-sm text-gray-700 break-words'>{vendorData[0]?.address}</p>
                                     </div>
-                                </div>
-                                <div className='absolute flex top-0 left-1/2 -translate-x-1/2 justify-center w-full text-left'>
-                                    <p className='text-sm text-gray-500 px-5'>outlet</p>
-                                    <p className='text-sm text-gray-700 px-3'>{vendorData[0]?.address}</p>
-                                </div>
-                                <div className='absolute flex top-8 left-1/2 -translate-x-1/2 justify-center w-full'>
                                     <p className='text-sm text-gray-500'>15 min to 45 min</p>
                                 </div>
                             </div>

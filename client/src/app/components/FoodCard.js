@@ -4,7 +4,7 @@ import CardSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading';
+import LoadingState from './ui/LoadingState';
 import SectionHeader from './ui/SectionHeader';
 import UiFoodCard from './ui/FoodCard';
 import Badge from './ui/Badge';
@@ -92,9 +92,7 @@ export default function FoodCard() {
               ))}
             </CardSlider>
           ) : (
-            <div className='text-center mt-5'>
-              <p className='flex justify-center'><Loading /></p>
-            </div>
+            <LoadingState count={4} className="sm:grid-cols-2 lg:grid-cols-4" />
           )}
         </div>
       </div>
